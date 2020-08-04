@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css?family=Black+Han+Sans:400");
+@import url("https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean");
+
+@font-face {
+  font-family: "S-CoreDream-9Black";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-9Black.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "yg-jalnan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BMJUA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  font-family: "Black Han Sans", sans-serif;
+}
+
+button {
+  font-family: "Black Han Sans", sans-serif;
+  color: #f57b8a;
+  font-size: 20px;
+}
+
+.검은고딕 {
+  font-family: "Black Han Sans", sans-serif;
+}
+
+.에스코어드림 {
+  font-family: "S-CoreDream-9Black";
+}
+
+.잘난체 {
+  font-family: "yg-jalnan";
+}
+
+.주아체 {
+  font-family: "BMJUA";
+}

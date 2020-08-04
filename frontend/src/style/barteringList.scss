@@ -1,0 +1,25 @@
+$gray: #8b8b8b;
+
+article {
+  width: 100%;
+  border: 2px solid #e2e2e2;
+  &:nth-child(n + 2) {
+    margin-top: 10px;
+  }
+}
+
+.bartering-list-content {
+  height: 150px;
+  display: flex;
+  .bartering-list-photo {
+    width: 30%;
+  }
+  .bartering-list-description {
+    font-family: "S-CoreDream-9Black";
+    width: 70%;
+    padding: 20px;
+    .bartering-list-description-location {
+      color: $gray;
+    }
+  }
+}
