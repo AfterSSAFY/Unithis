@@ -6,3 +6,13 @@ type barteringList = {
   photo: string;
   price: number;
 };
+
+type Auth = {
+  component: any;
+  authenticated: boolean;
+};
+
+type memberInfo = {
+  email: string;
+  password: string;
+};

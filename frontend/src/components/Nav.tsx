@@ -1,45 +1,35 @@
-import React, { useRef } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import "../style/nav.scss";
 
 const Nav = () => {
-  // const navigationClickEvent = (e: React.MouseEvent<HTMLElement>): void => {
-  //   console.log(e.target.innerHTML);
-  // };
-
-  const navRef = useRef<any>([]);
-  // const navigationClickEvent = (e: any): void => {
-  //   // console.log(e.target.innerHTML);
-  //   navRef.current.forEach((el: any) => {
-  //     if (el.classList[1] !== undefined) {
-  //       el.classList.remove("active");
-  //     }
-  //     console.log(el.classList[1]);
-  //   });
-  //   // console.log(navRef.current);
-  //   e.target.style.color = "#ff9697";
-  // };
-
   return (
     <>
-      <nav>
+      <nav className="mobile sign">
         <ul className="nav__navigation">
           <li>
             <NavLink
               className="nav__naviagtion--nav-text"
+              to="/Home"
               activeClassName="active"
-              to="/home"
+              replace
             >
               Home
             </NavLink>
           </li>
           <li>
+            <NavLink className="nav__naviagtion--nav-text" to="/test" replace>
+              Test
+            </NavLink>
+          </li>
+          <li>
             <NavLink
               className="nav__naviagtion--nav-text"
+              to="/signin"
               activeClassName="active"
-              to="/test"
+              replace
             >
-              Test
+              My
             </NavLink>
           </li>
         </ul>

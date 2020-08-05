@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import http from "../api/http-common";
 import "../style/test.scss";
+import Header from "../components/Header";
+import Nav from "../components/Nav";
 
 const Test = () => {
   const color = [
@@ -27,7 +29,8 @@ const Test = () => {
     { redhover: "#f57b8a" },
     { pink: "#ff9697" },
     { purple: "#9a59b5" },
-    { purplehover: "#c472e6" }
+    { purplehover: "#c472e6" },
+    { 당근: "#ff8a3d" }
   ];
 
   const get = () => {
@@ -58,83 +61,63 @@ const Test = () => {
 
   return (
     <>
-      <div className="test-content">
-        <div>
-          <h2 className="test-title">API 테스트</h2>
-          <div className="test-description">
-            <ul>
-              <li>
-                <button onClick={get}>get</button>
-              </li>
-              <li>
-                <button onClick={post}>post</button>
-              </li>
-            </ul>
+      <section className="router-section">
+        <Header />
+        <div className="test-content">
+          <div>
+            <h2 className="test-title">API 테스트</h2>
+            <div className="test-description">
+              <ul>
+                <li>
+                  <button onClick={get}>get</button>
+                </li>
+                <li>
+                  <button onClick={post}>post</button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="test-content">
-        <div>
-          <h2 className="test-title">Font</h2>
-          <div className="test-description">
-            <ul>
-              <li className="검은고딕">검은고딕 ABCD</li>
-              <li className="에스코어드림">에스코어드림 ABCD</li>
-              <li className="잘난체">잘난체 ABCD</li>
-              <li className="주아체">주아체 ABCD</li>
-            </ul>
+        <div className="test-content">
+          <div>
+            <h2 className="test-title">Font</h2>
+            <div className="test-description">
+              <ul>
+                <li className="검은고딕">검은고딕 ABCD</li>
+                <li className="에스코어드림">에스코어드림 ABCD</li>
+                <li className="잘난체">잘난체 ABCD</li>
+                <li className="주아체">주아체 ABCD</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="test-content">
-        <div>
-          <h2 className="test-title">Color</h2>
-          <div className="test-description">
-            <ul>
-              {color.map((color, i) => {
-                const pick = {
-                  backgroundColor: Object.values(color)[0]
-                };
-                return (
-                  <li
-                    className={Object.values(color) + " color"}
-                    key={i}
-                    style={pick}
-                  >
-                    {Object.keys(color)}
-                  </li>
-                );
-              })}
-            </ul>
+        <div className="test-content">
+          <div>
+            <h2 className="test-title">Color</h2>
+            <div className="test-description">
+              <ul>
+                {color.map((color, i) => {
+                  const pick = {
+                    backgroundColor: Object.values(color)[0]
+                  };
+                  return (
+                    <li
+                      className={Object.values(color) + " color"}
+                      key={i}
+                      style={pick}
+                    >
+                      {Object.values(color)}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="test-content">
-        <div>
-          <h2 className="test-title">Color</h2>
-          <div className="test-description">
-            <ul>
-              {color.map((color, i) => {
-                const pick = {
-                  backgroundColor: Object.values(color)[0]
-                };
-                return (
-                  <li
-                    className={Object.values(color) + " color"}
-                    key={i}
-                    style={pick}
-                  >
-                    {Object.keys(color)}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      </div>
+        <Nav />
+      </section>
     </>
   );
 };

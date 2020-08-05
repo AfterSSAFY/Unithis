@@ -1,5 +1,5 @@
 import React from "react";
-import { BarteringList, Test } from "../router";
+import { BarteringList, Test, BarteringDetail, Signin } from "../router";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import "../style/routerview.scss";
@@ -7,13 +7,14 @@ import "../style/routerview.scss";
 const RouterView = () => {
   return (
     <>
-      <section>
-        <Switch>
-          <Route path="/Home" component={BarteringList}></Route>
-          <Route path="/Test" component={Test}></Route>
-          <Redirect path="*" to="/Home" />
-        </Switch>
-      </section>
+      <Switch>
+        {/* <Route path="/" component={BarteringList} replace></Route> */}
+        <Route exact path="/Home" component={BarteringList}></Route>
+        <Route path="/Test" component={Test}></Route>
+        <Route path="/BarteringDetail/:id" component={BarteringDetail}></Route>
+        <Route path="/Signin" component={Signin}></Route>
+        <Redirect path="*" to="/Home" />
+      </Switch>
     </>
   );
 };

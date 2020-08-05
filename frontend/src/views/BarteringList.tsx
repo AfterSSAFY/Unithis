@@ -1,4 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+import Header from "../components/Header";
+import Nav from "../components/Nav";
+
 import "../style/barteringList.scss";
 
 const data: Array<barteringList> = [
@@ -38,32 +43,47 @@ const data: Array<barteringList> = [
     photo:
       "https://dnvefa72aowie.cloudfront.net/origin/article/202007/b6c6d9ca65feaa7b0c5b2807d38975c3889260bee24a32b7140749a68edb021a.webp?q=95&s=1440x1440&t=inside",
     price: 17000
+  },
+  {
+    name: "새것)아기책상, 유아용, 세계지도, 어린이책상, 다용도책상",
+    location: "대전 대덕구 비래동",
+    photo:
+      "https://dnvefa72aowie.cloudfront.net/origin/article/202007/b6c6d9ca65feaa7b0c5b2807d38975c3889260bee24a32b7140749a68edb021a.webp?q=95&s=1440x1440&t=inside",
+    price: 17000
   }
 ];
 
 const BarteringList = () => {
   return (
     <>
-      {data.map((list, i) => {
-        return (
-          <article key={list.name + i}>
-            <div className="bartering-list-content">
-              <img
-                className="bartering-list-photo"
-                src={list.photo}
-                alt={list.name}
-              />
-              <div className="bartering-list-description">
-                <p>{list.name}</p>
-                <p className="bartering-list-description-location">
-                  {list.location}
-                </p>
-                <p>{list.price}</p>
-              </div>
-            </div>
-          </article>
-        );
-      })}
+      <section className="router-section">
+        <Header />
+        {data.map((list, i) => {
+          return (
+            <Link to={"/BarteringDetail/" + i} key={list.name + i}>
+              <article className="bartering-list-article">
+                <div className="bartering-list-content">
+                  <img
+                    className="bartering-list-photo"
+                    src={list.photo}
+                    alt={list.name}
+                  />
+                  <div className="bartering-list-description">
+                    <div>{list.name}</div>
+                    <div className="bartering-list-description-location">
+                      {list.location}
+                    </div>
+                    <div className="bartering-list-description-price">
+                      {list.price}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </Link>
+          );
+        })}
+        <Nav />
+      </section>
     </>
   );
 };

@@ -27,7 +27,18 @@
 
 html {
   font-family: "Black Han Sans", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
 }
+
+// #root {
+//   margin: 0;
+//   padding: 0;
+//   top: 0;
+//   width: 100vw;
+//   height: 100vh;
+// }
 
 button {
   font-family: "Black Han Sans", sans-serif;
@@ -49,4 +60,44 @@ button {
 
 .주아체 {
   font-family: "BMJUA";
+}
+
+.btn {
+  font-family: "BMJUA";
+  background: transparent;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 10px;
+  margin-top: 0;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  outline: none;
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -ms-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+$blue: #3cbce1;
+$blue-hover: #56d7ed;
+.blue {
+  background: $blue;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($blue, 10%);
+  &:hover {
+    background: $blue-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($blue, 3%);
+  }
 }
