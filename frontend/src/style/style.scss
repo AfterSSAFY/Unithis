@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css?family=Black+Han+Sans:400");
+@import url("https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean");
+
+@font-face {
+  font-family: "S-CoreDream-9Black";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-9Black.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "yg-jalnan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BMJUA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  font-family: "Black Han Sans", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+// #root {
+//   margin: 0;
+//   padding: 0;
+//   top: 0;
+//   width: 100vw;
+//   height: 100vh;
+// }
+
+button {
+  font-family: "Black Han Sans", sans-serif;
+  color: #f57b8a;
+  font-size: 20px;
+}
+
+.검은고딕 {
+  font-family: "Black Han Sans", sans-serif;
+}
+
+.에스코어드림 {
+  font-family: "S-CoreDream-9Black";
+}
+
+.잘난체 {
+  font-family: "yg-jalnan";
+}
+
+.주아체 {
+  font-family: "BMJUA";
+}
+
+.btn {
+  font-family: "BMJUA";
+  background: transparent;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 10px;
+  margin-top: 0;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  outline: none;
+  position: relative;
+  top: 0;
+  width: 100%;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -ms-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+$blue: #3cbce1;
+$blue-hover: #56d7ed;
+.blue {
+  background: $blue;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($blue, 10%);
+  &:hover {
+    background: $blue-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($blue, 3%);
+  }
+}
