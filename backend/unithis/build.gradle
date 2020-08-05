@@ -1,0 +1,43 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com.unithis'
+version = '1.0.0'
+sourceCompatibility = '1.8'
+
+bootJar {
+	archiveBaseName = 'unithis'
+	archiveFileName = "unithis-start.jar"
+	archiveVersion = "1.0.0"
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.projectlombok:lombok')
+	compile('mysql:mysql-connector-java')
+	annotationProcessor 'org.projectlombok:lombok'
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	compile('com.google.code.gson:gson')
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+}
+
+test {
+	useJUnitPlatform()
+}
