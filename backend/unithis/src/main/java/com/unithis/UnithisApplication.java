@@ -9,6 +9,5 @@ public class UnithisApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UnithisApplication.class, args);
 	}
-	
 
 }
