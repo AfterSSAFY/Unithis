@@ -72,7 +72,7 @@ button {
   line-height: 1;
   margin: 10px;
   margin-top: 0;
-  padding: 10px;
+  padding: 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -99,5 +99,20 @@ $blue-hover: #56d7ed;
   &:active,
   &:focus {
     background: darken($blue, 3%);
+  }
+}
+
+$orange: #e77e22;
+$orange-hover: #f6b417;
+.orange {
+  background: $orange;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($orange, 10%);
+  &:hover {
+    background: $orange-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($orange, 4%);
   }
 }

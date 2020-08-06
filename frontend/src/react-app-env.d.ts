@@ -12,7 +12,7 @@ type Auth = {
   authenticated: boolean;
 };
 
-type memberInfo = {
+type useInfo = {
   email: string;
   password: string;
 };
