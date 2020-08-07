@@ -1,0 +1,45 @@
+$gray: #8b8b8b;
+
+a {
+  text-decoration: none;
+}
+
+.bartering-list-article {
+  width: 100%;
+  border: 1.5px solid #e2e2e2;
+  margin-bottom: 1rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.bartering-list-content {
+  height: 150px;
+  display: flex;
+  .bartering-list-photo {
+    width: 30%;
+  }
+  .bartering-list-description {
+    font-family: "S-CoreDream-9Black";
+    width: 70%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    div {
+      color: black;
+      width: 100%;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+    }
+    .bartering-list-description-location {
+      color: $gray;
+    }
+    .bartering-list-description-price {
+      color: #ff8a3d;
+    }
+  }
+}
