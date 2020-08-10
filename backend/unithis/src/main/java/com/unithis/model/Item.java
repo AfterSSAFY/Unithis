@@ -13,8 +13,8 @@ import lombok.ToString;
 @Getter
 public class Item {
 
-	int id;
-	int user_id;
+	long id;
+	long userId;
 	String title;
 	String contents;
 	String category;

@@ -4,8 +4,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
 
+	<select id="getItemInfo" parameterType="java.lang.Integer" resultType="item">
+		select * from item where id = #{id}
+	</select>
+
 	<select id="getAllItem" resultType="item">
 		select * from item 
 	</select>
+	
+	<insert id="createItem" parameterType="item">
+		insert into(user_id, title, contents, category, need, date)
+		values(#{userId}, #{title}, #{contents}, #{category}, #{need}, now())
+	</insert>
+	
+	<update id="updateItem" parameterType="item">
+		update item
+		set title = #{title}, content = #{contents}, category = #{category}, need = #{need}, date = now()
+	</update>
+	
+	<update id="updateItemStatusSoldOut" parameterType="java.lang.Integer">
+		update item
+		set status = "판매완료"
+	</update>
+	
+	<update id="updateItemStatusSoldOut" parameterType="java.lang.Integer">
+		update item
+		set status = "판매중"
+	</update>
+	
+	<delete id="deleteItem" parameterType="java.lang.Integer">
+		delete from item
+		where id = #{id}
+	</delete>
 
 </mapper>
