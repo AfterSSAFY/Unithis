@@ -108,8 +108,12 @@ const Signup = () => {
     <>
       <div className="modal" ref={closeRef}>
         <div className="modal-content">
-          <div className="close" onClick={closeButtonClickEvent}>
-            X
+          <div className="modal-header">
+            <span onClick={closeButtonClickEvent}>&lt;</span>
+            <span>우편번호 찾기</span>
+            <span className="close" onClick={closeButtonClickEvent}>
+              &#xd7;
+            </span>
           </div>
           <DaumPostcode onComplete={handleComplete} height="100%" />
         </div>

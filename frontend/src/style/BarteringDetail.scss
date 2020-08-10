@@ -1,0 +1,38 @@
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+.barteringDataDescription {
+  padding: 1rem;
+
+  .barteringDataProfile {
+    display: flex;
+    margin-bottom: 1rem;
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+    .barteringDataAddrea {
+      color: #8b8b8b;
+    }
+  }
+
+  // .barteringDataProfile {
+  //   display: flex;
+
+  .barteringDataProfileIcon {
+    width: 4rem;
+  }
+  // }
+}
+
+// hr {
+//   color: #8b8b8b;
+//   width: 100%;
+// }

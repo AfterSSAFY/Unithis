@@ -25,6 +25,16 @@ const Nav = () => {
           <li>
             <NavLink
               className="nav__naviagtion--nav-text"
+              to="/BarteringWrite"
+              activeClassName="active"
+              replace
+            >
+              글쓰기
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="nav__naviagtion--nav-text"
               to="/signin"
               activeClassName="active"
               replace

@@ -1,8 +1,9 @@
 import React from "react";
 import {
   BarteringList,
-  Test,
   BarteringDetail,
+  BarteringWrite,
+  Test,
   Signin,
   Signup
 } from "../router";
@@ -18,6 +19,7 @@ const RouterView = () => {
         <Route exact path="/Home" component={BarteringList}></Route>
         <Route path="/Test" component={Test}></Route>
         <Route path="/BarteringDetail/:id" component={BarteringDetail}></Route>
+        <Route path="/BarteringWrite" component={BarteringWrite}></Route>
         <Route path="/Signin" component={Signin}></Route>
         <Route path="/Signup" component={Signup}></Route>
         <Redirect path="*" to="/Home" />
