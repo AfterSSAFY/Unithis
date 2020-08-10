@@ -1,18 +1,27 @@
 /// <reference types="react-scripts" />
 
 type barteringList = {
-  name: string;
-  location: string;
-  photo: string;
-  price: number;
+  id: number;
+  user_id: number;
+  title: string;
+  contents: string;
+  category: string;
+  need: string;
+  status: string;
+  date: string;
 };
 
-type Auth = {
-  component: any;
-  authenticated: boolean;
-};
-
-type useInfo = {
+type SigninInfo = {
   email: string;
   password: string;
+};
+
+type userInfo = {
+  id: number;
+  email: string;
+  nickname: string;
+  phone: number;
+  address: string;
+  password: string;
+  repassword: string;
 };
