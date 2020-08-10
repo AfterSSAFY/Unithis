@@ -8,17 +8,15 @@ import org.springframework.stereotype.Service;
 import com.unithis.mapper.UserMapper;
 import com.unithis.model.User;
 import com.unithis.service.IUserService;
+import com.unithis.service.ItemService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class UserService implements IUserService {
 
-	@Autowired
-	private UserMapper userMapper;
-
-	@Override
-	public int checkLoginValidation(User user) {
-		return userMapper.checkLoginValidation(user);
-	}
+	private final UserMapper userMapper;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -31,8 +29,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User readUserInfoById(long id) {
-		return userMapper.readUserInfoById(id);
+	public User getUserInfoById(long id) {
+		return userMapper.getUserInfoById(id);
 	}
 
 	@Override
@@ -43,6 +41,17 @@ public class UserService implements IUserService {
 	@Override
 	public boolean deleteUser(long id) {
 		return userMapper.deleteUser(id) == 1 ? true : false;
+	}
+
+	@Override
+	public User findUserByEmail(String email) {
+		return userMapper.findUserByEmail(email);
+	}
+
+	@Override
+	public boolean isValidEmail(String email) {
+		// TODO Auto-generated method stub
+		return userMapper.isValidEmail(email) == 1 ? true : false;
 	}
 
 }
