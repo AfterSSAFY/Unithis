@@ -17,7 +17,32 @@ public class ItemDao {
 	
 	private final SqlSession sqlSession;
 	
+	public Item getItemInfo(int id) {
+		return sqlSession.selectOne(ns + "getItemInfo", id);
+	}
+	
 	public List<Item> getAllItem() {
 		return sqlSession.selectList(ns + "getAllItem");
 	}
+	
+	public int createItem(Item item) {
+		return sqlSession.insert(ns + "createItem", item);
+	}
+
+	public int updateItem(Item item) {
+		return sqlSession.update(ns + "updateItem", item);
+	}
+	
+	public int updateItemStatusSoldOut(int id) {
+		return sqlSession.update(ns + "updateItemStatusSoldOut", id);
+	}
+	
+	public int updateItemStatusOnSales(int id) {
+		return sqlSession.update(ns + "updateItemStatusOnSales", id);
+	}
+	
+	public int deleteItem(int id) {
+		return sqlSession.delete(ns + "deleteItem", id);
+	}
+
 }
