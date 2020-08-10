@@ -82,7 +82,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("MSG : 등록된 이메일 아님");
 	}
 
-	@PostMapping("/loginToken")
+	@PostMapping("/token")
 	@ApiOperation("토큰 검증")
 	public Object token(@RequestParam String access_token) {
 		log.info("POST : /api/loginToken");
