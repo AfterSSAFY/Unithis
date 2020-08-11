@@ -24,12 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateItemStatusSoldOut" parameterType="java.lang.Integer">
 		update item
-		set status = "판매완료"
+		set status = "거래완료"
 	</update>
 	
-	<update id="updateItemStatusSoldOut" parameterType="java.lang.Integer">
+	<update id="updateItemStatusOnSales" parameterType="java.lang.Integer">
 		update item
-		set status = "판매중"
+		set status = "거래중"
 	</update>
 	
 	<delete id="deleteItem" parameterType="java.lang.Integer">
