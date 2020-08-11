@@ -1,4 +1,4 @@
-package com.unithis.service.impl;
+package com.unithis.service;
 
 import java.util.List;
 
@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.unithis.mapper.UserMapper;
 import com.unithis.model.User;
-import com.unithis.service.IUserService;
-import com.unithis.service.ItemService;
 
 import lombok.RequiredArgsConstructor;
 
