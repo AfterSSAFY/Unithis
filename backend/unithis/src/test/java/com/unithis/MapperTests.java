@@ -29,7 +29,7 @@ class MapperTests {
 
 	@Test
 	public void testOfSelectDetail() {
-		User board = userMapper.getUserInfoById((long) 1);
+		User board = userMapper.getUserInfoById((long) 8);
 		try {
 			String boardJson = new ObjectMapper().writeValueAsString(board);
 
@@ -44,13 +44,13 @@ class MapperTests {
 
 	@Test
 	public void testOfUpdate() {
-		User params = userMapper.getUserInfoById((long) 3);
+		User params = userMapper.getUserInfoById((long) 8);
 		params.setNickname("updatedNickname");
 		params.setPassword("newpwd");
 
 		int result = userMapper.updateUser(params);
 		if (result == 1) {
-			User board = userMapper.getUserInfoById((long) 3);
+			User board = userMapper.getUserInfoById((long) 8);
 			try {
 				String boardJson = new ObjectMapper().writeValueAsString(board);
 
@@ -66,9 +66,9 @@ class MapperTests {
 
 	@Test
 	public void testOfDelete() {
-		int result = userMapper.deleteUser((long) 4);
+		int result = userMapper.deleteUser((long)8 );
 		if (result == 1) {
-			User board = userMapper.getUserInfoById((long) 4);
+			User board = userMapper.getUserInfoById((long) 8);
 			try {
 				String boardJson = new ObjectMapper().writeValueAsString(board);
 
