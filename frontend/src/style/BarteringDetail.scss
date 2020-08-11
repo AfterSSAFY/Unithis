@@ -6,33 +6,116 @@
   top: 0;
   bottom: 0;
   position: absolute;
-}
+  font-family: initial;
 
-.barteringDataDescription {
-  padding: 1rem;
+  .barteringBody {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 4rem;
+    overflow: scroll;
+  }
 
-  .barteringDataProfile {
-    display: flex;
+  .image-wrap {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 90%;
     margin-bottom: 1rem;
-    div {
+    .iamge-prev-btn {
+      position: absolute;
+      color: #fff;
+      font-size: 2rem;
+      padding: 1rem;
+      z-index: 2;
+    }
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .barteringDataDescription {
+    padding: 0 1rem;
+    .barteringDataProfile {
       display: flex;
-      flex-direction: column;
-    }
-    .barteringDataAddrea {
-      color: #8b8b8b;
+      margin-bottom: 1rem;
+      .barteringDataProfileIcon {
+        width: 3rem;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .barteringDataAddrea {
+        color: #8b8b8b;
+      }
     }
   }
 
-  // .barteringDataProfile {
-  //   display: flex;
+  .barteringDataHeader {
+    font-family: "BMJUA";
 
-  .barteringDataProfileIcon {
-    width: 4rem;
+    .barteringDataProfileIcon {
+      width: 4rem;
+    }
+
+    div {
+      margin: 0.5rem 0;
+    }
+    .barteringTitle {
+      // font-family: "Black Han Sans", sans-serif;
+      // font-family: initial;
+      font-size: 1.3rem;
+    }
+
+    .barteringCategory {
+      color: gray;
+    }
+
+    .barteringDate {
+      color: gray;
+    }
+
+    .barteringContent {
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      line-height: 2;
+    }
   }
-  // }
+
+  .barteringFooter {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4rem;
+    background-color: #fff;
+    box-shadow: 0 3px 5px 0 rgba(0.5, 0.5, 0.5, 0.5);
+    position: fixed;
+    z-index: 1000;
+    .barteringFooterContainer {
+      padding: 0 1rem;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: space-between;
+    }
+    .barteringNeed {
+      color: #ff8a3d;
+    }
+    .transactionButton {
+      width: initial;
+    }
+  }
 }
-
-// hr {
-//   color: #8b8b8b;
-//   width: 100%;
-// }
