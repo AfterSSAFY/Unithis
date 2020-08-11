@@ -9,15 +9,12 @@ import javax.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +63,18 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	@Builder
+	public User(long id, String email, String nickname, String password, String phone, String address) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.nickname = nickname;
+		this.password = password;
+		this.phone = phone;
+		this.address = address;
+	}
+	
 
 	
 }

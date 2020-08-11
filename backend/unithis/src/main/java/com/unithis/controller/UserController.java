@@ -112,16 +112,24 @@ public class UserController {
 
 	@PatchMapping("/user")
 	@ApiOperation("유저 : 내 정보 수정")
-	public ResponseEntity<String> updateUser(@RequestBody User userInfo) {
-		log.info("PATCH : /api/users/{num} = " + userInfo.getId());
-		userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+	public ResponseEntity<String> updateUser(@RequestBody Map<String, String> userInfo) {
+		log.info("PATCH : /api/users/{num} = " + userInfo.get("id"));
+		User reqUpdateUserInfo = User.builder()
+				.id((long) Integer.parseInt(userInfo.get("id")))
+				.email(userInfo.get("email"))
+				.nickname(userInfo.get("nickname"))
+				.password(passwordEncoder.encode(userInfo.get("password")))
+				.phone(userInfo.get("phone"))
+				.address(userInfo.get("address"))
+				.build();
+				
 		
-		if (!userService.isValidEmail(userInfo.getEmail()) || !userService.updateUser(userInfo)) {
+		if (!userService.isValidEmail(reqUpdateUserInfo.getEmail()) || !userService.updateUser(reqUpdateUserInfo)) {
 			log.error("update failed");
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERROR : 정보수정 불가");
 		}
 
-		User user = userService.findUserByEmail(userInfo.getEmail());
+		User user = userService.findUserByEmail(reqUpdateUserInfo.getEmail());
 
 		String tokenValue = jwtTokenProvider.createToken(user);
 		if (tokenValue != null) {
