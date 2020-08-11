@@ -32,7 +32,7 @@ public class ItemController {
 	@ApiOperation("물건 상세정보 조회")
 	public Item getItemInfo(@PathVariable int id) {
 		log.info("ItemController : getItemInfo");
-
+		
 		return itemService.getItemInfo(id);
 	}
 	
