@@ -1,6 +1,8 @@
 /// <reference types="react-scripts" />
 
-type barteringList = {
+import { string } from "prop-types";
+
+type Bartering = {
   id: number;
   user_id: number;
   title: string;
@@ -16,12 +18,24 @@ type SigninInfo = {
   password: string;
 };
 
-type userInfo = {
+type User = {
   id: number;
   email: string;
   nickname: string;
-  phone: number;
+  phone: string;
   address: string;
   password: string;
   repassword: string;
+};
+
+type Photo = {
+  id: number;
+  item_id: number;
+  image: string;
+};
+
+type Address = {
+  시도: string;
+  시군구: string;
+  읍면동: string;
 };
