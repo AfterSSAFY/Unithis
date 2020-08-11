@@ -45,8 +45,14 @@ class MapperTests {
 	@Test
 	public void testOfUpdate() {
 		User params = userMapper.getUserInfoById((long) 8);
-		params.setNickname("updatedNickname");
-		params.setPassword("newpwd");
+		User newUser = User.builder()
+				.id(params.getId())
+				.password("newpwd")
+				.nickname("newNickname")
+				.address(params.getAddress())
+				.phone(params.getPhone())
+				.email(params.getEmail())
+				.build();
 
 		int result = userMapper.updateUser(params);
 		if (result == 1) {

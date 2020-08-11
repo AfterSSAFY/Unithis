@@ -49,7 +49,13 @@ public class UserService implements IUserService {
 	@Override
 	public boolean isValidEmail(String email) {
 		// TODO Auto-generated method stub
-		return userMapper.isValidEmail(email) == 1 ? true : false;
+		return userMapper.isValidEmail(email) > 0 ? false : true;
+	}
+
+	@Override
+	public boolean isValidNickname(String nickname) {
+		// TODO Auto-generated method stub
+		return userMapper.isValidNickname(nickname) > 0 ? false : true;
 	}
 
 }
