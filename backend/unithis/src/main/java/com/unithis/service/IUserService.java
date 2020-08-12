@@ -12,4 +12,5 @@ public interface IUserService {
 	public boolean deleteUser(long id);
 	public User findUserByEmail(String email);
 	public boolean isValidEmail(String email);
+	public boolean isValidNickname(String nickname);
 }

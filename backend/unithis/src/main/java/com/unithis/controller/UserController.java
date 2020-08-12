@@ -2,6 +2,7 @@ package com.unithis.controller;
 
 import java.util.Map;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,11 +43,13 @@ public class UserController {
 
 		User member = userService.findUserByEmail(user.get("email"));
 		if (member == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 로그인 실패");
+			log.info("없는 이메일");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ERROR : 로그인 실패");
 		}
 
 		if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 로그인 실패");
+			log.info("다른 비밀번호");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ERROR : 로그인 실패");
 		}
 		String tokenValue = jwtTokenProvider.createToken(member);
 		if (tokenValue != null) {
@@ -61,25 +64,16 @@ public class UserController {
 		log.info("POST : /api/join");
 		User newUser = User.builder().email(user.get("email")).nickname(user.get("nickname")).phone(user.get("phone"))
 				.address(user.get("address")).password(passwordEncoder.encode(user.get("password"))).build();
-
-		boolean joinResult = userService.createUser(newUser);
-
+		boolean joinResult = false;
+		try {
+			joinResult = userService.createUser(newUser);
+		} catch (DataIntegrityViolationException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 가입 실패(정보오류)");
+		}
 		if (joinResult) {
 			return ResponseEntity.status(HttpStatus.CREATED).body("SUCC : 가입 완료");
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 가입 실패");
-	}
-
-	// TODO : 코드 분류하기
-	@GetMapping("/find/{email}")
-	@ApiOperation("이메일로 유저 찾기")
-	public ResponseEntity<String> emailCheck(@PathVariable String email) {
-		log.info("GET : /api/find/{email}");
-		boolean validationResult = userService.isValidEmail(email);
-		if (!validationResult) {
-			return ResponseEntity.status(HttpStatus.OK).body("MSG : 등록된 이메일");
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("MSG : 등록된 이메일 아님");
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ERROR : 가입 실패");
 	}
 
 	@PostMapping("/token")
@@ -95,15 +89,16 @@ public class UserController {
 
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
 		}
 	}
 
 	@GetMapping("/user/{id}")
-	@ApiOperation("아이디로 유저 정보 조회(해당 유저 아이디, 닉네임, 주소)")
-	public ResponseEntity<User> emailCheck(@PathVariable int id) {
+	@ApiOperation("아이디로 유저 정보 조회(해당 유저 아이디, 닉네임)")
+	public ResponseEntity<User> findUserById(@PathVariable int id) {
 		log.info("GET : /api/user/{id}");
 		User resultFoundbyId = userService.getUserInfoById(id);
+
 		if (resultFoundbyId != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(resultFoundbyId);
 		}
@@ -112,16 +107,18 @@ public class UserController {
 
 	@PatchMapping("/user")
 	@ApiOperation("유저 : 내 정보 수정")
-	public ResponseEntity<String> updateUser(@RequestBody User userInfo) {
-		log.info("PATCH : /api/users/{num} = " + userInfo.getId());
-		userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-		
-		if (!userService.isValidEmail(userInfo.getEmail()) || !userService.updateUser(userInfo)) {
+	public ResponseEntity<String> updateUser(@RequestBody Map<String, String> userInfo) {
+		log.info("PATCH : /api/users/{num} = " + userInfo.get("id"));
+		User reqUpdateUserInfo = User.builder().id((long) Integer.parseInt(userInfo.get("id")))
+				.nickname(userInfo.get("nickname")).password(passwordEncoder.encode(userInfo.get("password")))
+				.phone(userInfo.get("phone")).address(userInfo.get("address")).build();
+
+		if (!userService.updateUser(reqUpdateUserInfo)) {
 			log.error("update failed");
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERROR : 정보수정 불가");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 정보수정 불가");
 		}
 
-		User user = userService.findUserByEmail(userInfo.getEmail());
+		User user = userService.findUserByEmail(reqUpdateUserInfo.getEmail());
 
 		String tokenValue = jwtTokenProvider.createToken(user);
 		if (tokenValue != null) {
@@ -136,9 +133,31 @@ public class UserController {
 		log.info("DELETE : /api/user/{num} = " + id);
 
 		if (!userService.deleteUser(id)) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR : 탈퇴 실패");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 탈퇴 실패");
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("SUCC : 탈퇴 성공");
+	}
+
+	@GetMapping("/validation/email")
+	@ApiOperation("중복 판단 : 이메일 중복체크")
+	public ResponseEntity<String> duplicatedEmail(@RequestParam(required = true) String email) {
+		log.info("이메일 중복 검사 : " + email);
+
+		if (!userService.isValidEmail(email)) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 중복 이메일");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 이메일");
+	}
+	
+	@GetMapping("/validation/nickname")
+	@ApiOperation("중복 판단 : 닉네임 중복체크")
+	public ResponseEntity<String> duplicatedNickname(@RequestParam(required = true) String nickname) {
+		log.info("닉네임 중복 검사 : " + nickname);
+		
+		if (!userService.isValidNickname(nickname)) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 중복 닉네임");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 닉네임");
 	}
 
 }
