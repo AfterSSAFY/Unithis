@@ -89,7 +89,7 @@ public class UserController {
 
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
 		}
 	}
 
