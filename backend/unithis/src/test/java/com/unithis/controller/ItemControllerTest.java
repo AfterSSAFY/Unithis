@@ -7,23 +7,21 @@ import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
-import com.unithis.model.Item;
+import com.unithis.model.ItemRequest;
 
 
 public class ItemControllerTest {
 
-	private Item item;
+	private ItemRequest item;
 	
 	@Before
 	public void init() {
-		item = Item.builder()
+		item = ItemRequest.builder()
 				.id(1)
 				.userId(1)
 				.title("테스트")
 				.contents("테스트입니다")
-				.need("무엇을 원하는지")
-				.status("판매중")
-				.date(LocalDateTime.now()).build();
+				.need("무엇을 원하는지").build();
 	}
 	
 	@Test

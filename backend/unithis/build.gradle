@@ -38,7 +38,8 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.2'
-	
+	compile group: 'commons-io', name: 'commons-io', version: '2.7'
+	compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 }
 
 test {
