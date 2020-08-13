@@ -2,15 +2,16 @@ package com.unithis.service;
 
 import java.util.List;
 
-import com.unithis.model.Item;
+import com.unithis.model.ItemRequest;
+import com.unithis.model.ItemResponse;
 
 public interface IItemService {
 
-	public Item getItemInfo(int id);
-	public List<Item> getAllItem();
-	public int createItem(Item item);
-	public int updateItem(Item item);
-	public int updateItemStatus(int id);
+	public ItemResponse getItemInfo(int id);
+	public List<ItemResponse> getAllItem();
+	public int createItem(ItemRequest item);
+	public int updateItem(ItemRequest item);
+	public int updateItemStatus(int id, String status);
 	public int deleteItem(int id);
 	
 }

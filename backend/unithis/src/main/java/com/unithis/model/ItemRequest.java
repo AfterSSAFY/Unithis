@@ -1,6 +1,10 @@
 package com.unithis.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Getter
-public class Item {
+public class ItemRequest {
 
 	int id;
 	int userId;
@@ -18,20 +22,17 @@ public class Item {
 	String contents;
 	String category;
 	String need;
-	String status;
-	LocalDateTime date;
+	MultipartFile[] images;
 	
 	@Builder
-	public Item(int id, int userId, String title, String contents, String category, String need, String status,
-			LocalDateTime date) {
+	public ItemRequest(int id, int userId, String title, String contents, String category, String need, MultipartFile[] images) {
 		this.id = id;
 		this.userId = userId;
 		this.title = title;
 		this.contents = contents;
 		this.category = category;
 		this.need = need;
-		this.status = status;
-		this.date = date;
+		this.images = images;
 	}
 	
 }

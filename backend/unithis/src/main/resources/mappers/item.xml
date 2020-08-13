@@ -4,32 +4,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
 
-	<select id="getItemInfo" parameterType="java.lang.Integer" resultType="item">
+	<select id="getItemInfo" parameterType="java.lang.Integer" resultType="itemResponse">
 		select * from item where id = #{id}
 	</select>
 
-	<select id="getAllItem" resultType="item">
+	<select id="getAllItem" resultType="itemResponse">
 		select * from item 
 	</select>
 	
-	<insert id="createItem" parameterType="item">
+	<insert id="createItem" parameterType="itemRequest" useGeneratedKeys="true" keyProperty="id" keyColumn="item.id">
 		insert into(user_id, title, contents, category, need, date)
 		values(#{userId}, #{title}, #{contents}, #{category}, #{need}, now())
 	</insert>
 	
-	<update id="updateItem" parameterType="item">
+	<update id="updateItem" parameterType="itemRequest">
 		update item
 		set title = #{title}, content = #{contents}, category = #{category}, need = #{need}, date = now()
+	</update>
+	
+	<update id="updateItemStatusWaiting" parameterType="java.lang.Integer">
+		update item
+		set status = "대기중"
+		where id = #{id}
 	</update>
 	
 	<update id="updateItemStatusSoldOut" parameterType="java.lang.Integer">
 		update item
 		set status = "거래완료"
+		where id = #{id}
 	</update>
 	
 	<update id="updateItemStatusOnSales" parameterType="java.lang.Integer">
 		update item
 		set status = "거래중"
+		where id = #{id}
 	</update>
 	
 	<delete id="deleteItem" parameterType="java.lang.Integer">
