@@ -1,4 +1,4 @@
-const address = [
+const data = [
   {
     시도: "강원도",
     시군구: "강릉시",
@@ -25113,16 +25113,33 @@ const address = [
 
 // console.log(address);
 
-const result = [{}];
-const 시도 = address.reduce((acc, current) => {
-  const add = current.시군구;
-  if (!!!acc[current.시도]) {
-    acc[current.시도] = [current.시군구: {"address": current.시군구, "cnt":1}];
+let 시군구 = "";
+let 시도 = "";
+let 읍면동 = "";
+export const Address = data.reduce((acc, current, i) => {
+  시도 = current.시도;
+  시군구 = current.시군구;
+  읍면동 = current.읍면동;
+  if (!!!acc[시도]) {
+    acc[시도] = [];
+    acc[시도][시군구] = [읍면동];
   } else {
-      if(!!acc[current.시도].cnt){
-          acc[current.시도].push({"address": current.시군구, "cnt":1});
-      }
+    if (!!!acc[시도][시군구]) {
+      acc[시도][시군구] = [읍면동];
+    } else {
+      acc[시도][시군구].push(읍면동);
+    }
   }
   return acc;
-}, {});
-console.log(시도);
+}, []);
+
+// const 시 = Object.keys(Address);
+// for (let i = 0; i < 2; i++) {
+//   const 도 = Object.keys(Address[시[i]]);
+//   console.log(시[i]);
+//   for(let j=0; j<2; j++){
+//     console.log(도[j]);
+//     console.log(Address[시[i]][도[j]]);
+//   }
+//   console.log();
+// }

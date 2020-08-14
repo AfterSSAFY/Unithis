@@ -61,8 +61,8 @@ const Test = () => {
 
   return (
     <>
-      <section className="router-section">
-        <Header />
+      <Header />
+      <section className="router-section header-footer">
         <div className="test-content">
           <div>
             <h2 className="test-title">API 테스트</h2>
@@ -116,8 +116,8 @@ const Test = () => {
             </div>
           </div>
         </div>
-        <Nav />
       </section>
+      <Nav />
     </>
   );
 };

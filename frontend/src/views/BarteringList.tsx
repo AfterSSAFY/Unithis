@@ -11,8 +11,8 @@ import { barteringList, photoList, userList } from "../utils/data";
 const BarteringList = () => {
   return (
     <>
-      <section className="router-section">
-        <Header />
+      <Header />
+      <section className="router-section header-footer">
         {barteringList.map((item, i) => {
           return (
             <article className="bartering-list-article" key={item.title + i}>
@@ -37,8 +37,8 @@ const BarteringList = () => {
             </article>
           );
         })}
-        <Nav />
       </section>
+      <Nav />
     </>
   );
 };
