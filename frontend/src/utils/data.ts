@@ -1,3 +1,5 @@
+import { Bartering, User, Photo } from "react-app-env";
+
 export const barteringList: Array<Bartering> = [
   {
     id: 1,
@@ -5,7 +7,6 @@ export const barteringList: Array<Bartering> = [
     title:
       "Moll 가구 (가격내림) 독일 학생책상 명품책상 키높이조절책상 책상서랍세트",
     contents: `(가격제안받지않습니다)
-
       스탠드40만원+ 책상 150만원 +서랍장 70만원
       =토탈 260만원
       5~6년 사용

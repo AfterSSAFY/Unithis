@@ -5,7 +5,7 @@ import "../style/nav.scss";
 const Nav = () => {
   return (
     <>
-      <nav className="mobile sign">
+      <nav className="sign">
         <ul className="nav__navigation">
           <li>
             <NavLink

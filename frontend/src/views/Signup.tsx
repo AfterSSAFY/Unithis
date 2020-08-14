@@ -1,10 +1,27 @@
-import React, { useEffect, useState, useRef, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import DaumPostcode from "react-daum-postcode";
+import { Address } from "../utils/address";
 import "../style/modal.scss";
 const Signup = () => {
+  // let 시군구 = "";
+  // let 시도 = "";
+  // let 읍면동 = "";
+
   useEffect(() => {
-    console.log("Signup");
+    // const 시 = Object.keys(Address);
+    // const 도 = Object.values(Address);
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(시[i]);
+    //   const 시군구 = Object.keys(도[i]);
+    //   const 읍면동 = Object.values(도[i]);
+    //   for (let j = 0; j < 3; j++) {
+    //     console.log("\t", 시군구[j]);
+    //     const arr = String(읍면동[j]).split(",");
+    //     arr.map(v => {
+    //       console.log("\t\t", v);
+    //     });
+    //   }
+    // }
   }, []);
 
   const handleSubmit = (e: any): void => {
@@ -25,7 +42,7 @@ const Signup = () => {
       "\nname :",
       nickname,
       "\naddress :",
-      address + " " + detailAddress,
+      address1 + " " + address2 + " " + address3,
       "\nphone :",
       phone
     );
@@ -36,8 +53,14 @@ const Signup = () => {
   const [repassword, setRepassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [detailAddress, setdetailAddress] = useState("");
+
+  const [city, setCity] = useState(-1);
+  const [town, setTown] = useState(-1);
+  const [village, setVillage] = useState(-1);
+
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [address3, setAddress3] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.className === "email") {
@@ -52,72 +75,38 @@ const Signup = () => {
     if (e.target.className === "name") {
       setNickname(e.target.value);
     }
-    if (e.target.className === "address") {
-      setAddress(e.target.value);
-    }
     if (e.target.className === "phone") {
       setPhone(e.target.value);
-    }
-    if (e.target.className === "detailAddress") {
-      setdetailAddress(e.target.value);
     } else {
       return;
     }
   };
 
-  const closeRef = useRef<HTMLDivElement | null>(null);
-
-  const handleComplete = (data: any) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+  const selectChange = (e: any) => {
+    if (e.target.value === "") {
+      setCity(-1);
+      setTown(-1);
+      setVillage(-1);
+      return;
     }
-    setAddress(fullAddress);
-
-    if (closeRef && closeRef.current) {
-      closeRef.current.style.zIndex = "0";
-      closeRef.current.style.opacity = "0";
-    }
-  };
-
-  const openPostalCodeSearch = (e: any) => {
-    e.preventDefault();
-    if (closeRef && closeRef.current) {
-      closeRef.current.style.zIndex = "1001";
-      closeRef.current.style.opacity = "1";
+    if (e.target.className === "시/도") {
+      setCity(e.target.value);
+      setTown(0);
+      setAddress1(Object.keys(Address)[e.target.value]);
+      setAddress2(Object.keys(Object.values(Address)[e.target.value])[0]);
+      setAddress3(
+        String(Object.values(Object.values(Address)[0])[0]).split(",")[0]
+      );
+    } else if (e.target.className === "구/군") {
+      setTown(e.target.value);
+    } else if (e.target.className === "읍/면/동") {
+      setVillage(e.target.value);
+    } else {
+      return;
     }
   };
-
-  const closeButtonClickEvent = () => {
-    if (closeRef && closeRef.current) {
-      closeRef.current.style.zIndex = "0";
-      closeRef.current.style.opacity = "0";
-    }
-  };
-
   return (
     <>
-      <div className="modal" ref={closeRef}>
-        <div className="modal-content">
-          <div className="modal-header">
-            <span onClick={closeButtonClickEvent}>&lt;</span>
-            <span>우편번호 찾기</span>
-            <span className="close" onClick={closeButtonClickEvent}>
-              &#xd7;
-            </span>
-          </div>
-          <DaumPostcode onComplete={handleComplete} height="100%" />
-        </div>
-      </div>
       <section className="signin-Content">
         <div className="signin-Form">
           <div className="signin-Box">
@@ -186,30 +175,72 @@ const Signup = () => {
               <div className="inputForm">
                 <label>주소</label>
                 <div className="address">
-                  <input
-                    className="address-text"
-                    type="text"
-                    placeholder="주소"
-                    value={address}
-                    onChange={handleChange}
-                    required
-                  />
-                  <div className="address-box">
-                    <button
-                      className="btn orange"
-                      onClick={openPostalCodeSearch}
-                    >
-                      우편번호 찾기
-                    </button>
-                  </div>
+                  {
+                    <>
+                      <select
+                        value={city}
+                        onChange={selectChange}
+                        className="시/도"
+                      >
+                        <option value="">시/도 선택</option>
+                        {Object.keys(Address).map((c, i) => {
+                          return (
+                            <option value={i} label={c} key={c + i}>
+                              {c}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      {city === -1 ? (
+                        <select>
+                          <option value="">구/군 선택</option>
+                        </select>
+                      ) : (
+                        <select
+                          value={town}
+                          name={address2}
+                          onChange={selectChange}
+                          className="구/군"
+                        >
+                          {Object.keys(Object.values(Address)[city]).map(
+                            (c, i) => {
+                              return (
+                                <option value={i} label={c} key={c + i}>
+                                  {c}
+                                </option>
+                              );
+                            }
+                          )}
+                        </select>
+                      )}
+
+                      {(city === -1 || town === -1) && village === -1 ? (
+                        <select>
+                          <option value="">읍/면/동 선택</option>
+                        </select>
+                      ) : (
+                        <select
+                          value={village}
+                          name={address3}
+                          onChange={selectChange}
+                          className="읍/면/동"
+                        >
+                          {String(
+                            Object.values(Object.values(Address)[city])[town]
+                          )
+                            .split(",")
+                            .map((c, i) => {
+                              return (
+                                <option value={i} label={c} key={c + i}>
+                                  {c}
+                                </option>
+                              );
+                            })}
+                        </select>
+                      )}
+                    </>
+                  }
                 </div>
-                <input
-                  type="text"
-                  className="detailAddress"
-                  placeholder="상세주소"
-                  value={detailAddress}
-                  onChange={handleChange}
-                />
               </div>
 
               <div className="btn-content">

@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { barteringList, userList, photoList } from "../utils/data";
-import { address } from "../assets/data";
 import "../style/BarteringDetail.scss";
 
 const BarteringDetail = (props: any) => {
   useEffect(() => {
     console.log("Signup");
-    console.log(address);
   }, []);
 
   return (
@@ -15,13 +13,17 @@ const BarteringDetail = (props: any) => {
         <div className="barteringBody">
           <div className="image-wrap">
             <div className="iamge-prev-btn">&#x2190;</div>
-            <img src={photoList[props.match.params.id].image} />
+            <img
+              src={photoList[props.match.params.id].image}
+              alt="barteringImage"
+            />
           </div>
           <div className="barteringDataDescription">
             <div className="barteringDataProfile">
               <img
                 className="barteringDataProfileIcon"
                 src={require("../assets/icon/profile.png")}
+                alt="profile"
               />
               <div>
                 <div>{userList[props.match.params.id].nickname}</div>

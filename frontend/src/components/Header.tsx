@@ -6,7 +6,7 @@ const title: String = "Unithis";
 const Header = () => {
   return (
     <>
-      <header className="mobile">
+      <header>
         <div className="fixed-header-content">
           <div className="fixed-header-title">
             <h1 className="fixed-header-title-text">{title}</h1>
