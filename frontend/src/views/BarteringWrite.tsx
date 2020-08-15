@@ -12,7 +12,6 @@ const BarteringWrite = () => {
   };
 
   const srcRef = useRef<HTMLImageElement>(null);
-
   return (
     <>
       <section className="router-section footer-only">

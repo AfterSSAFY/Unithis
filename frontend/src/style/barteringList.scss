@@ -42,3 +42,31 @@ a {
     }
   }
 }
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: inline-block;
+    margin: 1rem;
+  }
+}
+
+.address-list {
+  position: relative;
+}
+
+// .address-list-text {
+//   color: blue;
+// }
+
+.address-city-active {
+  color: blue;
+}
+
+.address-town-active {
+  color: pink;
+}
+.address-village-active {
+  color: #ff8a3d;
+}
