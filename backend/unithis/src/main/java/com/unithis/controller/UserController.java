@@ -78,18 +78,20 @@ public class UserController {
 
 	@PostMapping("/token")
 	@ApiOperation("토큰 검증")
-	public Object token(@RequestParam String access_token) {
+	public Object token(@RequestBody String access_token) {
 		log.info("POST : /api/loginToken");
 
 		String result = null;
+		
+		System.out.println("여기 : " + access_token);
 
 		if (jwtTokenProvider.validateToken(access_token)) {
 			result = jwtTokenProvider.getUserPk(access_token);
 			log.info(result.toString());
-
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+//			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
 		}
 	}
 
