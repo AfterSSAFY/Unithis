@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="search">
+
+	<select id="getAllSearch" parameterType="java.lang.Long" resultType="search">
+		select *
+		from search
+		where num=#{num}
+		order by date
+		desc limit 5
+	</select>
+
+	<select id="isSearched" parameterType="search" resultType="search">
+		select * 
+		from search 
+		where user_id=#{userId} and keyword=#{keyword}
+	</select>
+
+	<insert id="search" parameterType="search">
+		insert into search(user_id, keyword, date) 
+		values(#{userId}, #{keyword}, now())
+	</insert>
+
+	<delete id="deleteSearch" parameterType="java.lang.Integer">
+		delete from search
+		where id=#{id}
+	</delete>
+
+	<update id="updateSearch" parameterType="java.lang.Integer">
+		update search 
+		set date=now()
+		where id=#{id}
+	</update>
+	
+
+</mapper>
