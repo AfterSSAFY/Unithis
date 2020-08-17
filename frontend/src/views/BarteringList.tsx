@@ -10,25 +10,20 @@ import "../style/barteringList.scss";
 import { barteringList, photoList, userList } from "../utils/data";
 
 const BarteringList = () => {
-  const [menu, setMenu] = useState(false);
   const [city, setCity] = useState<Array<string>>([]);
   const [town, setTown] = useState<Array<Array<string>>>([[]]);
   const [village, setvillage] = useState([]);
 
-  const menu1Click = (e: any) => {
-    setMenu(!menu);
-    setCity([]);
-    setTown([[]]);
-  };
-
-  const menu2Click = (e: any) => {
+  const cityClick = (e: any) => {
+    e.target.classList.toggle("address-city-active");
     const dom = document.querySelectorAll(".address-city-active");
     let arr: Array<string> = [];
     Array.from(dom).map(v => arr.push(String(v.getAttribute("value"))));
     setCity(arr);
   };
 
-  const menu3Click = (e: any) => {
+  const townClick = (e: any) => {
+    e.target.classList.toggle("address-town-active");
     const list = document.querySelectorAll(".address-list");
     let arr: Array<Array<string>> = [[]];
     for (let i = 1; i < list.length; i++) {
@@ -39,14 +34,6 @@ const BarteringList = () => {
       );
       setTown(arr);
     }
-  };
-
-  const cityClick = (e: any) => {
-    e.target.classList.toggle("address-city-active");
-  };
-
-  const townClick = (e: any) => {
-    e.target.classList.toggle("address-town-active");
   };
 
   const villageClick = (e: any) => {
@@ -61,12 +48,7 @@ const BarteringList = () => {
       <Header />
       <section className="router-section header-footer">
         {village}
-        <ul>
-          <li onClick={menu1Click}>시/도</li>
-          <li onClick={menu2Click}>시/구/군</li>
-          <li onClick={menu3Click}>읍/면/동</li>
-        </ul>
-        {menu && (
+        {
           <>
             <ul className="address-list">
               {Object.keys(Address).map((c, i) => {
@@ -84,7 +66,7 @@ const BarteringList = () => {
             </ul>
             <hr></hr>
           </>
-        )}
+        }
         {city.map(v => {
           return (
             <div key={v}>

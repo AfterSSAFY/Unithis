@@ -35,7 +35,8 @@ const Test = () => {
 
   const get = () => {
     http
-      .get("/users/")
+      .get("/validation/nickname?nickname=ㅇㅇ")
+      // .get("/user/7")
       .then(({ data }) => {
         console.log(data);
       })
