@@ -13,5 +13,5 @@ public interface IItemService {
 	public int updateItem(ItemRequest item);
 	public int updateItemStatus(int id, String status);
 	public int deleteItem(int id);
-	
+	public String[] getCategory();
 }
