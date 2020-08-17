@@ -1,6 +1,8 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { Address } from "../utils/address";
+import http from "../api/http-common";
+
 import "../style/modal.scss";
 const Signup = () => {
   // let 시군구 = "";
@@ -46,6 +48,21 @@ const Signup = () => {
       "\nphone :",
       phone
     );
+
+    http
+      .post("/join", {
+        email: email,
+        password: password,
+        nickname: nickname,
+        address: address1 + " " + address2 + " " + address3,
+        phone: phone
+      })
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   const [email, setEmail] = useState("");

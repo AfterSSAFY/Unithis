@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
+import http from "../api/http-common";
 
 import "../style/signin.scss";
 
@@ -13,7 +14,26 @@ const Signin = () => {
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
-    alert("email : " + email + "\npasword :" + password);
+    // alert("email : " + email + "\npasword :" + password);
+    http
+      .post("/login", {
+        email: email,
+        password: password
+      })
+      .then(({ data }) => {
+        console.log(data);
+        http
+          .post("/token", data)
+          .then(({ data }) => {
+            console.log(data);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   const [email, setEmail] = useState("");
