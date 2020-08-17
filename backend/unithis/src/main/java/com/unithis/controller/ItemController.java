@@ -55,6 +55,8 @@ public class ItemController {
 	public int createItem(@RequestBody ItemRequest item) {
 		log.info("ItemController : createItem");
 		
+		System.out.println(item.toString());
+		
 		return itemService.createItem(item);
 	}
 	
@@ -80,6 +82,13 @@ public class ItemController {
 		log.info("ItemController : deleteItem");
 		
 		return itemService.deleteItem(id);
-	} 
+	}
 	
+	@GetMapping("/category")
+	@ApiOperation("카테고리 가져오기")
+	public String[] getCategory() {
+		log.info("ItemController : getCategory");
+		
+		return itemService.getCategory();
+	}
 }
