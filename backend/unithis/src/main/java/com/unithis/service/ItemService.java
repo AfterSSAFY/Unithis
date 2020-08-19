@@ -10,6 +10,7 @@ import com.unithis.dao.ItemDao;
 import com.unithis.model.Image;
 import com.unithis.model.ItemRequest;
 import com.unithis.model.ItemResponse;
+import com.unithis.model.ItemSearchRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,41 +25,63 @@ public class ItemService implements IItemService {
 	private final ImageService imageService;
 	
 	public ItemResponse getItemInfo(int id) {
-		ItemResponse item = itemDao.getItemInfo(id);
+		
+		ItemResponse result = itemDao.getItemInfo(id);
 		List<Image> image = imageDao.getImage(id);
 		for (int i = 0; i < image.size(); i++) {
-			item.getImages().add(image.get(i).getFileName());
+			result.getImages().add(image.get(i).getFileName());
 		}
 		
-		return item;
+		return result;
+	}
+	
+	public List<ItemResponse> getItemsByCategoryAndAddress(ItemSearchRequest item) {
+		List<ItemResponse> result = itemDao.getItemsByCategoryAndAddress(item);
+		
+		if(result != null) {
+			List<ItemResponse> next = itemDao.getItemsByCategoryAndAddress(
+					ItemSearchRequest.builder()
+					.category(item.getCategory())
+					.address(item.getAddress())
+					.idx(item.getIdx()+10).build()
+					);
+			if(!next.isEmpty()) {
+				for (int i = 0; i < result.size(); i++) {
+					result.get(i).setHasNext(true);
+				}
+			}
+		}
+		
+		return result;
 	}
 
 	public List<ItemResponse> getAllItem() {
-		List<ItemResponse> items = itemDao.getAllItem();
-		for (int i = 0; i < items.size(); i++) {
-			List<Image> image = imageDao.getImage(items.get(i).getId());
+		
+		List<ItemResponse> result = itemDao.getAllItem();
+		for (int i = 0; i < result.size(); i++) {
+			List<Image> image = imageDao.getImage(result.get(i).getId());
 			for (int j = 0; j < image.size(); j++) {
-				items.get(i).getImages().add(image.get(j).getFileName());
+				result.get(i).getImages().add(image.get(j).getFileName());
 			}
 		}
 		
-		return items;
+		return result;
 	}
 
-	@Transactional
-	public int createItem(ItemRequest item) {
-		
-		itemDao.createItem(item);
-		
-		if(item.getImages() != null) {
-			try {
-				return imageService.imageUpload(item);
-			} catch (Exception e) {
-				log.error("파일 업로드에 실패했습니다.");
-			}
-		}
-		return 0;
-	}
+//	@Transactional
+//	public int createItem(ItemRequest item) {
+//		
+//		itemDao.createItem(item);
+//		
+//		if(item.getImages() != null) {
+//			try {
+//				return imageService.imageUpload(item);
+//			} catch (Exception e) {
+//				log.error("파일 업로드에 실패했습니다.");
+//			}
+//		}
+//		return 0;
+//	}
 	
 	@Transactional
 	public int updateItem(ItemRequest item) {

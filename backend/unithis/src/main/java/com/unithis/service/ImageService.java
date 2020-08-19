@@ -26,32 +26,57 @@ public class ImageService {
 	public static final String SAVE_FOLDER = "C:/github/Unithis/backend/unithis/src/main/resources/static/images/";
 	public static final String IMAGE_URL = "localhost:8080:/images";
 	private final ImageDao imageDao;
-
-    @Transactional
-    public int imageUpload(ItemRequest item) throws Exception {
-        
-    	for (int i = 0; i < item.getImages().length; i++) {
-    		String imageName = item.getImages()[i].getOriginalFilename();
-    		String imageExtension = FilenameUtils.getExtension(imageName).toLowerCase();
-    		File destinationImage;
-    		String destinationImageName;
-    		String imageUrl = SAVE_FOLDER;
-    		
-    		SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMddHHmmss");
-    		destinationImageName = timeFormat.format(new Date()) + "_" + (i+1) + "." + imageExtension;
-    		destinationImage = new File(imageUrl + destinationImageName);
-    		
-    		log.info("Image uploaded : {}", destinationImageName);
-    		try {
-    			item.getImages()[i].transferTo(destinationImage);
-    			imageDao.createImage(Image.builder().itemId(item.getId()).fileName(destinationImageName).build());
-    		} catch (RuntimeException e) {
-    			log.error("파일 업로드에 실패했습니다.");
-    		}
-		}
-
-        return item.getImages().length;
-    }
+	
+	
+//	@Transactional
+//    public int imageUpload(ItemRequest item) throws Exception {
+//        
+//		String imageName = item.getImages().getOriginalFilename();
+//		String imageExtension = FilenameUtils.getExtension(imageName).toLowerCase();
+//		File destinationImage;
+//		String destinationImageName;
+//		String imageUrl = SAVE_FOLDER;
+//		
+//		SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMddHHmmss");
+//		destinationImageName = timeFormat.format(new Date()) + "." + imageExtension;
+//		destinationImage = new File(imageUrl + destinationImageName);
+//		
+//		log.info("Image uploaded : {}", destinationImageName);
+//		try {
+//			item.getImages().transferTo(destinationImage);
+//			imageDao.createImage(Image.builder().itemId(item.getId()).fileName(destinationImageName).build());
+//		} catch (RuntimeException e) {
+//			log.error("파일 업로드에 실패했습니다.");
+//		}
+//
+//        return 1;
+//    }
+//
+//    @Transactional
+//    public int imageUpload(ItemRequest item) throws Exception {
+//        
+//    	for (int i = 0; i < item.getImages().length; i++) {
+//    		String imageName = item.getImages()[i].getOriginalFilename();
+//    		String imageExtension = FilenameUtils.getExtension(imageName).toLowerCase();
+//    		File destinationImage;
+//    		String destinationImageName;
+//    		String imageUrl = SAVE_FOLDER;
+//    		
+//    		SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMddHHmmss");
+//    		destinationImageName = timeFormat.format(new Date()) + "_" + (i+1) + "." + imageExtension;
+//    		destinationImage = new File(imageUrl + destinationImageName);
+//    		
+//    		log.info("Image uploaded : {}", destinationImageName);
+//    		try {
+//    			item.getImages()[i].transferTo(destinationImage);
+//    			imageDao.createImage(Image.builder().itemId(item.getId()).fileName(destinationImageName).build());
+//    		} catch (RuntimeException e) {
+//    			log.error("파일 업로드에 실패했습니다.");
+//    		}
+//		}
+//
+//        return item.getImages().length;
+//    }
     
     public List<Image> getImage(int id) {
     	return imageDao.getImage(id);

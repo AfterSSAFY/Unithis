@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.unithis.model.ItemRequest;
 import com.unithis.model.ItemResponse;
+import com.unithis.model.ItemSearchRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,10 @@ public class ItemDao {
 	
 	public ItemResponse getItemInfo(int id) {
 		return sqlSession.selectOne(ns + "getItemInfo", id);
+	}
+	
+	public List<ItemResponse> getItemsByCategoryAndAddress(ItemSearchRequest item) {
+		return sqlSession.selectList(ns + "getItemsByCategoryAndAddress", item);
 	}
 	
 	public List<ItemResponse> getAllItem() {
@@ -49,6 +54,5 @@ public class ItemDao {
 	public int deleteItem(int id) {
 		return sqlSession.delete(ns + "deleteItem", id);
 	}
-
 
 }
