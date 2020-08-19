@@ -1,5 +1,7 @@
 package com.unithis.model;
 
+import javax.persistence.Column;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

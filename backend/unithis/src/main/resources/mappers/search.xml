@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAllSearch" parameterType="java.lang.Long" resultType="search">
 		select *
 		from search
-		where num=#{num}
+		where user_id=#{id}
 		order by date
 		desc limit 5
 	</select>

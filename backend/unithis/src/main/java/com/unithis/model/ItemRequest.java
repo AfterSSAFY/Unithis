@@ -18,17 +18,17 @@ public class ItemRequest {
 	String contents;
 	String category;
 	String need;
-	MultipartFile[] images;
+	String address;
 	
 	@Builder
-	public ItemRequest(int id, int userId, String title, String contents, String category, String need, MultipartFile[] images) {
+	public ItemRequest(int id, int userId, String title, String contents, String category, String need, String address) {
 		this.id = id;
 		this.userId = userId;
 		this.title = title;
 		this.contents = contents;
 		this.category = category;
 		this.need = need;
-		this.images = images;
+		this.address = address;
 	}
 	
 }

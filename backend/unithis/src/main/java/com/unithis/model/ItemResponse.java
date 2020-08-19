@@ -23,12 +23,15 @@ public class ItemResponse {
 	String category;
 	String need;
 	String status;
+	String address;
+	boolean hasNext;
 	List<String> images = new ArrayList<>();
 	LocalDateTime date;
 	
 	@Builder
-	public ItemResponse(int id, int userId, String title, String contents, String category, String need, String status, List<String> images,
-			LocalDateTime date) {
+	public ItemResponse(int id, int userId, String title, String contents, String category, String need, String status,
+			String address, boolean hasNext, List<String> images, LocalDateTime date) {
+		super();
 		this.id = id;
 		this.userId = userId;
 		this.title = title;
@@ -36,6 +39,8 @@ public class ItemResponse {
 		this.category = category;
 		this.need = need;
 		this.status = status;
+		this.address = address;
+		this.hasNext = hasNext;
 		this.images = images;
 		this.date = date;
 	}
