@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="image">
 
 	<insert id="createImage" parameterType="image">
-		insert into(item_id, filename)
+		insert into image(item_id, filename)
 		values(#{itemId}, #{fileName})
 	</insert>
 	

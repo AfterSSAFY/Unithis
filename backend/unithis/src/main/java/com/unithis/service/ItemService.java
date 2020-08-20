@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.unithis.dao.ImageDao;
 import com.unithis.dao.ItemDao;
@@ -25,9 +26,9 @@ public class ItemService implements IItemService {
 	private final ImageService imageService;
 	
 	public ItemResponse getItemInfo(int id) {
-		
 		ItemResponse result = itemDao.getItemInfo(id);
 		List<Image> image = imageDao.getImage(id);
+		
 		for (int i = 0; i < image.size(); i++) {
 			result.getImages().add(image.get(i).getFileName());
 		}
@@ -56,8 +57,8 @@ public class ItemService implements IItemService {
 	}
 
 	public List<ItemResponse> getAllItem() {
-		
 		List<ItemResponse> result = itemDao.getAllItem();
+		
 		for (int i = 0; i < result.size(); i++) {
 			List<Image> image = imageDao.getImage(result.get(i).getId());
 			for (int j = 0; j < image.size(); j++) {
@@ -68,20 +69,23 @@ public class ItemService implements IItemService {
 		return result;
 	}
 
-//	@Transactional
-//	public int createItem(ItemRequest item) {
-//		
-//		itemDao.createItem(item);
-//		
-//		if(item.getImages() != null) {
-//			try {
-//				return imageService.imageUpload(item);
-//			} catch (Exception e) {
-//				log.error("파일 업로드에 실패했습니다.");
-//			}
-//		}
-//		return 0;
-//	}
+	@Transactional
+	public int createItem(ItemRequest item, MultipartFile[] images) {
+		int result = itemDao.createItem(item);
+		
+		if(result == 0)
+			return 0;
+		
+		if(images.length != 0) {
+			try {
+				result += imageService.imageUpload(images, item.getId());
+			} catch (Exception e) {
+				log.error("파일 업로드에 실패했습니다.");
+			}
+		}
+		
+		return result;
+	}
 	
 	@Transactional
 	public int updateItem(ItemRequest item) {
