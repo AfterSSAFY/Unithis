@@ -6,15 +6,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unithis.model.ChatRoom;
+import com.unithis.model.ChatRoomRequest;
+import com.unithis.model.ChatRoomResponse;
 import com.unithis.model.Message;
+import com.unithis.service.IChatRoomResponseService;
 import com.unithis.service.IChatRoomService;
 import com.unithis.service.IMessageService;
 
@@ -31,17 +34,34 @@ public class ChatRoomController {
 
 	private final IChatRoomService chatroomService;
 	private final IMessageService messageService;
+	private final IChatRoomResponseService chatroomResService;
 
 	// 모든 채팅방 목록 반환
 	@GetMapping("/rooms/{user_id}")
-	@ApiOperation("해당 유저의 모든 채팅방 목록 조회")
-	public ResponseEntity<List<ChatRoom>> room(@PathVariable int user_id) {
+	@ApiOperation("해당 유저의 모든 채팅방 목록 조회 및 정보전달")
+	public ResponseEntity<ChatRoomResponse[]> room(@PathVariable int user_id) {
 		List<ChatRoom> joinedChatRoomList = chatroomService.getJoinedRoomList(user_id);
-		System.out.println(joinedChatRoomList);
-		if (joinedChatRoomList == null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+		ChatRoomResponse[] chatroomResList = new ChatRoomResponse[joinedChatRoomList.size()];
+		log.info(joinedChatRoomList.toString());
+		// 유저가 속한 채팅방 정보를 가지고 상대유저닉네임, 최근대화내용, 안읽은 메세지 수 리턴
+		for (int i = 0; i < joinedChatRoomList.size(); i++) {
+			ChatRoom cr = joinedChatRoomList.get(i);
+			if (cr.getUser1Id() == user_id) {
+				chatroomResList[i] = ChatRoomResponse.builder().id(cr.getId()).currUserId(user_id)
+						.otherUserId(cr.getUser2Id()).build();
+				chatroomResList[i].setEntity(chatroomResService.getChatRoomInfo(chatroomResList[i]));
+				System.out.println(chatroomResList[i]);
+			} else if (cr.getUser2Id() == user_id) {
+				chatroomResList[i] = ChatRoomResponse.builder().id(cr.getId()).currUserId(user_id)
+						.otherUserId(cr.getUser1Id()).build();
+				chatroomResList[i].setEntity(chatroomResService.getChatRoomInfo(chatroomResList[i]));
+				System.out.println(chatroomResList[i]);
+			} else {
+				log.error("logic error");
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+			}
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(joinedChatRoomList);
+		return ResponseEntity.status(HttpStatus.OK).body(chatroomResList);
 	}
 
 	// 채팅방 생성 : 생성을 따로하는건지..
@@ -58,7 +78,8 @@ public class ChatRoomController {
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(resultNewChatroom + "");
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 방 생성 실패(이미 존재함)");
+			// 이미 있는 경우 기존의 채팅방 아이디 전달
+			return ResponseEntity.status(HttpStatus.OK).body(hasExistChatRoom.getId() + "");
 
 		}
 	}
@@ -72,5 +93,17 @@ public class ChatRoomController {
 		for (Message m : msgList)
 			System.out.println(m);
 		return ResponseEntity.status(HttpStatus.OK).body(msgList);
+	}
+
+	@PatchMapping("/message")
+	@ApiOperation("채팅방 읽음처리")
+	public ResponseEntity<String> updateItem(@RequestBody ChatRoomRequest chatroomReq) {
+		boolean resultUpdating = chatroomService.updateReadTime(chatroomReq);
+		if (resultUpdating) {
+			return ResponseEntity.status(HttpStatus.OK).body("SUCC");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR");
+		}
+
 	}
 }

@@ -38,13 +38,11 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/'+chatroom, onMessageReceived);
+    stompClient.subscribe('/sub/'+username, onMessageReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({user1Id: username, id:chatroom,user2Id : receiver})
-    )
+    //stompClient.send("/pub/user", {}, JSON.stringify({user1Id: username, id:chatroom,user2Id : receiver})
+  //  )
 
     connectingElement.classList.add('hidden');
 }
@@ -66,7 +64,7 @@ function sendMessage(event) {
             sendTime : new Date(),
             chatroomId : chatroom
         };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/pub/message", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -74,18 +72,11 @@ function sendMessage(event) {
 
 
 function onMessageReceived(payload) {
+
     var message = JSON.parse(payload.body);
 
     var messageElement = document.createElement('li');
-
-    if('statusCodeValue' in message) {
-        messageElement.classList.add('event-message');
-        message.content = 'start chat! ';
-    } 
-else{
-	console.log(message.senderId);
-	console.log(message.receiverId);
-	console.log(message.content);
+	if(message.chatroomId == chatroom){
 	
         var avatarElement = document.createElement('i');
         var avatarText = document.createTextNode(message.senderId);
@@ -98,7 +89,7 @@ else{
         var usernameText = document.createTextNode(message.senderId);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
-    }
+    
 
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.content);
@@ -108,6 +99,7 @@ else{
 
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
+    }
 }
 
 

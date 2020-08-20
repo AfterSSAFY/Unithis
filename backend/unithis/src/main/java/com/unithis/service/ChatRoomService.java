@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.unithis.mapper.ChatRoomMapper;
 import com.unithis.model.ChatRoom;
+import com.unithis.model.ChatRoomRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,12 @@ public class ChatRoomService implements IChatRoomService {
 	@Override
 	public ChatRoom checkExistChatRoom(int user1, int user2) {
 		return chatroomMapper.checkExistChatRoom(user1, user2);
+	}
+
+	@Override
+	public boolean updateReadTime(ChatRoomRequest chatroomReq) {
+		// TODO Auto-generated method stub
+		return chatroomMapper.updateReadTime(chatroomReq) > 0 ? true : false;
 	}
 
 }

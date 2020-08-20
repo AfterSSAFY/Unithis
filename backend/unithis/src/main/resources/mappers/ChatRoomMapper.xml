@@ -21,4 +21,10 @@
 	where (user1_id=#{user1} and user2_id=#{user2})
 	or  (user1_id=#{user2} and user2_id=#{user1})
 	</select>
+	
+	<update id="updateReadTime" parameterType="ChatRoomRequest">
+		update message
+		set receive_time = now()
+		where chatroom_id=#{id} and receiver_id=#{userId}
+	</update>
 </mapper>
