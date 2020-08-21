@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unithis.mapper.ChatRoomMapper">
+
+
+	<select id="getJoinedRoomList" parameterType="int" resultType="ChatRoom">
+		select id, user1_id, user2_id
+		from chatroom
+		where user1_id=#{userId} or user2_id=#{userId}
+	</select>
+
+	<insert id="createChatRoom" parameterType="ChatRoom"
+	useGeneratedKeys="true" keyProperty="id" keyColumn="ChatRoom.id">
+		insert into chatroom(user1_id, user2_id)
+		values(#{user1Id},#{user2Id})
+	</insert>
+
+	<select id="checkExistChatRoom" resultType="ChatRoom">
+	select id, user1_id, user2_id
+	from chatroom
+	where (user1_id=#{user1} and user2_id=#{user2})
+	or  (user1_id=#{user2} and user2_id=#{user1})
+	</select>
+	
+	<update id="updateReadTime" parameterType="ChatRoomRequest">
+		update message
+		set receive_time = now()
+		where chatroom_id=#{id} and receiver_id=#{userId}
+	</update>
+</mapper>
