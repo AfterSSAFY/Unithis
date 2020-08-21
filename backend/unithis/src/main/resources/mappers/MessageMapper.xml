@@ -16,8 +16,11 @@
 		where id=#{id}
 	</update>
 
-	<select id="findChatByRoomId" parameterType="int" resultType="Message">
+	<select id="findChatByRoomId" resultType="Message">
 		select id, content, send_time, receive_time, chatroom_id, sender_id, receiver_id
 		from message
+		inner join(select `id` from message where chatroom_id=#{roomId} order by id desc limit #{idx}, 10) as q
+		using (`id`)
+		where chatroom_id=#{roomId}
 	</select>
 </mapper>

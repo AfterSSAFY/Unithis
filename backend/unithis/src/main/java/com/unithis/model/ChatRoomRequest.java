@@ -11,7 +11,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ChatRoomRequest {
-	@Id
 	int id;
 	int userId;
 

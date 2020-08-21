@@ -27,9 +27,9 @@ public class MessageService implements IMessageService {
 	}
 
 	@Override
-	public List<Message> findChatByRoomId(int roomID) {
+	public List<Message> findChatByRoomId(int roomID, int idx) {
 		// TODO Auto-generated method stub
-		return messageMapper.findChatByRoomId(roomID);
+		return messageMapper.findChatByRoomId(roomID, idx);
 	}
 
 }

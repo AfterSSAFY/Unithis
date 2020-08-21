@@ -1,7 +1,5 @@
 package com.unithis.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Builder;
@@ -12,10 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
-@Entity
 @Table(name = "chatroom")
 public class ChatRoom {
-	@Id
 	int id;
 	int user1Id;
 	int user2Id;

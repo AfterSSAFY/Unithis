@@ -14,10 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
-@Entity
 @Table(name = "message")
 public class Message {
-	@Id
 	private int id;
 	private String content;
 	private LocalDateTime sendTime;
