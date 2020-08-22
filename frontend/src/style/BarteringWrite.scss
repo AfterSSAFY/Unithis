@@ -38,12 +38,18 @@ figure {
   .PhotoResult {
     height: 10rem;
     margin: 1rem;
+    @media all and (max-width: 500px) {
+      height: 5rem;
+    }
   }
 
   .photoImage {
     margin: 1rem;
     margin-bottom: 0;
     width: 10rem;
+    @media all and (max-width: 500px) {
+      width: 5rem;
+    }
   }
 
   .bartering-image-content {
@@ -78,8 +84,15 @@ figure {
     font-size: 1.2rem;
   }
   select {
-    padding: 0.5rem;
-    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    color: #8b8b8b;
+  }
+  textarea {
+    font-size: 1.3rem;
+    padding: 1.2rem;
+    height: 7rem;
+    resize: none; /* 사용자 임의 변경 불가 */
   }
   .address {
     justify-content: space-between;

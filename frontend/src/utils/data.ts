@@ -1,6 +1,6 @@
 import { Bartering, User, Photo } from "react-app-env";
 
-export const barteringList: Array<Bartering> = [
+export const itemList: Array<Bartering> = [
   {
     id: 1,
     user_id: 1,
