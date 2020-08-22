@@ -14,7 +14,6 @@ const Signin = () => {
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
-    // alert("email : " + email + "\npasword :" + password);
     http
       .post("/login", {
         email: email,
@@ -29,10 +28,12 @@ const Signin = () => {
           })
           .catch(e => {
             console.log(e);
+            console.log(e.response.data);
           });
       })
       .catch(e => {
         console.log(e);
+        console.log(e.response.data);
       });
   };
 
@@ -97,8 +98,6 @@ const Signin = () => {
               <Link to={"/Signup"}>
                 <span>회원가입</span>
               </Link>
-              <span>아이디찾기</span>
-              <span>비밀번호찾기</span>
             </div>
           </div>
         </div>

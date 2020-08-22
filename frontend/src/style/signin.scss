@@ -76,8 +76,9 @@ $pink: #ff9697;
   .otherLink {
     font-family: "BMJUA";
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     margin-bottom: 5rem;
+    padding-right: 1rem;
   }
   .login-btn {
     float: right;

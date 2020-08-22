@@ -82,17 +82,13 @@ const Signup = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.className === "email") {
       setEmail(e.target.value);
-    }
-    if (e.target.className === "password") {
+    } else if (e.target.className === "password") {
       setPassword(e.target.value);
-    }
-    if (e.target.className === "repassword") {
+    } else if (e.target.className === "repassword") {
       setRepassword(e.target.value);
-    }
-    if (e.target.className === "name") {
+    } else if (e.target.className === "name") {
       setNickname(e.target.value);
-    }
-    if (e.target.className === "phone") {
+    } else if (e.target.className === "phone") {
       setPhone(e.target.value);
     } else {
       return;

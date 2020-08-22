@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BarteringList,
+  Bartering,
   BarteringDetail,
   BarteringWrite,
   Test,
@@ -16,7 +16,7 @@ const RouterView = () => {
     <>
       <Switch>
         {/* <Route path="/" component={BarteringList} replace></Route> */}
-        <Route exact path="/Home" component={BarteringList}></Route>
+        <Route exact path="/Home" component={Bartering}></Route>
         <Route path="/Test" component={Test}></Route>
         <Route path="/BarteringDetail/:id" component={BarteringDetail}></Route>
         <Route path="/BarteringWrite" component={BarteringWrite}></Route>
