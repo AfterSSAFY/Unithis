@@ -1,78 +1,42 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { userList } from "../utils/data";
+
 import { Address } from "../utils/address";
-import http from "../api/http-common";
 
-const Signup = () => {
-  // let 시군구 = "";
-  // let 시도 = "";
-  // let 읍면동 = "";
+import Nav from "../components/Nav";
 
+const Info = () => {
   useEffect(() => {
-    // const 시 = Object.keys(Address);
-    // const 도 = Object.values(Address);
-    // for (let i = 0; i < 1; i++) {
-    //   console.log(시[i]);
-    //   const 시군구 = Object.keys(도[i]);
-    //   const 읍면동 = Object.values(도[i]);
-    //   for (let j = 0; j < 3; j++) {
-    //     console.log("\t", 시군구[j]);
-    //     const arr = String(읍면동[j]).split(",");
-    //     arr.map(v => {
-    //       console.log("\t\t", v);
-    //     });
-    //   }
-    // }
-  }, []);
+    const user = userList[0];
+    setEmail(user.email);
+    setPassword(user.password);
+    setNickname(user.nickname);
+    setPhone(user.phone);
 
-  const handleSubmit = (e: any): void => {
-    e.preventDefault();
-
-    if (password !== repassword) {
-      alert("입력하신 비밀번호가 맞지 않습니다.");
-      return;
-    }
-
-    console.log(
-      "email :",
-      email,
-      "\npassword :",
-      password,
-      "\nrepasseord :",
-      repassword,
-      "\nname :",
-      nickname,
-      "\naddress :",
-      address1 + " " + address2 + " " + address3,
-      "\nphone :",
-      phone
+    const 시도 = Object.keys(Address).findIndex(v => v === "경기도");
+    const 구군 = Object.keys(Object.values(Address)[시도]).findIndex(
+      v => v === "성남시 분당구"
     );
+    const 읍면동 = String(Object.values(Object.values(Address)[시도])[구군])
+      .split(",")
+      .findIndex(v => v === "구미동");
 
-    http
-      .post("/join", {
-        email: email,
-        password: password,
-        nickname: nickname,
-        address: address1 + " " + address2 + " " + address3,
-        phone: phone
-      })
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+    setCity(시도);
+    setTown(구군);
+    setVillage(읍면동);
+    setAddress1("경기도");
+    setAddress2("성남시 분당구");
+    setAddress3("구미동");
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [repassword, setRepassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [city, setCity] = useState(-1);
-  const [town, setTown] = useState(-1);
-  const [village, setVillage] = useState(-1);
+  const [city, setCity] = useState(1);
+  const [town, setTown] = useState(1);
+  const [village, setVillage] = useState(1);
 
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
@@ -83,8 +47,6 @@ const Signup = () => {
       setEmail(e.target.value);
     } else if (e.target.className === "password") {
       setPassword(e.target.value);
-    } else if (e.target.className === "repassword") {
-      setRepassword(e.target.value);
     } else if (e.target.className === "name") {
       setNickname(e.target.value);
     } else if (e.target.className === "phone") {
@@ -92,6 +54,22 @@ const Signup = () => {
     } else {
       return;
     }
+  };
+
+  const handleSubmit = (e: any): void => {
+    e.preventDefault();
+    console.log(
+      "email :",
+      email,
+      "\npassword :",
+      password,
+      "\nname :",
+      nickname,
+      "\naddress :",
+      address1 + " " + address2 + " " + address3,
+      "\nphone :",
+      phone
+    );
   };
 
   const selectChange = (e: any) => {
@@ -117,13 +95,14 @@ const Signup = () => {
       return;
     }
   };
+
   return (
     <>
       <section className="user-container">
         <div className="user-wrapper">
           <div className="user-content">
             <div>
-              <h2 className="user-title">Unithis</h2>
+              <h2 className="user-title">회원 정보</h2>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="user-input-area">
@@ -156,17 +135,6 @@ const Signup = () => {
                   type="password"
                   placeholder="비밀번호"
                   value={password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="user-input-area">
-                <label>비밀번호 확인</label>
-                <input
-                  className="repassword"
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  value={repassword}
                   onChange={handleChange}
                   required
                 />
@@ -256,17 +224,16 @@ const Signup = () => {
               </div>
 
               <div className="button-area">
-                <input type="submit" className="btn blue" value="회원가입" />
+                <input type="submit" className="btn blue" value="수정하기" />
               </div>
-              <Link to={"/Signin"}>
-                <span className="login-btn">로그인 하러 가기</span>
-              </Link>
+              <div className="user-margin-bottem"></div>
             </form>
           </div>
         </div>
       </section>
+      <Nav />
     </>
   );
 };
 
-export default Signup;
+export default Info;

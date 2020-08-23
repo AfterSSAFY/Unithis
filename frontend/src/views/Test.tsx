@@ -63,7 +63,7 @@ const Test = () => {
   return (
     <>
       <Header />
-      <section className="router-section header-footer">
+      <section className="router-container router-header router-footer">
         <div className="test-content">
           <div>
             <h2 className="test-title">API 테스트</h2>

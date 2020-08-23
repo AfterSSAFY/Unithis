@@ -1,13 +1,12 @@
 import React from "react";
 
-import "../style/BarteringDetail.scss";
-import { BarteringBody } from "components/BarteringDetail/BarteringBody";
+import { BarteringWrapper } from "components/BarteringDetail/BarteringWrapper";
 import { BarterfingFooter } from "components/BarteringDetail/BarteringFooter";
 
 const BarteringDetail = (props: any) => {
   return (
-    <section className="detailSection">
-      <BarteringBody {...props} />
+    <section className="bartering-detail-container">
+      <BarteringWrapper {...props} />
       <BarterfingFooter {...props} />
     </section>
   );

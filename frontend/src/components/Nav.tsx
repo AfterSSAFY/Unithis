@@ -35,7 +35,7 @@ const Nav = () => {
           <li>
             <NavLink
               className="nav__naviagtion--nav-text"
-              to="/signin"
+              to="/Info"
               activeClassName="active"
               replace
             >

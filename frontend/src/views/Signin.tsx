@@ -50,17 +50,17 @@ const Signin = () => {
 
   return (
     <>
-      <section className="signin-Content">
-        <div className="signin-Form">
-          <div className="signin-Box">
+      <section className="user-container">
+        <div className="user-wrapper">
+          <div className="user-content">
             <Link to={"/Home"}>
               <div className="touring">둘러보기</div>
             </Link>
             <div>
-              <h2 className="signin-title">Unithis</h2>
+              <h2 className="user-title">Unithis</h2>
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="inputForm">
+              <div className="user-input-area">
                 <label>이메일</label>
                 <input
                   className="email"
@@ -70,7 +70,7 @@ const Signin = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="inputForm">
+              <div className="user-input-area">
                 <label>비밀번호</label>
                 <input
                   className="password"
@@ -80,7 +80,7 @@ const Signin = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="checkbox-content">
+              <div className="checkbox-area">
                 <label>
                   <input type="checkbox" value="아이디저장" />
                   아이디저장
@@ -90,11 +90,11 @@ const Signin = () => {
                   로그인상태유지
                 </label>
               </div>
-              <div className="btn-content">
+              <div className="button-area">
                 <input type="submit" className="btn blue" value="로그인" />
               </div>
             </form>
-            <div className="otherLink">
+            <div className="user-link-area">
               <Link to={"/Signup"}>
                 <span>회원가입</span>
               </Link>

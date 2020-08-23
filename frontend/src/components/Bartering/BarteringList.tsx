@@ -1,28 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { itemList, photoList, userList } from "../../utils/data";
+import "./barteringList.scss";
 
 export const BarteringList = () => {
   return (
     <>
       {itemList.map((item: any, i: any) => {
         return (
-          <article className="bartering-list-article" key={item.title + i}>
+          <article className="bartering-wrapper" key={item.title + i}>
             <Link to={"/BarteringDetail/" + i}>
-              <div className="bartering-list-content">
+              <div className="bartering-area">
                 <img
-                  className="bartering-list-photo"
+                  className="bartering-photo"
                   src={photoList[i].image}
                   alt={item.title}
                 />
-                <div className="bartering-list-description">
+                <div className="bartering-description-content">
                   <div>{item.title}</div>
-                  <div className="bartering-list-description-location">
+                  <div className="bartering-location">
                     {userList[item.user_id - 1].address}
                   </div>
-                  <div className="bartering-list-description-price">
-                    {item.need}
-                  </div>
+                  <div className="bartering-price">{item.need}</div>
                 </div>
               </div>
             </Link>
