@@ -1,4 +1,4 @@
-.detailSection {
+.bartering-detail-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -8,7 +8,7 @@
   position: absolute;
   font-family: initial;
 
-  .barteringBody {
+  .bartering-detail-wrapper {
     width: 100%;
     position: fixed;
     top: 0;
@@ -17,7 +17,7 @@
     overflow: scroll;
   }
 
-  .image-wrap {
+  .image-area {
     position: relative;
     width: 100%;
     height: 0;
@@ -40,12 +40,12 @@
     }
   }
 
-  .barteringDataDescription {
+  .bartering-detail-description-area {
     padding: 0 1rem;
-    .barteringDataProfile {
+    .bartering-detail-profile {
       display: flex;
       margin-bottom: 1rem;
-      .barteringDataProfileIcon {
+      .bartering-detail-profile-icon {
         width: 3rem;
       }
 
@@ -54,68 +54,40 @@
         flex-direction: column;
       }
 
-      .barteringDataAddrea {
+      .bartering-detail-address {
         color: #8b8b8b;
       }
     }
   }
 
-  .barteringDataHeader {
+  .bartering-detail-content {
     font-family: "BMJUA";
 
-    .barteringDataProfileIcon {
+    .bartering-detail-profile-icon {
       width: 4rem;
     }
 
     div {
       margin: 0.5rem 0;
     }
-    .barteringTitle {
+    .bartering-detail-title {
       // font-family: "Black Han Sans", sans-serif;
       // font-family: initial;
       font-size: 1.3rem;
     }
 
-    .barteringCategory {
+    .bartering-detail-category {
       color: gray;
     }
 
-    .barteringDate {
+    .bartering-detail-date {
       color: gray;
     }
 
-    .barteringContent {
+    .bartering-detail-substance {
       margin: 1.5rem 0;
       font-size: 1.1rem;
       line-height: 2;
-    }
-  }
-
-  .barteringFooter {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 4rem;
-    background-color: #fff;
-    box-shadow: 0 3px 5px 0 rgba(0.5, 0.5, 0.5, 0.5);
-    position: fixed;
-    z-index: 1000;
-    .barteringFooterContainer {
-      padding: 0 1rem;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      justify-content: space-between;
-    }
-    .barteringNeed {
-      color: #ff8a3d;
-    }
-    .transactionButton {
-      width: initial;
     }
   }
 }

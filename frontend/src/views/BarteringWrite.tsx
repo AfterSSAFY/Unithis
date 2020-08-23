@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
 import Nav from "../components/Nav";
-import "../style/BarteringWrite.scss";
 import http from "../api/http-common";
 
 const BarteringWrite = () => {
@@ -17,7 +16,7 @@ const BarteringWrite = () => {
     let file: Array<File> = [...uploadFileList];
 
     if (image.length !== 5) {
-      Array.from(files).map((v: any) => {
+      Array.from(files).forEach((v: any) => {
         if (image.length < 5) {
           image.push(URL.createObjectURL(v));
           file.push(v);
@@ -59,7 +58,7 @@ const BarteringWrite = () => {
     formData.append("address", "대전 유성구 궁동");
     formData.append("need", contents);
 
-    uploadFileList.map(file => {
+    uploadFileList.forEach(file => {
       formData.append("images", file);
     });
 
@@ -92,13 +91,13 @@ const BarteringWrite = () => {
 
   return (
     <>
-      <section className="router-section footer-only">
+      <section className="router-container router-top router-footer">
         <div className="write-header-wrap">
           <span className="close">X</span>
           <span>글 쓰 기</span>
           <span onClick={onSubmitHandle}>완료</span>
         </div>
-        <article>
+        <article className="article-area">
           <div className="write-body-wrap">
             <label>
               <figure>

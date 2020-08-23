@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Address } from "../../utils/address";
+import "./addressList.scss";
 
 export const AddressList = () => {
   const [city, setCity] = useState<Array<string>>([]);
