@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import Nav from "../components/Nav";
 import http from "../api/http-common";
+import "../style/BarteringWrite.scss";
 
 const BarteringWrite = () => {
   const [imagePreviewList, setImagePreviewList] = useState<Array<string>>([]);
