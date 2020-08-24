@@ -39,3 +39,6 @@ type Address = {
   시군구: string;
   읍면동: string;
 };
+
+type Action_Auth = { type: "SET_AUTH"; payload: boolean };
+type Action_Token = { type: "SET_TOKEN"; payload: string };

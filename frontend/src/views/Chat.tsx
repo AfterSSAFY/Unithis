@@ -1,18 +1,30 @@
 import React, { useEffect } from "react";
-import Nav from "../components/Nav";
-import "../style/chat.scss";
 
-const Chat = () => {
-  useEffect(() => {}, []);
+const Chat = (props: any) => {
+  useEffect(() => {
+    // const data = [
+    //   "1번방",
+    //   "2번방",
+    //   "3번방",
+    //   "4번방",
+    //   "5번방",
+    //   "6번방",
+    //   "7번방",
+    //   "8번방",
+    //   "9번방",
+    //   "10번방",
+    //   "11번방",
+    //   "12번방",
+    //   "13번방"
+    // ];
+    // setRoom(data);
+  }, []);
+
+  // const [room, setRoom] = useState<Array<string>>([]);
 
   return (
     <>
-      <section className="router-container router-top router-footer">
-        <div className="chat-header-wrap">
-          <span>채 팅</span>
-        </div>
-      </section>
-      <Nav />
+      <h1>{props.match.params.id}번방 채팅</h1>
     </>
   );
 };

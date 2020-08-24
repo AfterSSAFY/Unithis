@@ -1,0 +1,25 @@
+.chat-header-wrapper {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  padding: 1rem;
+  top: 0;
+  justify-content: center;
+  font-family: "BMJUA";
+  font-size: 1.2rem;
+  box-shadow: 0 1px 1px 0 rgba(0.5, 0.5, 0.5, 0.5);
+}
+
+.chat-room-wrapper {
+  overflow: scroll;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  .chat-room-content {
+    display: flex;
+    padding: 1rem;
+    border: 1px solid black;
+  }
+}

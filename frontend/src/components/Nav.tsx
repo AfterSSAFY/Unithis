@@ -28,7 +28,11 @@ const Nav = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav__naviagtion--nav-text" to="/chat" replace>
+            <NavLink
+              className="nav__naviagtion--nav-text"
+              to="/ChatRoom"
+              replace
+            >
               채팅하기
             </NavLink>
           </li>
