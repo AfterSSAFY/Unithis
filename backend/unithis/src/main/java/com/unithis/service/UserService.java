@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.unithis.mapper.UserMapper;
 import com.unithis.model.User;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements IUserService {
 
 	private final UserMapper userMapper;
+	private final ImageService imageService;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -48,14 +50,22 @@ public class UserService implements IUserService {
 
 	@Override
 	public boolean isValidEmail(String email) {
-		// TODO Auto-generated method stub
 		return userMapper.isValidEmail(email) > 0 ? false : true;
 	}
 
 	@Override
 	public boolean isValidNickname(String nickname) {
-		// TODO Auto-generated method stub
 		return userMapper.isValidNickname(nickname) > 0 ? false : true;
+	}
+
+	@Override
+	public int updateProfile(MultipartFile image, int id) {
+		return imageService.imageUpload(image, id);
+	}
+
+	@Override
+	public int deleteProfile(int id) {
+		return userMapper.deleteProfile(id);
 	}
 
 }

@@ -27,6 +27,7 @@ public class User implements UserDetails {
 	private String password;
 	private String phone;
 	private String address;
+	private String profile;
 //	private List<String> roles = new ArrayList<>();
 
 	@Override
@@ -67,16 +68,14 @@ public class User implements UserDetails {
 	}
 
 	@Builder
-	public User(long id, String email, String nickname, String password, String phone, String address) {
-		super();
+	public User(long id, String email, String nickname, String password, String phone, String address, String profile) {
 		this.id = id;
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
+		this.profile = profile;
 	}
-	
-
 	
 }
