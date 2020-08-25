@@ -10,11 +10,11 @@ import lombok.ToString;
 @Getter
 public class Image {
 
-	int itemId;
+	long itemId;
 	String fileName;
 	
 	@Builder
-	public Image(int itemId, String fileName) {
+	public Image(long itemId, String fileName) {
 		this.itemId = itemId;
 		this.fileName = fileName;
 	}

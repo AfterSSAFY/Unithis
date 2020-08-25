@@ -19,7 +19,7 @@ public class ItemDao {
 	
 	private final SqlSession sqlSession;
 	
-	public ItemResponse getItemInfo(int id) {
+	public ItemResponse getItemInfo(long id) {
 		return sqlSession.selectOne(ns + "getItemInfo", id);
 	}
 	
@@ -39,19 +39,19 @@ public class ItemDao {
 		return sqlSession.update(ns + "updateItem", item);
 	}
 	
-	public int updateItemStatusWaiting(int id) {
+	public int updateItemStatusWaiting(long id) {
 		return sqlSession.update(ns + "updateItemStatusWaiting", id);
 	}
 	
-	public int updateItemStatusSoldOut(int id) {
+	public int updateItemStatusSoldOut(long id) {
 		return sqlSession.update(ns + "updateItemStatusSoldOut", id);
 	}
 	
-	public int updateItemStatusOnSales(int id) {
+	public int updateItemStatusOnSales(long id) {
 		return sqlSession.update(ns + "updateItemStatusOnSales", id);
 	}
 	
-	public int deleteItem(int id) {
+	public int deleteItem(long id) {
 		return sqlSession.delete(ns + "deleteItem", id);
 	}
 

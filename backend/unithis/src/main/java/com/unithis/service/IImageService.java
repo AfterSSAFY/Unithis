@@ -8,8 +8,8 @@ import com.unithis.model.Image;
 
 public interface IImageService {
 
-	public int imageUpload(MultipartFile[] images, int id);
+	public int imageUpload(MultipartFile[] images, long id);
 	public int imageUpload(MultipartFile image, long id);
-	public List<Image> getImage(int id);
+	public List<Image> getImage(long id);
 	
 }

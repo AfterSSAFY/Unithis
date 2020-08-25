@@ -21,7 +21,7 @@ public class ImageDao {
 		return sqlSession.insert(ns + "createImage", image);
 	}
 	
-	public List<Image> getImage(int id) {
+	public List<Image> getImage(long id) {
 		return sqlSession.selectList(ns + "getImage", id);
 	}
 

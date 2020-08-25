@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
 
-	<select id="getItemInfo" parameterType="java.lang.Integer" resultType="itemResponse">
+	<select id="getItemInfo" parameterType="long" resultType="itemResponse">
 		select * from item where id = #{id}
 	</select>
 
@@ -32,25 +32,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set title = #{title}, content = #{contents}, category = #{category}, need = #{need}, address = #{address}, date = now()
 	</update>
 	
-	<update id="updateItemStatusWaiting" parameterType="java.lang.Integer">
+	<update id="updateItemStatusWaiting" parameterType="long">
 		update item
 		set status = "대기중"
 		where id = #{id}
 	</update>
 	
-	<update id="updateItemStatusSoldOut" parameterType="java.lang.Integer">
+	<update id="updateItemStatusSoldOut" parameterType="long">
 		update item
 		set status = "거래완료"
 		where id = #{id}
 	</update>
 	
-	<update id="updateItemStatusOnSales" parameterType="java.lang.Integer">
+	<update id="updateItemStatusOnSales" parameterType="long">
 		update item
 		set status = "거래중"
 		where id = #{id}
 	</update>
 	
-	<delete id="deleteItem" parameterType="java.lang.Integer">
+	<delete id="deleteItem" parameterType="long">
 		delete from item
 		where id = #{id}
 	</delete>

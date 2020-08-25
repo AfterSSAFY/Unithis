@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="search">
 
-	<select id="getAllSearch" parameterType="java.lang.Long" resultType="search">
+	<select id="getAllSearch" parameterType="long" resultType="search">
 		select *
 		from search
 		where user_id=#{id}
@@ -23,12 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{userId}, #{keyword}, now())
 	</insert>
 
-	<delete id="deleteSearch" parameterType="java.lang.Integer">
+	<delete id="deleteSearch" parameterType="long">
 		delete from search
 		where id=#{id}
 	</delete>
 
-	<update id="updateSearch" parameterType="java.lang.Integer">
+	<update id="updateSearch" parameterType="long">
 		update search 
 		set date=now()
 		where id=#{id}

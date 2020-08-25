@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{itemId}, #{fileName})
 	</insert>
 	
-	<select id="getImage" parameterType="java.lang.Integer" resultType="image">
+	<select id="getImage" parameterType="long" resultType="image">
 		select fileName
 		from image
 		where item_id = #{id}
