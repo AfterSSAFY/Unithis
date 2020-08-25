@@ -1,30 +1,30 @@
 $gray: #8b8b8b;
 
-a {
-  text-decoration: none;
-}
-
-.bartering-list-article {
+.bartering-wrapper {
   width: 100%;
   border: 1.5px solid #e2e2e2;
   margin-bottom: 1rem;
+
   &:last-of-type {
     margin-bottom: 0;
   }
 }
 
-.bartering-list-content {
+.bartering-area {
   height: 150px;
   display: flex;
-  .bartering-list-photo {
+
+  .bartering-photo {
     width: 30%;
   }
-  .bartering-list-description {
+
+  .bartering-description-content {
     font-family: "S-CoreDream-9Black";
     width: 70%;
     padding: 20px;
     display: flex;
     flex-direction: column;
+
     div {
       color: black;
       width: 100%;
@@ -34,39 +34,13 @@ a {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .bartering-list-description-location {
+
+    .bartering-location {
       color: $gray;
     }
-    .bartering-list-description-price {
+
+    .bartering-price {
       color: #ff8a3d;
     }
   }
-}
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  li {
-    display: inline-block;
-    margin: 1rem;
-  }
-}
-
-.address-list {
-  position: relative;
-}
-
-// .address-list-text {
-//   color: blue;
-// }
-
-.address-city-active {
-  color: blue;
-}
-
-.address-town-active {
-  color: pink;
-}
-.address-village-active {
-  color: #ff8a3d;
 }

@@ -1,16 +1,22 @@
-.router-section {
+.router-container {
   width: 100%;
   left: 0;
   overflow: scroll;
   position: fixed;
 }
 
-.header-footer {
-  top: 5.7rem;
-  bottom: 4.5rem;
+.router-top {
+  top: 0;
 }
 
-.footer-only {
-  top: 0;
-  bottom: 4.5rem;
+.router-header {
+  top: 5.7rem;
+}
+
+.router-chat-header {
+  top: 3.3rem;
+}
+
+.router-footer {
+  bottom: 6.5rem;
 }

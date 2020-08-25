@@ -14,19 +14,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
-@Table(name = "message")
 public class Message {
-	private int id;
+	private long id;
 	private String content;
 	private LocalDateTime sendTime;
-	private LocalDateTime receiveTime = null;
-	private int chatroomId;
-	private int senderId;
-	private int receiverId;
+	private LocalDateTime receiveTime;
+	private long chatroomId;
+	private long senderId;
+	private long receiverId;
 
 	@Builder
-	public Message(int id, String content, LocalDateTime sendTime, LocalDateTime receiveTime, int chatroomId,
-			int senderId, int receiverId) {
+	public Message(long id, String content, LocalDateTime sendTime, LocalDateTime receiveTime, long chatroomId,
+			long senderId, long receiverId) {
 		super();
 		this.id = id;
 		this.content = content;

@@ -47,6 +47,21 @@ hr {
   color: #e2e2e2;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: inline-block;
+    margin: 1rem;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
 .검은고딕 {
   font-family: "Black Han Sans", sans-serif;
 }

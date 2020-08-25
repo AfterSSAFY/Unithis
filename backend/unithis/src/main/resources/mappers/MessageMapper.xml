@@ -5,8 +5,8 @@
 
 
 	<insert id="insertMessage" parameterType="Message">
-		insert into message(id, content, send_time, chatroom_id, sender_id, receiver_id)
-		values(#{id}, #{content}, #{sendTime}, #{chatroomId}, #{senderId}, #{receiverId})
+		insert into message(content, send_time, receive_time, chatroom_id, sender_id, receiver_id)
+		values(#{content}, #{sendTime}, #{receiveTime}, #{chatroomId}, #{senderId}, #{receiverId})
 	</insert>
 
 	<update id="updateReadTime" parameterType="int">

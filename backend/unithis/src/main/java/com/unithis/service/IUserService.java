@@ -15,6 +15,6 @@ public interface IUserService {
 	public User findUserByEmail(String email);
 	public boolean isValidEmail(String email);
 	public boolean isValidNickname(String nickname);
-	public int updateProfile(MultipartFile image, int id);
-	public int deleteProfile(int id);
+	public int updateProfile(MultipartFile image, long id);
+	public int deleteProfile(long id);
 }

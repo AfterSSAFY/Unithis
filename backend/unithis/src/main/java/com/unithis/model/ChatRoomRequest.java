@@ -1,7 +1,5 @@
 package com.unithis.model;
 
-import javax.persistence.Id;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,11 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ChatRoomRequest {
-	int id;
-	int userId;
+	long id;
+	long userId;
 
 	@Builder
-	public ChatRoomRequest(int id, int userId) {
+	public ChatRoomRequest(long id, long userId) {
 		super();
 		this.id = id;
 		this.userId = userId;

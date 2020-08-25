@@ -70,6 +70,7 @@ public class UserController {
 		try {
 			joinResult = userService.createUser(newUser);
 		} catch (DataIntegrityViolationException e) {
+			log.info("ERROR : "+e);
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 가입 실패(정보오류)");
 		}
 		if (joinResult) {
@@ -92,14 +93,14 @@ public class UserController {
 			log.info(result.toString());
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(result, HttpStatus.OK);
-//			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
+//			return new ResponseEntity<>(result, HttpStatus.OK);
+			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
 		}
 	}
 
 	@GetMapping("/user/{id}")
 	@ApiOperation("아이디로 유저 정보 조회(해당 유저 아이디, 닉네임)")
-	public ResponseEntity<User> findUserById(@PathVariable int id) {
+	public ResponseEntity<User> findUserById(@PathVariable long id) {
 		log.info("GET : /api/user/{id}");
 		User resultFoundbyId = userService.getUserInfoById(id);
 
@@ -164,9 +165,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 닉네임");
 	}
 	
-	@PostMapping("/user/profile")
+	@PatchMapping("/user/profile/{id}")
 	@ApiOperation("유저 프로필 사진 변경")
-	public ResponseEntity<String> updateProfile(@RequestParam int id, @RequestPart MultipartFile image) {
+	public ResponseEntity<String> updateProfile(@PathVariable("id") long id, @RequestPart MultipartFile image) {
 		log.info("UserController : updateProfile");
 		
 		if(userService.updateProfile(image, id) == 0) {
@@ -175,9 +176,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 프로필 사진 변경 성공");
 	}
 	
-	@DeleteMapping("/user/profile")
+	@DeleteMapping("/user/profile/{id}")
 	@ApiOperation("유저 프로필 사진 삭제")
-	public ResponseEntity<String> deleteProfile(@RequestParam int id) {
+	public ResponseEntity<String> deleteProfile(@PathVariable("id") long id) {
 		log.info("UserController : deleteProfile");
 		
 		if(userService.deleteProfile(id) == 0) {

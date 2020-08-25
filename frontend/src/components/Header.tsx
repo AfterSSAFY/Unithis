@@ -4,6 +4,9 @@ import "../style/header.scss";
 const title: String = "Unithis";
 
 const Header = () => {
+  const keyHandler = (e: any) => {
+    console.log(e);
+  };
   return (
     <>
       <header>
@@ -12,7 +15,11 @@ const Header = () => {
             <h1 className="fixed-header-title-text">{title}</h1>
           </div>
           <div className="fixed-header-search-box">
-            <input type="text" placeholder="상품 / 지역을 검색해보세요." />
+            <input
+              type="text"
+              placeholder="상품 / 지역을 검색해보세요."
+              onKeyPress={keyHandler}
+            />
             <img
               className="search-Icon"
               src={require("../assets/icon/search.svg")}

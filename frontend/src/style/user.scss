@@ -1,6 +1,6 @@
 $pink: #ff9697;
 
-.signin-Content {
+.user-container {
   top: 0;
   left: 0;
   bottom: 0;
@@ -14,7 +14,7 @@ $pink: #ff9697;
     right: 2rem;
     color: #8b8b8b;
   }
-  .signin-Form {
+  .user-wrapper {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@ $pink: #ff9697;
     background-color: #fbfbfb;
   }
 
-  .signin-Box {
+  .user-content {
     width: 100%;
     height: 100%;
     display: flex;
@@ -32,7 +32,7 @@ $pink: #ff9697;
     justify-content: center;
     font-family: "S-CoreDream-9Black";
 
-    .inputForm {
+    .user-input-area {
       width: 100%;
       display: flex;
       text-align: center;
@@ -64,20 +64,21 @@ $pink: #ff9697;
     }
   }
 
-  .btn-content {
+  .button-area {
     display: flex;
   }
 
-  .checkbox-content {
+  .checkbox-area {
     display: flex;
     justify-content: space-around;
   }
 
-  .otherLink {
+  .user-link-area {
     font-family: "BMJUA";
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     margin-bottom: 5rem;
+    padding-right: 1rem;
   }
   .login-btn {
     float: right;
@@ -95,5 +96,8 @@ $pink: #ff9697;
 
       font-size: 1.2rem;
     }
+  }
+  .user-margin-bottem {
+    margin-bottom: 7rem;
   }
 }

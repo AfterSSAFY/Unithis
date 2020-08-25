@@ -18,24 +18,28 @@ const Nav = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav__naviagtion--nav-text" to="/test" replace>
-              Test
-            </NavLink>
-          </li>
-          <li>
             <NavLink
               className="nav__naviagtion--nav-text"
               to="/BarteringWrite"
               activeClassName="active"
               replace
             >
-              글쓰기
+              상품등록
             </NavLink>
           </li>
           <li>
             <NavLink
               className="nav__naviagtion--nav-text"
-              to="/signin"
+              to="/ChatRoom"
+              replace
+            >
+              채팅하기
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="nav__naviagtion--nav-text"
+              to="/Info"
               activeClassName="active"
               replace
             >

@@ -57,7 +57,7 @@
 		where id = #{id}
 	</update>
 	
-	<update id="deleteProfile" parameterType="int">
+	<update id="deleteProfile" parameterType="long">
 		update user
 		set profile = null
 		where id = #{id}

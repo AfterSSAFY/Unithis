@@ -1,8 +1,6 @@
 package com.unithis.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -11,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class WebSocketEventListener {
-	 @Autowired
-	    private SimpMessageSendingOperations messagingTemplate;
+//	 @Autowired
+//	    private SimpMessageSendingOperations messagingTemplate;
 
 	    @EventListener
 	    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
