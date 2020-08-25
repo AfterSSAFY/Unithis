@@ -59,7 +59,7 @@ public class ImageService implements IImageService {
     }
     
     @Override
-	public int imageUpload(MultipartFile image, int id) {
+	public int imageUpload(MultipartFile image, long id) {
     	
     	String imageName = image.getOriginalFilename();
 		String imageExtension = FilenameUtils.getExtension(imageName).toLowerCase();

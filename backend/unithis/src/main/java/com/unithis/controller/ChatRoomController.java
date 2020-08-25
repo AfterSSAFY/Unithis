@@ -86,10 +86,10 @@ public class ChatRoomController {
 		}
 	}
 
-	// 특정 채팅방 의 메세지 최근 15개
+	// 특정 채팅방 의 메세지 최근 10개
 	// TODO : 페이지네이션
 	@GetMapping("/room/message/{id}")
-	@ApiOperation("채팅방의 메세지 15개 보기")
+	@ApiOperation("채팅방의 메세지 "+PAGE+"개 보기")
 	public ResponseEntity<List<Message>> roomInfo(@PathVariable int id,
 			@RequestParam(value = "page", defaultValue = "0") int page) {
 		int idx = page == 0 ? 0: page * PAGE + 1;

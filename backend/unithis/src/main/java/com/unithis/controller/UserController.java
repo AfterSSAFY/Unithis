@@ -164,9 +164,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 닉네임");
 	}
 	
-	@PostMapping("/user/profile")
+	@PatchMapping("/user/profile/{id}")
 	@ApiOperation("유저 프로필 사진 변경")
-	public ResponseEntity<String> updateProfile(@RequestParam int id, @RequestPart MultipartFile image) {
+	public ResponseEntity<String> updateProfile(@PathVariable("id") long id, @RequestPart MultipartFile image) {
 		log.info("UserController : updateProfile");
 		
 		if(userService.updateProfile(image, id) == 0) {
@@ -175,9 +175,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 프로필 사진 변경 성공");
 	}
 	
-	@DeleteMapping("/user/profile")
+	@DeleteMapping("/user/profile/{id}")
 	@ApiOperation("유저 프로필 사진 삭제")
-	public ResponseEntity<String> deleteProfile(@RequestParam int id) {
+	public ResponseEntity<String> deleteProfile(@PathVariable("id") long id) {
 		log.info("UserController : deleteProfile");
 		
 		if(userService.deleteProfile(id) == 0) {
