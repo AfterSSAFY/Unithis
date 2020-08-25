@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ChatRoomResponse {
-	int id;
+	long id;
 	long currUserId;
 	long otherUserId;
 	ChatRoomResponseEntity entity;
@@ -17,14 +17,14 @@ public class ChatRoomResponse {
 		this.entity = entity;
 	}
 
-	public ChatRoomResponse(int id, long currUserId, long otherUserId) {
+	public ChatRoomResponse(long id, long currUserId, long otherUserId) {
 		super();
 		this.id = id;
 		this.currUserId = currUserId;
 		this.otherUserId = otherUserId;
 	}
 
-	public ChatRoomResponse(int id, long currUserId, long otherUserId, ChatRoomResponseEntity entity) {
+	public ChatRoomResponse(long id, long currUserId, long otherUserId, ChatRoomResponseEntity entity) {
 		super();
 		this.id = id;
 		this.currUserId = currUserId;

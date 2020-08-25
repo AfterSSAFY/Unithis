@@ -19,13 +19,13 @@ public class Message {
 	private String content;
 	private LocalDateTime sendTime;
 	private LocalDateTime receiveTime;
-	private int chatroomId;
-	private int senderId;
-	private int receiverId;
+	private long chatroomId;
+	private long senderId;
+	private long receiverId;
 
 	@Builder
-	public Message(int id, String content, LocalDateTime sendTime, LocalDateTime receiveTime, int chatroomId,
-			int senderId, int receiverId) {
+	public Message(long id, String content, LocalDateTime sendTime, LocalDateTime receiveTime, long chatroomId,
+			long senderId, long receiverId) {
 		super();
 		this.id = id;
 		this.content = content;

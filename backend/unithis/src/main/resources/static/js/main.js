@@ -62,6 +62,7 @@ function sendMessage(event) {
             receiverId : receiver,
             content: messageInput.value,
             sendTime : new Date(),
+            receiveTime : null,
             chatroomId : chatroom
         };
         stompClient.send("/pub/message", {}, JSON.stringify(chatMessage));

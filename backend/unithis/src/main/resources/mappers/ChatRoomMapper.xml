@@ -3,7 +3,7 @@
 <mapper namespace="com.unithis.mapper.ChatRoomMapper">
 
 
-	<select id="getJoinedRoomList" parameterType="int" resultType="ChatRoom">
+	<select id="getJoinedRoomList" parameterType="long" resultType="ChatRoom">
 		select id, user1_id, user2_id
 		from chatroom
 		where user1_id=#{userId} or user2_id=#{userId}

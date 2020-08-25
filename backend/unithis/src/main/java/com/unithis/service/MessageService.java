@@ -21,13 +21,13 @@ public class MessageService implements IMessageService {
 	}
 
 	@Override
-	public int updateReadTime(int id) {
+	public int updateReadTime(long id) {
 		// TODO Auto-generated method stub
 		return messageMapper.updateReadTime(id);
 	}
 
 	@Override
-	public List<Message> findChatByRoomId(int roomID, int idx) {
+	public List<Message> findChatByRoomId(long roomID, long idx) {
 		// TODO Auto-generated method stub
 		return messageMapper.findChatByRoomId(roomID, idx);
 	}
