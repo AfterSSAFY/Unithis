@@ -27,7 +27,9 @@ const Signin = () => {
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
-    dispatch(getToken());
+    dispatch(setAuth(true));
+    history.push("/Home");
+
     // http
     //   .post("/login", {
     //     email: email,
