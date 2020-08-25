@@ -10,6 +10,6 @@ import com.unithis.model.Message;
 @Mapper
 public interface MessageMapper {
 	public int insertMessage(Message m);
-	public int updateReadTime(int id);
-	public List<Message> findChatByRoomId(@Param("roomId") int roomId, @Param("idx") int idx);
+	public int updateReadTime(long id);
+	public List<Message> findChatByRoomId(@Param("roomId") long roomId, @Param("idx") long idx);
 }

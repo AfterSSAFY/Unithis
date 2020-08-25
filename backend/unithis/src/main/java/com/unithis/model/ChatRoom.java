@@ -9,12 +9,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ChatRoom {
-	int id;
+	long id;
 	long user1Id;
 	long user2Id;
 
 	@Builder
-	public ChatRoom(int id, long user1Id, long user2Id) {
+	public ChatRoom(long id, long user1Id, long user2Id) {
 		super();
 		this.id = id;
 		this.user1Id = user1Id;
