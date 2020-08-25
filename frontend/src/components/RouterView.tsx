@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { AuthState } from "../redux/reducer";
 
 import {
   Bartering,
@@ -10,7 +11,8 @@ import {
   Chat,
   Signin,
   Signup,
-  Info
+  Info,
+  Loading
 } from "../router";
 
 import "../style/routerview.scss";
@@ -32,9 +34,9 @@ const RouterView = () => {
     }
   };
 
-  const [auth, setAuth] = useState(false);
   const dispatch = useDispatch();
 
+  const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
   const PrivateRoute = (children: any, ...props: any) => {
     // const data = getToken();
     // data.then(v => {
@@ -47,7 +49,7 @@ const RouterView = () => {
     //     setAuth(true);
     //   }
     // });
-    return <>{auth ? routerSwich(children.path) : <Redirect to="/Signin" />}</>;
+    return <>{true ? routerSwich(children.path) : <Redirect to="/Signin" />}</>;
   };
 
   return (
@@ -61,6 +63,7 @@ const RouterView = () => {
         ) : (
           <Redirect to="/Signin" />
         )} */}
+
         <PrivateRoute path="/Info" />
         <PrivateRoute path="/BarteringWrite" />
         <PrivateRoute path="/ChatRoom" />
@@ -68,6 +71,7 @@ const RouterView = () => {
 
         {/* <Route path="/ChatRoom/:id" component={Chat}></Route> */}
         <Route path="/BarteringDetail/:id" component={BarteringDetail}></Route>
+        <Route path="/loading" component={Loading} data={"/Info"}></Route>
         <Redirect path="*" to="/Home" />
       </Switch>
     </>

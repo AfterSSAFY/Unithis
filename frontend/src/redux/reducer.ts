@@ -49,11 +49,16 @@ export const authReducer = (
 export const getToken = () => async (dispatch: any, getState: any) => {
   const token = await http
     .get(
-      "https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json"
+      "https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.js"
       // localStorage.getItem("token")
     )
-    .then(({ data }) => data)
-    .catch(e => e);
-  alert(JSON.stringify(token));
-  dispatch(setAuth(true));
+    .then(({ data }) => {
+      dispatch(setAuth(true));
+      return data;
+    })
+    .catch(e => {
+      dispatch(setAuth(false));
+      return e;
+    });
+  // alert(JSON.stringify(token));
 };
