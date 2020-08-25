@@ -10,12 +10,12 @@ import com.unithis.model.ItemSearchRequest;
 
 public interface IItemService {
 
-	public ItemResponse getItemInfo(int id);
+	public ItemResponse getItemInfo(long id);
 	public List<ItemResponse> getItemsByCategoryAndAddress(ItemSearchRequest item);
 	public List<ItemResponse> getAllItem();
 	public int createItem(ItemRequest item, MultipartFile[] images);
 	public int updateItem(ItemRequest item);
-	public int updateItemStatus(int id, String status);
-	public int deleteItem(int id);
+	public int updateItemStatus(long id, String status);
+	public int deleteItem(long id);
 	public String[] getCategory();
 }

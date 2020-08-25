@@ -3,6 +3,7 @@ package com.unithis.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.unithis.dao.SearchDao;
 import com.unithis.model.Search;
@@ -16,7 +17,7 @@ public class SearchService implements ISearchService {
 	private final SearchDao searchDao;
 
 	@Override
-	public List<Search> getAllSearch(int userId) {
+	public List<Search> getAllSearch(long userId) {
 		return searchDao.getAllSearch(userId);
 	}
 
@@ -25,6 +26,7 @@ public class SearchService implements ISearchService {
 		return searchDao.isSearched(search);
 	}
 
+	@Transactional
 	@Override
 	public int search(Search search) {
 		Search isSearched = searchDao.isSearched(search);
@@ -36,13 +38,15 @@ public class SearchService implements ISearchService {
 		return searchDao.updateSearch(isSearched.getId());
 	}
 
+	@Transactional
 	@Override
-	public int deleteSearch(int id) {
+	public int deleteSearch(long id) {
 		return searchDao.deleteSearch(id);
 	}
 
+	@Transactional
 	@Override
-	public int updateSearch(int id) {
+	public int updateSearch(long id) {
 		return searchDao.updateSearch(id);
 	}
 

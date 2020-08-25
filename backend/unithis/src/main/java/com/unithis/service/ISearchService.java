@@ -5,9 +5,9 @@ import java.util.List;
 import com.unithis.model.Search;
 
 public interface ISearchService {
-	public List<Search> getAllSearch(int userId);
+	public List<Search> getAllSearch(long userId);
 	public Search isSearched(Search search);
 	public int search(Search search);
-	public int deleteSearch(int id);
-	public int updateSearch(int id);
+	public int deleteSearch(long id);
+	public int updateSearch(long id);
 }

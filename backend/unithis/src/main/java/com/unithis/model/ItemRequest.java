@@ -10,8 +10,8 @@ import lombok.ToString;
 @Getter
 public class ItemRequest {
 
-	int id;
-	int userId;
+	long id;
+	long userId;
 	String title;
 	String contents;
 	String category;
@@ -19,7 +19,7 @@ public class ItemRequest {
 	String address;
 	
 	@Builder
-	public ItemRequest(int id, int userId, String title, String contents, String category, String need, String address) {
+	public ItemRequest(long id, long userId, String title, String contents, String category, String need, String address) {
 		this.id = id;
 		this.userId = userId;
 		this.title = title;

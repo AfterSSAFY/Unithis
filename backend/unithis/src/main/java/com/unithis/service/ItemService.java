@@ -25,7 +25,8 @@ public class ItemService implements IItemService {
 	private final ImageDao imageDao;
 	private final ImageService imageService;
 	
-	public ItemResponse getItemInfo(int id) {
+	@Override
+	public ItemResponse getItemInfo(long id) {
 		ItemResponse result = itemDao.getItemInfo(id);
 		List<Image> image = imageDao.getImage(id);
 		
@@ -36,6 +37,7 @@ public class ItemService implements IItemService {
 		return result;
 	}
 	
+	@Override
 	public List<ItemResponse> getItemsByCategoryAndAddress(ItemSearchRequest item) {
 		List<ItemResponse> result = itemDao.getItemsByCategoryAndAddress(item);
 		
@@ -56,6 +58,7 @@ public class ItemService implements IItemService {
 		return result;
 	}
 
+	@Override
 	public List<ItemResponse> getAllItem() {
 		List<ItemResponse> result = itemDao.getAllItem();
 		
@@ -70,6 +73,7 @@ public class ItemService implements IItemService {
 	}
 
 	@Transactional
+	@Override
 	public int createItem(ItemRequest item, MultipartFile[] images) {
 		int result = itemDao.createItem(item);
 		
@@ -88,12 +92,14 @@ public class ItemService implements IItemService {
 	}
 	
 	@Transactional
+	@Override
 	public int updateItem(ItemRequest item) {
 		return itemDao.updateItem(item);
 	}
 	
 	@Transactional
-	public int updateItemStatus(int id, String status) {
+	@Override
+	public int updateItemStatus(long id, String status) {
 		if(status.equals("대기중"))
 			return itemDao.updateItemStatusWaiting(id);
 		if(status.equals("거래중"))
@@ -103,10 +109,12 @@ public class ItemService implements IItemService {
 	}
 
 	@Transactional
-	public int deleteItem(int id) {
+	@Override
+	public int deleteItem(long id) {
 		return itemDao.deleteItem(id);
 	}
 
+	@Override
 	public String[] getCategory() {
 		String[] result = {"디지털/가전", "가구/인테리어", "유아동/유아도서", "생활/가공식품",	"스포츠/레저",	"여성잡화", "여성의류", "남성패션/잡화",
 				"게임/취미", "뷰티/미용", "반려동물용품", "도서/티켓/음반", "기타 물건"};

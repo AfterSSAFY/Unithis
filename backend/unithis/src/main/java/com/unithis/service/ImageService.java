@@ -32,8 +32,9 @@ public class ImageService implements IImageService {
 	private final ImageDao imageDao;
 	private final UserMapper userMapper;
 	
-    @Transactional
-    public int imageUpload(MultipartFile[] images, int itemId) {
+	@Transactional
+	@Override
+    public int imageUpload(MultipartFile[] images, long itemId) {
 		for (int i = 0; i < images.length; i++) {
     		String imageName = images[i].getOriginalFilename();
     		String imageExtension = FilenameUtils.getExtension(imageName).toLowerCase();
@@ -58,8 +59,9 @@ public class ImageService implements IImageService {
         return 1;
     }
     
+	@Transactional
     @Override
-	public int imageUpload(MultipartFile image, int id) {
+	public int imageUpload(MultipartFile image, long id) {
     	
     	String imageName = image.getOriginalFilename();
 		String imageExtension = FilenameUtils.getExtension(imageName).toLowerCase();
@@ -82,7 +84,8 @@ public class ImageService implements IImageService {
 		return 1;
 	}
     
-    public List<Image> getImage(int id) {
+	@Override
+    public List<Image> getImage(long id) {
     	return imageDao.getImage(id);
     }
 

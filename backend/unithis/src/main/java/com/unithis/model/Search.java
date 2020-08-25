@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Search {
 
-	int id;
-	int userId;
+	long id;
+	long userId;
 	String keyword;
 	LocalDateTime date;
 	

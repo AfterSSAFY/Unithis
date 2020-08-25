@@ -16,8 +16,8 @@ import lombok.ToString;
 @Getter
 public class ItemResponse {
 
-	int id;
-	int userId;
+	long id;
+	long userId;
 	String title;
 	String contents;
 	String category;
@@ -29,9 +29,8 @@ public class ItemResponse {
 	LocalDateTime date;
 	
 	@Builder
-	public ItemResponse(int id, int userId, String title, String contents, String category, String need, String status,
+	public ItemResponse(long id, long userId, String title, String contents, String category, String need, String status,
 			String address, boolean hasNext, List<String> images, LocalDateTime date) {
-		super();
 		this.id = id;
 		this.userId = userId;
 		this.title = title;

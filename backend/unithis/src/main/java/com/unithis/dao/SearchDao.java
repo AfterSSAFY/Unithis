@@ -29,11 +29,11 @@ public class SearchDao {
 		return sqlSession.insert(ns + "search", search);
 	}
 	
-	public int deleteSearch(int id) {
+	public int deleteSearch(long id) {
 		return sqlSession.delete(ns + "deleteSearch", id);
 	}
 
-	public int updateSearch(int id) {
+	public int updateSearch(long id) {
 		return sqlSession.update(ns + "updateSearch", id);
 	}
 
