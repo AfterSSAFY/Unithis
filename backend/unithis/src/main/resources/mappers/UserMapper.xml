@@ -51,6 +51,16 @@
 		select count(nickname) from user where nickname=#{nickname}
 	</select>
 
-
+	<update id="updateProfile" parameterType="user">
+		update user
+		set profile = #{profile}
+		where id = #{id}
+	</update>
+	
+	<update id="deleteProfile" parameterType="int">
+		update user
+		set profile = null
+		where id = #{id}
+	</update>
 
 </mapper>

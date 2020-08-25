@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.unithis.jwt.JwtTokenProvider;
 import com.unithis.model.User;
@@ -161,5 +163,27 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 닉네임");
 	}
-
+	
+	@PostMapping("/user/profile")
+	@ApiOperation("유저 프로필 사진 변경")
+	public ResponseEntity<String> updateProfile(@RequestParam int id, @RequestPart MultipartFile image) {
+		log.info("UserController : updateProfile");
+		
+		if(userService.updateProfile(image, id) == 0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 프로필 사진 변경 실패");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 프로필 사진 변경 성공");
+	}
+	
+	@DeleteMapping("/user/profile")
+	@ApiOperation("유저 프로필 사진 삭제")
+	public ResponseEntity<String> deleteProfile(@RequestParam int id) {
+		log.info("UserController : deleteProfile");
+		
+		if(userService.deleteProfile(id) == 0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 프로필 사진 삭제 실패");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 프로필 사진 삭제 성공");
+	}
+	
 }

@@ -15,5 +15,7 @@ public interface UserMapper {
 	public int deleteUser(long id);
 	public User findUserByEmail(String email);
 	public int isValidEmail(String email);
-	public int isValidNickname(String nickname);	
+	public int isValidNickname(String nickname);
+	public int updateProfile(User build);
+	public int deleteProfile(int id);	
 }

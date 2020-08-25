@@ -2,6 +2,8 @@ package com.unithis.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.unithis.model.User;
 
 public interface IUserService {
@@ -13,4 +15,6 @@ public interface IUserService {
 	public User findUserByEmail(String email);
 	public boolean isValidEmail(String email);
 	public boolean isValidNickname(String nickname);
+	public int updateProfile(MultipartFile image, int id);
+	public int deleteProfile(int id);
 }
