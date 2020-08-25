@@ -59,12 +59,12 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public int updateProfile(MultipartFile image, int id) {
+	public int updateProfile(MultipartFile image, long id) {
 		return imageService.imageUpload(image, id);
 	}
 
 	@Override
-	public int deleteProfile(int id) {
+	public int deleteProfile(long id) {
 		return userMapper.deleteProfile(id);
 	}
 

@@ -9,22 +9,22 @@ import lombok.ToString;
 @ToString
 public class ChatRoomResponse {
 	int id;
-	int currUserId;
-	int otherUserId;
+	long currUserId;
+	long otherUserId;
 	ChatRoomResponseEntity entity;
 
 	public void setEntity(ChatRoomResponseEntity entity) {
 		this.entity = entity;
 	}
 
-	public ChatRoomResponse(int id, int currUserId, int otherUserId) {
+	public ChatRoomResponse(int id, long currUserId, long otherUserId) {
 		super();
 		this.id = id;
 		this.currUserId = currUserId;
 		this.otherUserId = otherUserId;
 	}
 
-	public ChatRoomResponse(int id, int currUserId, int otherUserId, ChatRoomResponseEntity entity) {
+	public ChatRoomResponse(int id, long currUserId, long otherUserId, ChatRoomResponseEntity entity) {
 		super();
 		this.id = id;
 		this.currUserId = currUserId;

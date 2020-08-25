@@ -11,13 +11,16 @@ import lombok.ToString;
 public class ChatRoomResponseEntity {
 
 	String otherUserNickname;
+	String otherUserProfile;
 	String recentMessage;
 	int unreadMessage;
 
 	@Builder
-	public ChatRoomResponseEntity(String otherUserNickname, String recentMessage, int unreadMessage) {
+	public ChatRoomResponseEntity(String otherUserNickname, String otherUserProfile, String recentMessage,
+			int unreadMessage) {
 		super();
 		this.otherUserNickname = otherUserNickname;
+		this.otherUserProfile = otherUserProfile;
 		this.recentMessage = recentMessage;
 		this.unreadMessage = unreadMessage;
 	}

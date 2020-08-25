@@ -14,12 +14,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
-@Table(name = "message")
 public class Message {
-	private int id;
+	private long id;
 	private String content;
 	private LocalDateTime sendTime;
-	private LocalDateTime receiveTime = null;
+	private LocalDateTime receiveTime;
 	private int chatroomId;
 	private int senderId;
 	private int receiverId;

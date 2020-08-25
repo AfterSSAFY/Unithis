@@ -8,6 +8,6 @@ import com.unithis.model.ChatRoomRequest;
 public interface IChatRoomService {
 	public int createChatRoom(ChatRoom newRoom);
 	public List<ChatRoom> getJoinedRoomList(int user_id);
-	public ChatRoom checkExistChatRoom(int user1_id, int user2_id);
+	public ChatRoom checkExistChatRoom(long user1_id, long user2_id);
 	public boolean updateReadTime(ChatRoomRequest chatroomReq);
 }
