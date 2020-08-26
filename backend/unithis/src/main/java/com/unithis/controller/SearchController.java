@@ -37,7 +37,7 @@ public class SearchController {
 
 	@GetMapping("/search/{id}")
 	@ApiOperation(value = "최근 검색")
-	public List<Search> getAllSearch(@PathVariable(required = true) int id) {
+	public List<Search> getAllSearch(@PathVariable(required = true) long id) {
 		log.info("SearchController : getAllSearch");
 
 		return searchService.getAllSearch(id);
@@ -45,7 +45,7 @@ public class SearchController {
 
 	@DeleteMapping("/search/{id}")
 	@ApiOperation(value = "검색 삭제")
-	public int deleteSearch(@PathVariable(required = true) int id) {
+	public int deleteSearch(@PathVariable(required = true) long id) {
 		log.info("SearchController : deleteSearch");
 
 		return searchService.deleteSearch(id);

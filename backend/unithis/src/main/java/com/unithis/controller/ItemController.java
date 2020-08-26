@@ -36,7 +36,7 @@ public class ItemController {
 	
 	@GetMapping("/item/{id}")
 	@ApiOperation("물건 상세정보 조회")
-	public ItemResponse getItemInfo(@PathVariable int id) {
+	public ItemResponse getItemInfo(@PathVariable long id) {
 		log.info("ItemController : getItemInfo");
 		
 		return itemService.getItemInfo(id);
@@ -60,7 +60,7 @@ public class ItemController {
 	
 	@PostMapping(path = "/item", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ApiOperation("물건 등록")
-	public int createItem(@RequestParam int userId, @RequestParam String title, 
+	public int createItem(@RequestParam long userId, @RequestParam String title, 
 			@RequestParam String contents, @RequestParam String category,
 			@RequestParam String need, @RequestParam String address, @RequestPart MultipartFile[] images) {
 		log.info("ItemController : createItem");
@@ -90,7 +90,7 @@ public class ItemController {
 	
 	@PatchMapping("/item/{id}")
 	@ApiOperation("물건 상태 변경")
-	public int updateItemStatus(@PathVariable int id, @RequestParam String status) {
+	public int updateItemStatus(@PathVariable long id, @RequestParam String status) {
 		log.info("ItemController : updateStatus");
 		
 		return itemService.updateItemStatus(id, status);
@@ -98,7 +98,7 @@ public class ItemController {
 	
 	@DeleteMapping("/item/{id}")
 	@ApiOperation("물건 삭제")
-	public int deleteItem(@PathVariable int id) {
+	public int deleteItem(@PathVariable long id) {
 		log.info("ItemController : deleteItem");
 		
 		return itemService.deleteItem(id);
