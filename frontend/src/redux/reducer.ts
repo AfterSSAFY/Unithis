@@ -1,6 +1,12 @@
-import { Action_Auth, Action_Token } from "react-app-env";
-import { setAuth } from "./action";
-import http from "axios";
+import {
+  Action_Auth,
+  Action_Token,
+  Action_UserID,
+  Action_Path
+} from "react-app-env";
+import { setAuth, setUserID, setToken } from "./action";
+
+import http from "../api/http-common";
 
 export interface AuthState {
   auth: boolean;
@@ -10,21 +16,34 @@ export interface TokenState {
   token: string;
 }
 
+export interface UserIDState {
+  userID: number;
+}
+
+export interface PathState {
+  path: string;
+}
+
 const initstate = {
   auth: false,
-  token: ""
+  token: "",
+  userID: -1,
+  path: ""
 };
 
 export const authReducer = (
   state: AuthState = initstate,
-  action: Action_Auth | Action_Token
+  action: Action_Auth | Action_Token | Action_UserID | Action_Path
 ) => {
   switch (action.type) {
     case "SET_AUTH":
       return { ...state, auth: action.payload };
     case "SET_TOKEN":
       return { ...state, token: action.payload };
-
+    case "SET_USERID":
+      return { ...state, userID: action.payload };
+    case "SET_PATH":
+      return { ...state, path: action.payload };
     default:
       return state;
   }
@@ -47,18 +66,20 @@ export const authReducer = (
 // };
 
 export const getToken = () => async (dispatch: any, getState: any) => {
-  const token = await http
-    .get(
-      "https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.js"
-      // localStorage.getItem("token")
-    )
+  const token: any = localStorage.getItem("token");
+  const userID = await http
+    .post("/token", token)
     .then(({ data }) => {
       dispatch(setAuth(true));
       return data;
     })
     .catch(e => {
+      dispatch(setToken(""));
       dispatch(setAuth(false));
+      dispatch(setUserID(-1));
       return e;
     });
-  // alert(JSON.stringify(token));
+  dispatch(setUserID(userID));
+
+  console.log(JSON.stringify(userID));
 };

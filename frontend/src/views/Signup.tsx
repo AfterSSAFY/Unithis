@@ -1,29 +1,11 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
-import { Link } from "react-router-dom";
-import { Address } from "../utils/address";
+import React, { useState, ChangeEvent } from "react";
+import { Link, useHistory } from "react-router-dom";
+
+import { address } from "../utils/address";
 import http from "../api/http-common";
 
 const Signup = () => {
-  // let 시군구 = "";
-  // let 시도 = "";
-  // let 읍면동 = "";
-
-  useEffect(() => {
-    // const 시 = Object.keys(Address);
-    // const 도 = Object.values(Address);
-    // for (let i = 0; i < 1; i++) {
-    //   console.log(시[i]);
-    //   const 시군구 = Object.keys(도[i]);
-    //   const 읍면동 = Object.values(도[i]);
-    //   for (let j = 0; j < 3; j++) {
-    //     console.log("\t", 시군구[j]);
-    //     const arr = String(읍면동[j]).split(",");
-    //     arr.map(v => {
-    //       console.log("\t\t", v);
-    //     });
-    //   }
-    // }
-  }, []);
+  let history = useHistory();
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
@@ -58,6 +40,7 @@ const Signup = () => {
       })
       .then(({ data }) => {
         console.log(data);
+        history.push("/Signin");
       })
       .catch(e => {
         console.log(e);
@@ -104,15 +87,27 @@ const Signup = () => {
     if (e.target.className === "시/도") {
       setCity(e.target.value);
       setTown(0);
-      setAddress1(Object.keys(Address)[e.target.value]);
-      setAddress2(Object.keys(Object.values(Address)[e.target.value])[0]);
+      setVillage(0);
+      setAddress1(Object.keys(address)[e.target.value]);
+      setAddress2(Object.keys(Object.values(address)[0])[0]);
       setAddress3(
-        String(Object.values(Object.values(Address)[0])[0]).split(",")[0]
+        String(Object.values(Object.values(address)[0])[0]).split(",")[0]
       );
     } else if (e.target.className === "구/군") {
       setTown(e.target.value);
+      setAddress2(Object.keys(Object.values(address)[city])[e.target.value]);
+      setAddress3(
+        String(
+          Object.values(Object.values(address)[city])[e.target.value]
+        ).split(",")[0]
+      );
     } else if (e.target.className === "읍/면/동") {
       setVillage(e.target.value);
+      setAddress3(
+        String(Object.values(Object.values(address)[city])[town]).split(",")[
+          e.target.value
+        ]
+      );
     } else {
       return;
     }
@@ -195,7 +190,7 @@ const Signup = () => {
                         className="시/도"
                       >
                         <option value="">시/도 선택</option>
-                        {Object.keys(Address).map((c, i) => {
+                        {Object.keys(address).map((c, i) => {
                           return (
                             <option value={i} label={c} key={c + i}>
                               {c}
@@ -214,7 +209,7 @@ const Signup = () => {
                           onChange={selectChange}
                           className="구/군"
                         >
-                          {Object.keys(Object.values(Address)[city]).map(
+                          {Object.keys(Object.values(address)[city]).map(
                             (c, i) => {
                               return (
                                 <option value={i} label={c} key={c + i}>
@@ -238,7 +233,7 @@ const Signup = () => {
                           className="읍/면/동"
                         >
                           {String(
-                            Object.values(Object.values(Address)[city])[town]
+                            Object.values(Object.values(address)[city])[town]
                           )
                             .split(",")
                             .map((c, i) => {

@@ -1,3 +1,5 @@
+import { Address } from "react-app-env";
+
 const data = [
   {
     시도: "강원도",
@@ -25116,7 +25118,7 @@ const data = [
 let 시군구 = "";
 let 시도 = "";
 let 읍면동 = "";
-export const Address = data.reduce((acc, current, i) => {
+export const address:Array<Address> = data.reduce((acc: any, current: any) => {
   시도 = current.시도;
   시군구 = current.시군구;
   읍면동 = current.읍면동;
@@ -25132,14 +25134,3 @@ export const Address = data.reduce((acc, current, i) => {
   }
   return acc;
 }, []);
-
-// const 시 = Object.keys(Address);
-// for (let i = 0; i < 2; i++) {
-//   const 도 = Object.keys(Address[시[i]]);
-//   console.log(시[i]);
-//   for(let j=0; j<2; j++){
-//     console.log(도[j]);
-//     console.log(Address[시[i]][도[j]]);
-//   }
-//   console.log();
-// }

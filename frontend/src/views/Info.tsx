@@ -1,32 +1,56 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { userList } from "../utils/data";
+import jwt_decode from "jwt-decode";
 
-import { Address } from "../utils/address";
+import { useHistory } from "react-router-dom";
 
+import { address } from "../utils/address";
+import { useSelector, useDispatch } from "react-redux";
+import { UserIDState } from "../redux/reducer";
+import { setToken, setAuth } from "../redux/action";
+
+import http from "../api/http-common";
 import Nav from "../components/Nav";
 
 const Info = () => {
+  const dispatch = useDispatch();
+  let history = useHistory();
+  // const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
+  //   state => state.userID
+  // );
+
   useEffect(() => {
-    const user = userList[0];
-    setEmail(user.email);
-    setPassword(user.password);
-    setNickname(user.nickname);
-    setPhone(user.phone);
+    const token: any = localStorage.getItem("token");
+    const decodedToken: any = jwt_decode(token);
 
-    const 시도 = Object.keys(Address).findIndex(v => v === "경기도");
-    const 구군 = Object.keys(Object.values(Address)[시도]).findIndex(
-      v => v === "성남시 분당구"
+    setEmail(String(Object.values(decodedToken)[0]));
+    setNickname(String(Object.values(decodedToken)[2]));
+    setPhone(String(Object.values(decodedToken)[3]));
+    const Address_split = String(Object.values(decodedToken)[4]).split(" ");
+
+    console.log(Address_split);
+    const blankFlag = Address_split.length === 4;
+    const 시도 = Object.keys(address).findIndex(v =>
+      new RegExp(Address_split[0]).test(v)
     );
-    const 읍면동 = String(Object.values(Object.values(Address)[시도])[구군])
-      .split(",")
-      .findIndex(v => v === "구미동");
 
+    const 구군 = Object.keys(Object.values(address)[시도]).findIndex(v =>
+      blankFlag
+        ? new RegExp(Address_split[1] + " " + Address_split[2]).test(v)
+        : new RegExp(Address_split[1]).test(v)
+    );
+    const 읍면동 = String(Object.values(Object.values(address)[시도])[구군])
+      .split(",")
+      .findIndex(v => new RegExp(Address_split[Address_split.length - 1]));
+
+    console.log(시도);
+    console.log(구군);
+    console.log(읍면동);
     setCity(시도);
     setTown(구군);
     setVillage(읍면동);
-    setAddress1("경기도");
-    setAddress2("성남시 분당구");
-    setAddress3("구미동");
+    // setAddress1("경기도");
+    // setAddress2("성남시 분당구");
+    // setAddress3("구미동");
   }, []);
 
   const [email, setEmail] = useState("");
@@ -82,10 +106,10 @@ const Info = () => {
     if (e.target.className === "시/도") {
       setCity(e.target.value);
       setTown(0);
-      setAddress1(Object.keys(Address)[e.target.value]);
-      setAddress2(Object.keys(Object.values(Address)[e.target.value])[0]);
+      setAddress1(Object.keys(address)[e.target.value]);
+      setAddress2(Object.keys(Object.values(address)[e.target.value])[0]);
       setAddress3(
-        String(Object.values(Object.values(Address)[0])[0]).split(",")[0]
+        String(Object.values(Object.values(address)[0])[0]).split(",")[0]
       );
     } else if (e.target.className === "구/군") {
       setTown(e.target.value);
@@ -94,6 +118,15 @@ const Info = () => {
     } else {
       return;
     }
+  };
+
+  const logout = () => {
+    dispatch(setToken(""));
+    dispatch(setAuth(false));
+    localStorage.removeItem("token");
+    history.push("/Signin");
+
+    console.log("logout");
   };
 
   return (
@@ -163,7 +196,7 @@ const Info = () => {
                         className="시/도"
                       >
                         <option value="">시/도 선택</option>
-                        {Object.keys(Address).map((c, i) => {
+                        {Object.keys(address).map((c, i) => {
                           return (
                             <option value={i} label={c} key={c + i}>
                               {c}
@@ -182,7 +215,7 @@ const Info = () => {
                           onChange={selectChange}
                           className="구/군"
                         >
-                          {Object.keys(Object.values(Address)[city]).map(
+                          {Object.keys(Object.values(address)[city]).map(
                             (c, i) => {
                               return (
                                 <option value={i} label={c} key={c + i}>
@@ -206,7 +239,7 @@ const Info = () => {
                           className="읍/면/동"
                         >
                           {String(
-                            Object.values(Object.values(Address)[city])[town]
+                            Object.values(Object.values(address)[city])[town]
                           )
                             .split(",")
                             .map((c, i) => {
@@ -225,6 +258,9 @@ const Info = () => {
 
               <div className="button-area">
                 <input type="submit" className="btn blue" value="수정하기" />
+              </div>
+              <div className="user-link-area">
+                <span onClick={logout}>로그아웃</span>
               </div>
               <div className="user-margin-bottem"></div>
             </form>

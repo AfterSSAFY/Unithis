@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Address } from "../../utils/address";
+import { address } from "../../utils/address";
 import "./addressList.scss";
 
 export const AddressList = () => {
@@ -42,7 +42,7 @@ export const AddressList = () => {
     <>
       {
         <ul className="address-list">
-          {Object.keys(Address).map((c, i) => {
+          {Object.keys(address).map((c, i) => {
             return (
               <li
                 className="address-list-text"
@@ -60,7 +60,7 @@ export const AddressList = () => {
         return (
           <div key={v}>
             <ul className="address-list">
-              {Object.keys(Object.values(Address)[Number(v)]).map((c, i) => {
+              {Object.keys(Object.values(address)[Number(v)]).map((c, i) => {
                 return (
                   <li value={i} key={c} onClick={townClick}>
                     {c}
@@ -79,7 +79,7 @@ export const AddressList = () => {
                 <div key={v2}>
                   <ul className="address-list">
                     {String(
-                      Object.values(Object.values(Address)[Number(city[i])])[
+                      Object.values(Object.values(address)[Number(city[i])])[
                         Number(v2)
                       ]
                     )
