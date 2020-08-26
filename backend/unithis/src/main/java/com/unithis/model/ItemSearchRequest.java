@@ -12,10 +12,10 @@ public class ItemSearchRequest {
 
 	String category;
 	String[] address;
-	int idx;
+	long idx;
 	
 	@Builder
-	public ItemSearchRequest(String category, String[] address, int idx) {
+	public ItemSearchRequest(String category, String[] address, long idx) {
 		this.category = category;
 		this.address = address;
 		this.idx = idx;

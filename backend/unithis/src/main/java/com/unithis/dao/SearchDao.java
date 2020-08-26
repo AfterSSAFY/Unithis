@@ -17,8 +17,8 @@ public class SearchDao {
 	
 	private final SqlSession sqlSession;
 	
-	public List<Search> getAllSearch(long num) {
-		return sqlSession.selectList(ns + "getAllSearch", num);
+	public List<Search> getAllSearch(long id) {
+		return sqlSession.selectList(ns + "getAllSearch", id);
 	}
 
 	public Search isSearched(Search search) {
