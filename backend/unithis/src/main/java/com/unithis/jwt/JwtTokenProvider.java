@@ -44,6 +44,7 @@ public class JwtTokenProvider {
 		claims.put("phone", member.getPhone());
 		claims.put("address", member.getAddress());
 		claims.put("password", member.getPassword());
+		claims.put("profile", member.getProfile());
 		try {
 			Date now = new Date();
 			return Jwts.builder().setClaims(claims) // 정보 저장
