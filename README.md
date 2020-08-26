@@ -1,72 +1,86 @@
 # Unithis (YOU NEED THIS)  
-물품 교환 플랫폼, 유니디스  
-
-## Contents
-
-- #### About UNITHIS
-
-- #### Team
-
-- #### Getting Started
-
-- #### Rule
-
-- #### Architecture
-
-- #### Project Schedule
-
-- #### License
-
 ## About UNITHIS
 
-물품 교환 플랫폼  
+유니디스(UNITHIS)는 물품 교환 플랫폼 서비스입니다. 
+🧛 🧄 ↔ 🧥 🧟
+
+- 사용자는 지정한 주소에서 거래를 희망하는 물건들을 확인할 수 있습니다.
+
+- 교환하고 싶은 물건이 있다면, 1:1 채팅을 통하여 소유자와 대화할 수 있습니다.
+
+API docs : [Notion link](https://www.notion.so/856bccf7fcbf45739e95351a2a7f1b4d?v=ab8f79010cb84070bdec92bb6dc7b808) 
+
+[UNITHIS Web site link](http://13.124.102.51) (모바일 최적화)
 
 ## Team
 
 - ##### 김성민 : Back-End Developer  
 
-  - 
+  - Item, File Upload, Search, DB modeling  
 
 - ##### 김홍주 : Back-End Developer  
 
-  - 
+  - User, Chat, DB modeling  
 
-- ##### 정영길 : Front-end Developer  
+- ##### 정영길 : Front-End Developer  
 
-  - 프론트 총괄(대단..)
+  - Front-End  
 
 ## Getting Started
 
-- ##### Front-End
-  
-  - Visual Studio Code
-    - 작성예정
-  
-- ##### Back-End
-  
-  - eclipse (Java(1.8)) 
-    - 작성 예정
+아래와 같이 프로젝트를 clone 합니다.
+
+```
+git clone https://github.com/AfterSSAFY/Unithis.git  
+```
+
+- ##### Front-End  
+  - React 16.9.46 
+
+    ```
+    VS Code 실행
+    yarn start
+    ```
+
+
+
+- ##### Back-End  
+
+  - Spring Boot 2.3.2.RELEASE (Java 1.8)   
+
+    ```
+    STS4 실행
+    [File] - [Import] - [Gradle] - [Existing Gradle Project]  
+    ```
+
+  - MySQL 8.0 
+
+    ```
+    backend 폴더 - .sql 파일 참조
+    ```
+
+
 
 ## Rule
 
-- ##### Front-End 
+- ##### Front-End  
 
   - ##### React.js
 
-    - lowerCamelCase
+    - lowerCamelCase  
 
-- ##### Back-End
+- ##### Back-End  
 
-  - ##### Java
+  - ##### Java  
 
-    - lowerCamelCase : 지역 변수, private 변수, 메소드
-    - UpperCamelCase : 클래스 이름, public 변수, 메소드, 객체 
+    - lowerCamelCase : 지역 변수, private 변수, 메소드, 객체  
+    - UpperCamelCase : 클래스명
 
-- ##### Git (feature branch 단위)
+- ##### Git (feature branch 단위)  
 
-  ##### 기본적으로 첫 글자는 대문자를 사용하며, 마침표를 제외합니다.
+  ##### 기본적으로 첫 글자는 대문자를 사용하며, 마침표를 제외합니다.  
 
-  - ##### FIX : 올바르지 않은 동작을 고친 경우에 사용합니다.
+  - ##### FIX : 올바르지 않은 동작을 고친 경우에 사용합니다.  
 
     > Fix A  : A를 수정합니다.
 
@@ -118,11 +132,11 @@
 
 ## Architecture
 
-추후 추가 예정
-
+![img](./image/architecture.png)  
 
 ## Project Schedule
 
+  20.08.03 ~ 
 
 ## License
 
