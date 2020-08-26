@@ -1,6 +1,10 @@
 import React, { useState, ChangeEvent } from "react";
 import Nav from "../components/Nav";
 import http from "../api/http-common";
+import { UserIDState } from "../redux/reducer";
+import { useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
+
 import "../style/BarteringWrite.scss";
 
 const BarteringWrite = () => {
@@ -10,6 +14,10 @@ const BarteringWrite = () => {
   const [contents, setContents] = useState("");
   const [need, setNeed] = useState("");
   const [uploadFileList, setUploadFileList] = useState<Array<File>>([]);
+
+  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
+    state => state.userID
+  );
 
   const loadFile = (e: any) => {
     const files = e.target.files;
@@ -45,6 +53,9 @@ const BarteringWrite = () => {
   };
 
   const onSubmitHandle = () => {
+    const token: any = localStorage.getItem("token");
+    const decodedToken: any = jwt_decode(token);
+
     let formData = new FormData();
     // formData.append("userId", JSON.stringify(13));
     // formData.append("title", JSON.stringify("책장무료나눔합니다"));
@@ -52,21 +63,25 @@ const BarteringWrite = () => {
     // formData.append("contents", JSON.stringify("필요하면 가져 가세요"));
     // formData.append("address", JSON.stringify("대전광역시 유성구 궁동"));
     // formData.append("need", JSON.stringify("무료"));
-    formData.append("userId", "13");
+    formData.append("userId", user_id);
     formData.append("title", title);
     formData.append("category", category);
     formData.append("contents", contents);
-    formData.append("address", "대전 유성구 궁동");
-    formData.append("need", contents);
+    formData.append("address", decodedToken.address);
+    formData.append("need", need);
 
     uploadFileList.forEach(file => {
       formData.append("images", file);
     });
 
     console.log(
-      "title : ",
+      "userID : ",
+      String(user_id),
+      "\ntitle : ",
       title + "\ncatetory : ",
       category,
+      "\naddress : ",
+      decodedToken.address,
       "\nneed : ",
       need,
       "\ncontents : ",
@@ -92,7 +107,7 @@ const BarteringWrite = () => {
 
   return (
     <>
-      <section className="router-container router-top router-footer">
+      <section className="router-container-fixed router-top router-footer">
         <div className="write-header-wrap">
           <span className="close">X</span>
           <span>글 쓰 기</span>

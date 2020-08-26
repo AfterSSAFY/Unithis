@@ -1,11 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { AuthState, TokenState } from "../redux/reducer";
-import { setAuth, setToken } from "../redux/action";
-import { useSelector, useDispatch } from "react-redux";
-import { getToken } from "../redux/reducer";
-
-import { userList } from "../utils/data";
+import { setToken, setAuth } from "../redux/action";
+import { useDispatch } from "react-redux";
 
 import http from "../api/http-common";
 
@@ -15,35 +11,30 @@ const Signin = () => {
   let history = useHistory();
   const dispatch = useDispatch();
 
-  const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
-  const token = useSelector<TokenState, TokenState["token"]>(
-    state => state.token
-  );
-
   useEffect(() => {
     console.log("Signin");
-    console.log(userList);
   }, []);
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
-    dispatch(setAuth(true));
-    history.push("/Home");
-
-    // http
-    //   .post("/login", {
-    //     email: email,
-    //     password: password
-    //   })
-    //   .then(({ data }) => {
-    //     console.log(data);
-    //     localStorage.setItem("token", data);
-    //     history.push("/Home");
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //     console.log(e.response.data);
-    //   });
+    http
+      .post("/login", {
+        email: email,
+        password: password
+      })
+      .then(({ data }) => {
+        console.log(data);
+        dispatch(setToken(data));
+        dispatch(setAuth(true));
+        localStorage.setItem("token", data);
+        history.push("/Home");
+      })
+      .catch(e => {
+        dispatch(setToken(""));
+        dispatch(setAuth(false));
+        console.log(e);
+        console.log(e.response.data);
+      });
   };
 
   const [email, setEmail] = useState("");
@@ -61,8 +52,6 @@ const Signin = () => {
     <>
       <section className="user-container">
         <div className="user-wrapper">
-          {`${auth}`}
-          {token}
           <div className="user-content">
             <Link to={"/Home"}>
               <div className="touring">둘러보기</div>
@@ -76,7 +65,7 @@ const Signin = () => {
                 <input
                   className="email"
                   type="email"
-                  // required
+                  required
                   value={email}
                   onChange={handleChange}
                 />
@@ -86,7 +75,7 @@ const Signin = () => {
                 <input
                   className="password"
                   type="password"
-                  // required
+                  required
                   value={password}
                   onChange={handleChange}
                 />
