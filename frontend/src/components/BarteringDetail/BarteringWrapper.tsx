@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-// import { itemList, userList, photoList } from "../../utils/data";
 import "./barteringWrapper.scss";
+import http, { imageURL } from "../../api/http-common";
 
 export const BarteringWrapper = (props: any) => {
+  const [nickName, setNickName] = useState<string>();
+  let history = useHistory();
+
+  useEffect(() => {
+    if (props["item"]) {
+      http
+        .get("/user/" + props["item"]["userId"])
+        .then(({ data }) => {
+          setNickName(data["nickname"]);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }, [props]);
+
+  const backwardMovement = () => {
+    history.goBack();
+  };
+
   return (
     <div className="bartering-detail-wrapper">
       <div className="image-area">
-        <div className="iamge-prev-btn">&#x2190;</div>
+        <div className="iamge-prev-btn" onClick={backwardMovement}>
+          &#x2190;
+        </div>
         <img
-          // src={photoList[props.match.params.id].image}
+          src={props["item"] && imageURL + props["item"]["images"][0]}
           alt="barteringImage"
         />
       </div>
@@ -21,25 +44,25 @@ export const BarteringWrapper = (props: any) => {
             alt="profile"
           />
           <div>
-            {/* <div>{userList[props.match.params.id].nickname}</div> */}
+            <div>{nickName && nickName}</div>
             <div className="bartering-detail-address">
-              {/* {userList[0].address} */}
+              {props["item"] && props["item"]["address"]}
             </div>
           </div>
         </div>
         <hr />
         <div className="bartering-detail-content">
           <div className="bartering-detail-title">
-            {/* {itemList[props.match.params.id].title} */}
+            {props["item"] && props["item"]["title"]}
           </div>
           <div className="bartering-detail-category">
-            {/* {itemList[props.match.params.id].category} */}
+            {props["item"] && props["item"]["category"]}
           </div>
           <div className="bartering-detail-date">
-            {/* {itemList[props.match.params.id].date} */}
+            {props["item"] && props["item"]["date"]}
           </div>
           <div className="bartering-detail-substance">
-            {/* {itemList[props.match.params.id].contents} */}
+            {props["item"] && props["item"]["contents"]}
           </div>
         </div>
       </div>

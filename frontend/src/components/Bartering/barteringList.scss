@@ -14,8 +14,18 @@ $gray: #8b8b8b;
   height: 150px;
   display: flex;
 
-  .bartering-photo {
+  .bartering-area-image {
     width: 30%;
+    display: flex;
+    position: relative;
+    .status {
+      position: absolute;
+      margin: 0;
+      width: 60%;
+    }
+    .bartering-photo {
+      width: 100%;
+    }
   }
 
   .bartering-description-content {

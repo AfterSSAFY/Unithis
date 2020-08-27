@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { setToken, setAuth } from "../redux/action";
 import { useDispatch } from "react-redux";
@@ -11,10 +11,6 @@ const Signin = () => {
   let history = useHistory();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("Signin");
-  }, []);
-
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     http
@@ -23,7 +19,6 @@ const Signin = () => {
         password: password
       })
       .then(({ data }) => {
-        console.log(data);
         dispatch(setToken(data));
         dispatch(setAuth(true));
         localStorage.setItem("token", data);
@@ -32,7 +27,6 @@ const Signin = () => {
       .catch(e => {
         dispatch(setToken(""));
         dispatch(setAuth(false));
-        console.log(e);
         console.log(e.response.data);
       });
   };

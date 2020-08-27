@@ -1,30 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import http from "../api/http-common";
+import { Message } from "react-app-env";
 
 const Chat = (props: any) => {
   useEffect(() => {
-    // const data = [
-    //   "1번방",
-    //   "2번방",
-    //   "3번방",
-    //   "4번방",
-    //   "5번방",
-    //   "6번방",
-    //   "7번방",
-    //   "8번방",
-    //   "9번방",
-    //   "10번방",
-    //   "11번방",
-    //   "12번방",
-    //   "13번방"
-    // ];
-    // setRoom(data);
-  }, []);
+    // console.log(props);
+    const roomId = props.match.params.id;
+    if (roomId) {
+      http
+        .get("/chat/room/message/" + roomId)
+        .then(({ data }) => {
+          setMessage(data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }, [props.match.params.id]);
 
-  // const [room, setRoom] = useState<Array<string>>([]);
+  const [message, setMessage] = useState<Array<Message>>([]);
 
   return (
     <>
       <h1>{props.match.params.id}번방 채팅</h1>
+      {message &&
+        message.map(v => {
+          return <div key={v.id}>{v.content}</div>;
+        })}
+      <div></div>
     </>
   );
 };

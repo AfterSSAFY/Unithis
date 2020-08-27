@@ -103,8 +103,27 @@ a {
   transition: all 0.2s ease-in-out 0s;
 }
 
+$green: #10bc98;
+$green-hover: #13d7ae;
+$light-green: #87bc58;
+$light-green-hover: #c0da82;
+$orange: #e77e22;
+$orange-hover: #f6b417;
 $blue: #3cbce1;
 $blue-hover: #56d7ed;
+$purple: #9a59b5;
+$purple-hover: #c472e6;
+$yellow: #fac75a;
+$yellow-hover: #fce17a;
+$grey: #4c4c4c;
+$grey-hover: #747373;
+$red: #e84c3d;
+$red-hover: #f57b8a;
+$dark-blue: #34495e;
+$dark-blue-hover: #425c77;
+$ash-grey: #bec3c7;
+$ash-grey-hover: #d0d5d9;
+
 .blue {
   background: $blue;
   color: #fff;
@@ -118,8 +137,6 @@ $blue-hover: #56d7ed;
   }
 }
 
-$orange: #e77e22;
-$orange-hover: #f6b417;
 .orange {
   background: $orange;
   color: #fff;
@@ -130,5 +147,87 @@ $orange-hover: #f6b417;
   &:active,
   &:focus {
     background: darken($orange, 4%);
+  }
+}
+
+.purple {
+  background: $purple;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($purple, 10%);
+  &:hover {
+    background: $purple-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($purple, 3%);
+  }
+}
+.yellow {
+  background: $yellow;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($yellow, 10%);
+  &:hover {
+    background: $yellow-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($yellow, 3%);
+  }
+}
+.grey {
+  background: $grey;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($grey, 10%);
+  &:hover {
+    background: $grey-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($grey, 3%);
+  }
+}
+.red {
+  background: $red;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($red, 10%);
+  &:hover {
+    background: $red-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($red, 4%);
+  }
+}
+.dark-blue {
+  background: $dark-blue;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($dark-blue, 10%);
+  &:hover {
+    background: $dark-blue-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($dark-blue, 3%);
+  }
+}
+.ash-grey {
+  background: $ash-grey;
+  color: #fff;
+  box-shadow: 0 2px 0 darken($ash-grey, 10%);
+  &:hover {
+    background: $ash-grey-hover;
+  }
+  &:active,
+  &:focus {
+    background: darken($ash-grey, 5%);
+  }
+}
+
+.rounded {
+  border-radius: 5px;
+  &[class*="effect-"] {
+    &:after {
+      border-radius: 5px;
+    }
   }
 }

@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { BarteringWrapper } from "components/BarteringDetail/BarteringWrapper";
-import { BarterfingFooter } from "components/BarteringDetail/BarteringFooter";
+import { BarteringFooter } from "components/BarteringDetail/BarteringFooter";
+import { Bartering_List } from "react-app-env";
+
+import jwt_decode from "jwt-decode";
+import http from "../api/http-common";
 
 const BarteringDetail = (props: any) => {
+  const [item, setItem] = useState<Bartering_List>();
+  const token: any = localStorage.getItem("token");
+  let decodedToken;
+  if (token) {
+    decodedToken = jwt_decode(token);
+  }
+
+  useEffect(() => {
+    http
+      .get("/item/" + props.match.params.id)
+      .then(({ data }) => {
+        setItem(data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }, [props]);
+
+  const barteringItem = token ? { item, decodedToken } : { item };
+
   return (
     <section className="bartering-detail-container">
-      <BarteringWrapper {...props} />
-      <BarterfingFooter {...props} />
+      <BarteringWrapper item={item} {...props} />
+      <BarteringFooter item={barteringItem} {...props} />
     </section>
   );
 };
