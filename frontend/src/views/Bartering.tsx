@@ -14,22 +14,20 @@ import { Bartering_List } from "react-app-env";
 const Bartering = () => {
   const [itemList, setItemList] = useState<Array<Bartering_List>>();
   const token: any = localStorage.getItem("token");
-  const decodedToken: any = jwt_decode(token);
+  const decodedToken = token ? jwt_decode(token) : null;
 
   useEffect(() => {
     http
       .get("/items")
       .then(({ data }) => {
-        // console.log(data);
         setItemList(data);
       })
       .catch(e => {
         console.log(e);
       });
   }, []);
-  // console.log(item);
 
-  const BarteringItem = { itemList, decodedToken };
+  const BarteringItem = token ? { itemList, decodedToken } : { itemList };
   return (
     <>
       <Header />

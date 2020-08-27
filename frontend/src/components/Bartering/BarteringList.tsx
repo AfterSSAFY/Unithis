@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-// import { itemList, photoList, userList } from "../../utils/data";
-import "./barteringList.scss";
 import { imageURL } from "../../api/http-common";
-export const BarteringList = (props: any) => {
-  useEffect(() => {
-    console.log(props);
-    console.log("itemList", props["props"]["itemList"]);
-    console.log(itemList);
-    console.log(decodedToken);
-  });
+import "./barteringList.scss";
 
+export const BarteringList = (props: any) => {
   const itemList = props["props"]["itemList"];
   const decodedToken = props["props"]["decodedToken"];
 
@@ -19,18 +12,36 @@ export const BarteringList = (props: any) => {
       {itemList &&
         itemList.map((item: any, i: any) => {
           return (
-            <article className="bartering-wrapper" key={item.title + i}>
-              <Link to={"/BarteringDetail/" + i}>
+            <article className="bartering-wrapper" key={item.title + item.id}>
+              <Link to={"/BarteringDetail/" + item.id}>
                 <div className="bartering-area">
-                  <img
-                    className="bartering-photo"
-                    src={imageURL + item.images[0]}
-                    alt={item.title}
-                  />
+                  <div className="bartering-area-image">
+                    {item.status === "대기중" && (
+                      <div className="btn rounded blue status">
+                        {item.status}
+                      </div>
+                    )}
+                    {item.status === "거래중" && (
+                      <div className="btn rounded red status">
+                        {item.status}
+                      </div>
+                    )}
+                    {item.status === "거래완료" && (
+                      <div className="btn rounded dark-blue status">
+                        {item.status}
+                      </div>
+                    )}
+
+                    <img
+                      className="bartering-photo"
+                      src={imageURL + item.images[0]}
+                      alt={item.title}
+                    />
+                  </div>
                   <div className="bartering-description-content">
                     <div>{item.title}</div>
                     <div className="bartering-location">
-                      {decodedToken.address}
+                      {decodedToken && decodedToken.address}
                     </div>
                     <div className="bartering-price">{item.need}</div>
                   </div>

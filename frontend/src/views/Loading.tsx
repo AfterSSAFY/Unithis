@@ -11,20 +11,18 @@ const Loading = () => {
 
   useEffect(() => {
     dispatch(getToken());
-  }, []);
+  });
 
   const RouterView = () => {
     switch (path) {
       case "/Info":
-        return <Redirect to="/Info" />;
+        return <Redirect to={path} />;
       case "/BarteringWrite":
-        return <Redirect to="/BarteringWrite" />;
+        return <Redirect to={path} />;
       case "/ChatRoom":
-        return <Redirect to="/ChatRoom" />;
-      case "/Chat/:id":
-        return <Redirect to="/Chat/:id" />;
+        return <Redirect to={path} />;
       default:
-        break;
+        return <Redirect to={path} />;
     }
   };
 

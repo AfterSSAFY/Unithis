@@ -41,6 +41,30 @@ type Address = {
   읍면동: string;
 };
 
+type entity = {
+  otherUserNickname: string;
+  otherUserProfile: string;
+  recentMessage: string;
+  unreadMessage: number;
+};
+
+type chatRoom = {
+  currUserId: number;
+  entity: Object<entity>;
+  id: number;
+  otherUserId: number;
+};
+
+type Message = {
+  chatroomId: number;
+  content: string;
+  id: number;
+  receiveTime: string;
+  receiverId: number;
+  sendTime: string;
+  senderId: number;
+};
+
 type Action_Auth = { type: "SET_AUTH"; payload: boolean };
 type Action_Token = { type: "SET_TOKEN"; payload: string };
 type Action_UserID = { type: "SET_USERID"; payload: number };

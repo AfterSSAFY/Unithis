@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthState } from "../redux/reducer";
@@ -12,6 +12,7 @@ import {
   Signin,
   Signup,
   Info,
+  Test,
   Loading
 } from "../router";
 
@@ -19,8 +20,7 @@ import "../style/routerview.scss";
 import { setPath } from "redux/action";
 
 const RouterView = () => {
-  const routerSwich = (path: string) => {
-    console.log(path);
+  const routerSwich = (path: string, pramPath: string) => {
     switch (path) {
       case "/Info":
         return <Route path={path} component={Info} />;
@@ -28,21 +28,25 @@ const RouterView = () => {
         return <Route path={path} component={BarteringWrite} />;
       case "/ChatRoom":
         return <Route path={path} component={ChatRoom}></Route>;
-      case "/Chat/:id":
-        return <Route path={path} component={Chat}></Route>;
       default:
-        break;
+        return <Route path={path} component={Chat}></Route>;
     }
   };
 
   const dispatch = useDispatch();
 
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
-  const PrivateRoute = (children: any, ...props: any) => {
-    dispatch(setPath(children.path));
+  const PrivateRoute = (children: any) => {
+    dispatch(setPath(children.location.pathname));
 
     return (
-      <>{auth ? routerSwich(children.path) : <Redirect to="/Loading" />}</>
+      <>
+        {auth ? (
+          routerSwich(children.path, children.location.pathname)
+        ) : (
+          <Redirect to="/Loading" />
+        )}
+      </>
     );
   };
 
@@ -57,9 +61,11 @@ const RouterView = () => {
         <PrivateRoute path="/BarteringWrite" />
         <PrivateRoute path="/ChatRoom" />
         <PrivateRoute path="/Chat/:id" />
+        {/* <Route path="/Chat/:id" component={Chat}></Route> */}
 
         <Route path="/BarteringDetail/:id" component={BarteringDetail}></Route>
         <Route path="/Loading" component={Loading}></Route>
+        <Route path="/Test" component={Test}></Route>
         <Redirect path="*" to="/Home" />
       </Switch>
     </>

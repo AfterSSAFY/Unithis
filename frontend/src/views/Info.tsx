@@ -2,21 +2,17 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import jwt_decode from "jwt-decode";
 
 import { useHistory } from "react-router-dom";
-
 import { address } from "../utils/address";
 import { useSelector, useDispatch } from "react-redux";
+import { setToken, setAuth, setUserID } from "../redux/action";
 import { UserIDState } from "../redux/reducer";
-import { setToken, setAuth } from "../redux/action";
 
-import http from "../api/http-common";
 import Nav from "../components/Nav";
+import http from "../api/http-common";
 
 const Info = () => {
   const dispatch = useDispatch();
   let history = useHistory();
-  // const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
-  //   state => state.userID
-  // );
 
   useEffect(() => {
     const token: any = localStorage.getItem("token");
@@ -27,8 +23,8 @@ const Info = () => {
     setPhone(String(Object.values(decodedToken)[3]));
     const Address_split = String(Object.values(decodedToken)[4]).split(" ");
 
-    console.log(Address_split);
     const blankFlag = Address_split.length === 4;
+
     const 시도 = Object.keys(address).findIndex(v =>
       new RegExp(Address_split[0]).test(v)
     );
@@ -40,18 +36,27 @@ const Info = () => {
     );
     const 읍면동 = String(Object.values(Object.values(address)[시도])[구군])
       .split(",")
-      .findIndex(v => new RegExp(Address_split[Address_split.length - 1]));
+      .findIndex(v =>
+        blankFlag
+          ? new RegExp(Address_split[3]).test(v)
+          : new RegExp(Address_split[2]).test(v)
+      );
 
-    console.log(시도);
-    console.log(구군);
-    console.log(읍면동);
     setCity(시도);
     setTown(구군);
     setVillage(읍면동);
-    // setAddress1("경기도");
-    // setAddress2("성남시 분당구");
-    // setAddress3("구미동");
+    setAddress1(Object.keys(address)[시도]);
+    setAddress2(Object.keys(Object.values(address)[시도])[구군]);
+    setAddress3(
+      String(Object.values(Object.values(address)[시도])[구군]).split(",")[
+        읍면동
+      ]
+    );
   }, []);
+
+  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
+    state => state.userID
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -83,17 +88,47 @@ const Info = () => {
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     console.log(
-      "email :",
-      email,
+      "id :",
+      user_id,
       "\npassword :",
       password,
-      "\nname :",
+      "\nnickname :",
       nickname,
       "\naddress :",
       address1 + " " + address2 + " " + address3,
       "\nphone :",
       phone
     );
+
+    // let formData = new FormData();
+    // formData.append("email", email);
+    // formData.append("password", password);
+    // formData.append("nickname", nickname);
+    // formData.append("address", address1 + " " + address2 + " " + address3);
+    // formData.append("phone", );
+    // formData.append("need", need);
+
+    http
+      .patch("/user/" + user_id, {
+        email: email,
+        password: password,
+        nickname: nickname,
+        address: address1 + " " + address2 + " " + address3,
+        phone: phone
+      })
+      .then(({ data }) => {
+        // console.log(data);
+
+        dispatch(setToken(data));
+        dispatch(setAuth(false));
+        localStorage.removeItem("token");
+        localStorage.setItem("token", data);
+        history.push("/Home");
+      })
+      .catch(e => {
+        console.log(e);
+        console.log(e.response.data);
+      });
   };
 
   const selectChange = (e: any) => {
@@ -106,6 +141,7 @@ const Info = () => {
     if (e.target.className === "시/도") {
       setCity(e.target.value);
       setTown(0);
+      setVillage(0);
       setAddress1(Object.keys(address)[e.target.value]);
       setAddress2(Object.keys(Object.values(address)[e.target.value])[0]);
       setAddress3(
@@ -123,6 +159,8 @@ const Info = () => {
   const logout = () => {
     dispatch(setToken(""));
     dispatch(setAuth(false));
+    dispatch(setUserID(-1));
+
     localStorage.removeItem("token");
     history.push("/Signin");
 

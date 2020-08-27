@@ -5,7 +5,7 @@ import { UserIDState } from "../redux/reducer";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 
-import "../style/BarteringWrite.scss";
+import "../style/barteringwrite.scss";
 
 const BarteringWrite = () => {
   const [imagePreviewList, setImagePreviewList] = useState<Array<string>>([]);
@@ -52,7 +52,8 @@ const BarteringWrite = () => {
     }
   };
 
-  const onSubmitHandle = () => {
+  const onSubmitHandle = (e: any) => {
+    e.preventDefault();
     const token: any = localStorage.getItem("token");
     const decodedToken: any = jwt_decode(token);
 
@@ -98,6 +99,7 @@ const BarteringWrite = () => {
         }
       })
       .then(({ data }) => {
+        alert("등록완료!");
         console.log(data);
       })
       .catch(error => {
@@ -108,104 +110,108 @@ const BarteringWrite = () => {
   return (
     <>
       <section className="router-container-fixed router-top router-footer">
-        <div className="write-header-wrap">
-          <span className="close">X</span>
-          <span>글 쓰 기</span>
-          <span onClick={onSubmitHandle}>완료</span>
-        </div>
-        <article className="article-area">
-          <div className="write-body-wrap">
-            <label>
-              <figure>
-                <img
-                  src={require("../assets/icon/photo.png")}
-                  className="photoImage"
-                  alt="photoImage"
+        <form onSubmit={onSubmitHandle}>
+          <div className="write-header-wrap">
+            <span className="close">X</span>
+            <span>글 쓰 기</span>
+            <input type="submit" value="완료" />
+            {/* <span onClick={onSubmitHandle}>완료</span> */}
+          </div>
+          <article className="article-area">
+            <div className="write-body-wrap">
+              <label>
+                <figure>
+                  <img
+                    src={require("../assets/icon/photo.png")}
+                    className="photoImage"
+                    alt="photoImage"
+                  />
+                  <figcaption>{imagePreviewList.length}/5</figcaption>
+                </figure>
+                <input
+                  type="file"
+                  onChange={loadFile}
+                  accept=".gif, .jpg, .png, .jpeg"
+                  multiple
                 />
-                <figcaption>{imagePreviewList.length}/5</figcaption>
-              </figure>
-              <input
-                type="file"
-                onChange={loadFile}
-                accept=".gif, .jpg, .png, .jpeg"
-                multiple
-              />
-            </label>
-            <div className="bartering-image-content">
-              {imagePreviewList &&
-                imagePreviewList.map((v, i) => {
-                  return (
-                    <img
-                      key={v}
-                      className="PhotoResult"
-                      src={v}
-                      alt="img"
-                      // ref={el => (el === null ? el : (imgRef.current[i] = el))}
-                    />
-                  );
-                })}
+              </label>
+              <div className="bartering-image-content">
+                {imagePreviewList &&
+                  imagePreviewList.map((v, i) => {
+                    return (
+                      <img
+                        key={v}
+                        className="PhotoResult"
+                        src={v}
+                        alt="img"
+                        // ref={el => (el === null ? el : (imgRef.current[i] = el))}
+                      />
+                    );
+                  })}
+              </div>
             </div>
-          </div>
-          <div className="write-body-wrap-column">
-            <div>
-              <label className="title">글 제목</label>
-              <input
-                className="title"
-                type="text"
-                placeholder="글 제목"
-                value={title}
-                onChange={onChangeHandle}
-                required
-              />
-            </div>
+            <div className="write-body-wrap-column">
+              <div>
+                <label className="title">글 제목</label>
+                <input
+                  className="title"
+                  type="text"
+                  placeholder="글 제목"
+                  value={title}
+                  onChange={onChangeHandle}
+                  required
+                />
+              </div>
 
-            <div>
-              <label className="category">카테고리</label>
-              <select
-                className="categorySelect"
-                value={category}
-                onChange={onChangeHandle}
-              >
-                <option value="">카테고리 선택</option>
-                <option value="디지털/가전">디지털/가전</option>
-                <option value="가구/인테리어">가구/인테리어</option>
-                <option value="유아동/유아도서">유아동/유아도서</option>
-                <option value="생활/가공식품">생활/가공식품</option>
-                <option value="스포츠/레저">스포츠/레저</option>
-                <option value="여성잡화">여성잡화</option>
-                <option value="여성의류">여성의류</option>
-                <option value="남성패션/잡화">남성패션/잡화</option>
-                <option value="게임/취미">게임/취미</option>
-                <option value="뷰티/미용">뷰티/미용</option>
-                <option value="반려동물용품">반려동물용품</option>
-                <option value="도서/티켓/음반">도서/티켓/음반</option>
-                <option value="기타물품">기타물품</option>
-              </select>
-            </div>
+              <div>
+                <label className="category">카테고리</label>
+                <select
+                  className="categorySelect"
+                  value={category}
+                  onChange={onChangeHandle}
+                >
+                  <option value="">카테고리 선택</option>
+                  <option value="디지털/가전">디지털/가전</option>
+                  <option value="가구/인테리어">가구/인테리어</option>
+                  <option value="유아동/유아도서">유아동/유아도서</option>
+                  <option value="생활/가공식품">생활/가공식품</option>
+                  <option value="스포츠/레저">스포츠/레저</option>
+                  <option value="여성잡화">여성잡화</option>
+                  <option value="여성의류">여성의류</option>
+                  <option value="남성패션/잡화">남성패션/잡화</option>
+                  <option value="게임/취미">게임/취미</option>
+                  <option value="뷰티/미용">뷰티/미용</option>
+                  <option value="반려동물용품">반려동물용품</option>
+                  <option value="도서/티켓/음반">도서/티켓/음반</option>
+                  <option value="기타물품">기타물품</option>
+                </select>
+              </div>
 
-            <div>
-              <label className="need">교환 받을 물건 / 필요한 물건</label>
-              <input
-                className="need"
-                type="text"
-                placeholder="교환 받을 물건 / 필요한 물건"
-                value={need}
-                onChange={onChangeHandle}
-                required
-              />
-            </div>
+              <div>
+                <label className="need">교환 받을 물건 / 필요한 물건</label>
+                <input
+                  className="need"
+                  type="text"
+                  placeholder="교환 받을 물건 / 필요한 물건"
+                  value={need}
+                  required
+                  onChange={onChangeHandle}
+                />
+              </div>
 
-            <div>
-              <label>상품 설명</label>
-              <textarea
-                placeholder="상품에 대한 설명을 작성해주세요."
-                className="contents"
-                value={contents}
-                onChange={onChangeHandle}
-              ></textarea>
+              <div>
+                <label>상품 설명</label>
+                <textarea
+                  placeholder="상품에 대한 설명을 작성해주세요."
+                  className="contents"
+                  value={contents}
+                  required
+                  onChange={onChangeHandle}
+                ></textarea>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </form>
       </section>
       <Nav />
     </>
