@@ -124,7 +124,6 @@ public class UserController {
 		}
 
 		User user = userService.findUserByEmail(reqUpdateUserInfo.getEmail());
-
 		String tokenValue = jwtTokenProvider.createToken(user);
 		if (tokenValue != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(tokenValue);

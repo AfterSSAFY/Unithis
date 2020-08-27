@@ -1,8 +1,5 @@
 package com.unithis.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +14,6 @@ public class UserService implements IUserService {
 
 	private final UserMapper userMapper;
 	private final ImageService imageService;
-
-	@Override
-	public List<User> getAllUsers() {
-		return userMapper.getAllUsers();
-	}
 
 	@Override
 	public boolean createUser(User user) {
