@@ -110,12 +110,15 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	}
 
-	@PatchMapping("/user")
+	@PatchMapping("/user/{id}")
 	@ApiOperation("유저 : 내 정보 수정")
-	public ResponseEntity<String> updateUser(@RequestBody Map<String, String> userInfo) {
+	public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody Map<String, String> userInfo) {
 		log.info("PATCH : /api/users/{num} = " + userInfo.get("id"));
-		User reqUpdateUserInfo = User.builder().id((long) Integer.parseInt(userInfo.get("id")))
-				.nickname(userInfo.get("nickname")).password(passwordEncoder.encode(userInfo.get("password")))
+		System.out.println(userInfo);
+		User reqUpdateUserInfo = User.builder().id(id)
+				.nickname(userInfo.get("nickname"))
+				.email(userInfo.get("email"))
+				.password(passwordEncoder.encode(userInfo.get("password")))
 				.phone(userInfo.get("phone")).address(userInfo.get("address")).build();
 
 		if (!userService.updateUser(reqUpdateUserInfo)) {
@@ -124,7 +127,6 @@ public class UserController {
 		}
 
 		User user = userService.findUserByEmail(reqUpdateUserInfo.getEmail());
-
 		String tokenValue = jwtTokenProvider.createToken(user);
 		if (tokenValue != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(tokenValue);
