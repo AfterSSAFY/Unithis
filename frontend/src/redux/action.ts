@@ -2,7 +2,8 @@ import {
   Action_Auth,
   Action_Token,
   Action_UserID,
-  Action_Path
+  Action_Path,
+  Action_OtherUser
 } from "react-app-env";
 
 export const setAuth = (auth: boolean): Action_Auth => ({
@@ -23,4 +24,9 @@ export const setUserID = (userID: number): Action_UserID => ({
 export const setPath = (path: string): Action_Path => ({
   type: "SET_PATH",
   payload: path
+});
+
+export const setOtherUser = (otherUser: string): Action_OtherUser => ({
+  type: "SET_OTHERUSER",
+  payload: otherUser
 });

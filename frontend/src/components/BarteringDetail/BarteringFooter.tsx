@@ -13,6 +13,7 @@ export const BarteringFooter = (props: any) => {
     if (props["item"]["decodedToken"] && props["item"]["item"]) {
       setUser1Id(props["item"]["item"]["userId"]);
       setUser2Id(props["item"]["decodedToken"]["id"]);
+      console.log(props["item"]["item"]);
     }
   }, [user1Id, user2Id, props]);
 
@@ -28,7 +29,13 @@ export const BarteringFooter = (props: any) => {
           user2Id: props["item"]["decodedToken"]["id"]
         })
         .then(({ data }) => {
-          history.push("/Chat/" + data);
+          history.push({
+            pathname: "/Chat/" + data,
+            state: {
+              user1Id: props["item"]["item"]["userId"],
+              user2Id: props["item"]["decodedToken"]["id"]
+            }
+          });
         })
         .catch(e => {
           console.log(e);

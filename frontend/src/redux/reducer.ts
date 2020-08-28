@@ -2,7 +2,8 @@ import {
   Action_Auth,
   Action_Token,
   Action_UserID,
-  Action_Path
+  Action_Path,
+  Action_OtherUser
 } from "react-app-env";
 import { setAuth, setUserID, setToken } from "./action";
 
@@ -24,16 +25,26 @@ export interface PathState {
   path: string;
 }
 
+export interface OtherUserState {
+  otherUser: string;
+}
+
 const initstate = {
   auth: false,
   token: "",
   userID: -1,
-  path: ""
+  path: "",
+  otherUser: ""
 };
 
 export const authReducer = (
   state: AuthState = initstate,
-  action: Action_Auth | Action_Token | Action_UserID | Action_Path
+  action:
+    | Action_Auth
+    | Action_Token
+    | Action_UserID
+    | Action_Path
+    | Action_OtherUser
 ) => {
   switch (action.type) {
     case "SET_AUTH":
@@ -44,6 +55,9 @@ export const authReducer = (
       return { ...state, userID: action.payload };
     case "SET_PATH":
       return { ...state, path: action.payload };
+    case "SET_OTHERUSER":
+      return { ...state, otherUser: action.payload };
+
     default:
       return state;
   }
