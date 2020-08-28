@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import "./barteringWrapper.scss";
 import http, { imageURL } from "../../api/http-common";
+import { setOtherUser } from "../../redux/action";
 
 export const BarteringWrapper = (props: any) => {
   const [nickName, setNickName] = useState<string>();
+  const dispatch = useDispatch();
   let history = useHistory();
 
   useEffect(() => {
@@ -14,12 +17,13 @@ export const BarteringWrapper = (props: any) => {
         .get("/user/" + props["item"]["userId"])
         .then(({ data }) => {
           setNickName(data["nickname"]);
+          dispatch(setOtherUser(data["nickname"]));
         })
         .catch(e => {
           console.log(e);
         });
     }
-  }, [props]);
+  });
 
   const backwardMovement = () => {
     history.goBack();
@@ -44,7 +48,7 @@ export const BarteringWrapper = (props: any) => {
             alt="profile"
           />
           <div>
-            <div>{nickName && nickName}</div>
+            <div>{nickName}</div>
             <div className="bartering-detail-address">
               {props["item"] && props["item"]["address"]}
             </div>

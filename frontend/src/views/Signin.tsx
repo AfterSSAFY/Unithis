@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { setToken, setAuth } from "../redux/action";
+import { setToken, setAuth, setPath } from "../redux/action";
 import { useDispatch } from "react-redux";
 
 import http from "../api/http-common";
@@ -21,8 +21,10 @@ const Signin = () => {
       .then(({ data }) => {
         dispatch(setToken(data));
         dispatch(setAuth(true));
+        dispatch(setPath("/Home"));
         localStorage.setItem("token", data);
-        history.push("/Home");
+
+        history.push("/Loading");
       })
       .catch(e => {
         dispatch(setToken(""));

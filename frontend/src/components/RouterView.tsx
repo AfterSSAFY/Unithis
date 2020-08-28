@@ -20,7 +20,10 @@ import "../style/routerview.scss";
 import { setPath } from "redux/action";
 
 const RouterView = () => {
-  const routerSwich = (path: string, pramPath: string) => {
+  const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
+  const dispatch = useDispatch();
+
+  const routerSwich = (path: string) => {
     switch (path) {
       case "/Info":
         return <Route path={path} component={Info} />;
@@ -33,27 +36,18 @@ const RouterView = () => {
     }
   };
 
-  const dispatch = useDispatch();
-
-  const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
   const PrivateRoute = (children: any) => {
     dispatch(setPath(children.location.pathname));
 
     return (
-      <>
-        {auth ? (
-          routerSwich(children.path, children.location.pathname)
-        ) : (
-          <Redirect to="/Loading" />
-        )}
-      </>
+      <>{auth ? routerSwich(children.path) : <Redirect to="/Loading" />}</>
     );
   };
 
   return (
     <>
       <Switch>
-        <Route exact path="/Home" component={Bartering}></Route>
+        <Route path="/Home" component={Bartering}></Route>
         <Route path="/Signin" component={Signin}></Route>
         <Route path="/Signup" component={Signup}></Route>
 

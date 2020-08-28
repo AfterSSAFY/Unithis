@@ -69,3 +69,4 @@ type Action_Auth = { type: "SET_AUTH"; payload: boolean };
 type Action_Token = { type: "SET_TOKEN"; payload: string };
 type Action_UserID = { type: "SET_USERID"; payload: number };
 type Action_Path = { type: "SET_PATH"; payload: string };
+type Action_OtherUser = { type: "SET_OTHERUSER"; payload: string };

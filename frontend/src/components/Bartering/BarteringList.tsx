@@ -5,7 +5,7 @@ import "./barteringList.scss";
 
 export const BarteringList = (props: any) => {
   const itemList = props["props"]["itemList"];
-  const decodedToken = props["props"]["decodedToken"];
+  // const decodedToken = props["props"]["decodedToken"];
 
   return (
     <>
@@ -41,7 +41,7 @@ export const BarteringList = (props: any) => {
                   <div className="bartering-description-content">
                     <div>{item.title}</div>
                     <div className="bartering-location">
-                      {decodedToken && decodedToken.address}
+                      {item.address && item.address}
                     </div>
                     <div className="bartering-price">{item.need}</div>
                   </div>
