@@ -58,10 +58,6 @@ $pink: #ff9697;
     label {
       font-family: "BMJUA";
     }
-
-    input[type="checkbox"] {
-      font-weight: normal;
-    }
   }
 
   .button-area {
@@ -98,6 +94,39 @@ $pink: #ff9697;
     }
   }
   .user-margin-bottem {
-    margin-bottom: 7rem;
+    margin-bottom: 9rem;
+  }
+}
+
+.user-profile-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .user-profile-image-area {
+    position: relative;
+    top: 0;
+    left: 0;
+    .user-profile-image {
+      width: 7rem;
+      height: 7rem;
+      position: relative;
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+    }
+    .user-profile-camera {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0;
+    }
+    .user-profile-delete {
+      position: absolute;
+      width: 2rem;
+      height: 2rem;
+      top: 0;
+      left: 0.5rem;
+    }
   }
 }

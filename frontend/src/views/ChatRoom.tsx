@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import http from "../api/http-common";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserIDState } from "../redux/reducer";
+import { setOtherUser } from "../redux/action";
 
 import Nav from "../components/Nav";
 import "../style/chatroom.scss";
 import { chatRoom } from "react-app-env";
 
 export const ChatRoom = () => {
+  let history = useHistory();
+  const dispatch = useDispatch();
+
   const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
     state => state.userID
   );
@@ -20,6 +24,7 @@ export const ChatRoom = () => {
       http
         .get("/chat/rooms/" + user_id)
         .then(({ data }) => {
+          console.log(data);
           setRoom(data);
         })
         .catch(e => {
@@ -27,6 +32,31 @@ export const ChatRoom = () => {
         });
     }
   }, [user_id]);
+
+  const onChatHandle = (
+    user1Id: number,
+    user2Id: number,
+    otherUserNickname: string
+  ) => {
+    dispatch(setOtherUser(otherUserNickname));
+    http
+      .post("/chat/room", {
+        user1Id: user1Id,
+        user2Id: user2Id
+      })
+      .then(({ data }) => {
+        history.push({
+          pathname: "/Chat/" + data,
+          state: {
+            user1Id: user1Id,
+            user2Id: user2Id
+          }
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   return (
     <>
@@ -39,11 +69,18 @@ export const ChatRoom = () => {
             room.map((r, i) => {
               return (
                 <div key={"room" + i}>
-                  <Link to={"/Chat/" + r.id}>
-                    <div className="chat-room-content">
-                      {r.entity.otherUserNickname}
-                    </div>
-                  </Link>
+                  <div
+                    className="chat-room-content"
+                    onClick={() =>
+                      onChatHandle(
+                        r.currUserId,
+                        r.otherUserId,
+                        r.entity.otherUserNickname
+                      )
+                    }
+                  >
+                    {r.entity.otherUserNickname}
+                  </div>
                 </div>
               );
             })}

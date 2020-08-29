@@ -13,7 +13,6 @@ export const BarteringFooter = (props: any) => {
     if (props["item"]["decodedToken"] && props["item"]["item"]) {
       setUser1Id(props["item"]["item"]["userId"]);
       setUser2Id(props["item"]["decodedToken"]["id"]);
-      console.log(props["item"]["item"]);
     }
   }, [user1Id, user2Id, props]);
 

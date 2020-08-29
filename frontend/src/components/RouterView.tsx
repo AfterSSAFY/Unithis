@@ -24,6 +24,7 @@ const RouterView = () => {
   const dispatch = useDispatch();
 
   const routerSwich = (path: string) => {
+    console.log(path);
     switch (path) {
       case "/Info":
         return <Route path={path} component={Info} />;
@@ -31,6 +32,8 @@ const RouterView = () => {
         return <Route path={path} component={BarteringWrite} />;
       case "/ChatRoom":
         return <Route path={path} component={ChatRoom}></Route>;
+      case "/Signin":
+        return <Route path={path} component={Signin}></Route>;
       default:
         return <Route path={path} component={Chat}></Route>;
     }

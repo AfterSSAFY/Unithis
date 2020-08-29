@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import http from "../api/http-common";
+import { useHistory } from "react-router-dom";
+
 import { Message } from "react-app-env";
 import { useSelector } from "react-redux";
 import { UserIDState, OtherUserState } from "../redux/reducer";
@@ -19,6 +21,8 @@ let socket: any = null;
 let stompClient: any = null;
 
 const Chat = (props: any) => {
+  let history = useHistory();
+
   const other_user: any = useSelector<
     OtherUserState,
     OtherUserState["otherUser"]
@@ -34,14 +38,14 @@ const Chat = (props: any) => {
   const messageRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    connect();
+    if (props.location.state === undefined) {
+      history.push("/ChatRoom");
+    } else {
+      connect();
+    }
   }, []);
 
   useEffect(() => {
-    console.log(props);
-    console.log(props.location.state);
-    console.log(props.location.state.user1Id);
-
     const roomId = props.match.params.id;
     if (roomId) {
       http
@@ -56,6 +60,13 @@ const Chat = (props: any) => {
   }, [props]);
 
   useEffect(() => {
+    const element = document.querySelector(".router-container");
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
+  }, [message]);
+
+  useEffect(() => {
     let currentMessage = [...message];
     if (reciveMessage) {
       currentMessage.push(reciveMessage);
@@ -65,9 +76,7 @@ const Chat = (props: any) => {
 
   const connect = () => {
     socket = new SockJS("http://13.124.102.51:8080/ws");
-
     stompClient = Stomp.over(socket);
-
     stompClient.connect({}, onConnected, onError);
   };
 
@@ -111,27 +120,29 @@ const Chat = (props: any) => {
   };
 
   return (
-    <section className="router-container router-top router-chat-footer">
-      <article className="chat-header">{other_user}</article>
-      <article className="chat-section">
-        {message.map((m, i) => {
-          return (
-            <span key={i}>
-              {m.senderId !== user_id ? (
-                <div className="from-me">
-                  <p>{m.content}</p>
-                </div>
-              ) : (
-                <div className="from-them">
-                  <p>{m.content}</p>
-                </div>
-              )}
-              <div className="clear"></div>
-            </span>
-          );
-        })}
-      </article>
-      <article className="message-send-container">
+    <>
+      <section className="router-container router-top router-chat-footer">
+        <article className="chat-header">{other_user}</article>
+        <article className="chat-section">
+          {message.map((m, i) => {
+            return (
+              <span key={i}>
+                {m.senderId !== user_id ? (
+                  <div className="from-me">
+                    <p>{m.content}</p>
+                  </div>
+                ) : (
+                  <div className="from-them">
+                    <p>{m.content}</p>
+                  </div>
+                )}
+                <div className="clear"></div>
+              </span>
+            );
+          })}
+        </article>
+      </section>
+      <section className="message-send-container">
         <form onSubmit={sendMessage}>
           <input
             type="text"
@@ -140,10 +151,10 @@ const Chat = (props: any) => {
             ref={messageRef}
             onChange={onChangeMessageHandler}
           />
-          <button>전송</button>
+          <button className="btn blue rounded">전송</button>
         </form>
-      </article>
-    </section>
+      </section>
+    </>
   );
 };
 

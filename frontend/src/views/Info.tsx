@@ -70,6 +70,13 @@ const Info = () => {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
   const [address3, setAddress3] = useState("");
+  const [submitFlag, setSubmitFlag] = useState<number>(0);
+
+  const [imagePreview, setImagePreview] = useState<string>(
+    require("../assets/icon/profile.png")
+  );
+
+  const [uploadFile, setUploadFile] = useState<File>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.className === "email") {
@@ -87,6 +94,7 @@ const Info = () => {
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
+    console.log(e.target);
     console.log(
       "id :",
       user_id,
@@ -100,35 +108,27 @@ const Info = () => {
       phone
     );
 
-    // let formData = new FormData();
-    // formData.append("email", email);
-    // formData.append("password", password);
-    // formData.append("nickname", nickname);
-    // formData.append("address", address1 + " " + address2 + " " + address3);
-    // formData.append("phone", );
-    // formData.append("need", need);
-
-    http
-      .patch("/user/" + user_id, {
-        email: email,
-        password: password,
-        nickname: nickname,
-        address: address1 + " " + address2 + " " + address3,
-        phone: phone
-      })
-      .then(({ data }) => {
-        // console.log(data);
-
-        dispatch(setToken(data));
-        dispatch(setAuth(false));
-        localStorage.removeItem("token");
-        localStorage.setItem("token", data);
-        history.push("/Home");
-      })
-      .catch(e => {
-        console.log(e);
-        console.log(e.response.data);
-      });
+    if (submitFlag === 1) {
+      http
+        .patch("/user/" + user_id, {
+          email: email,
+          password: password,
+          nickname: nickname,
+          address: address1 + " " + address2 + " " + address3,
+          phone: phone
+        })
+        .then(({ data }) => {
+          dispatch(setToken(data));
+          dispatch(setAuth(true));
+          localStorage.setItem("token", data);
+          history.push("/Home");
+        })
+        .catch(e => {
+          console.log(e);
+          console.log(e.response.data);
+        });
+    } else if (submitFlag === 2) {
+    }
   };
 
   const selectChange = (e: any) => {
@@ -163,8 +163,72 @@ const Info = () => {
 
     localStorage.removeItem("token");
     history.push("/Signin");
+  };
 
-    console.log("logout");
+  useEffect(() => {
+    if (uploadFile) {
+      let formData = new FormData();
+      formData.append("userId", user_id);
+      formData.append("image", uploadFile);
+      http
+        .patch("/user/profile/" + user_id, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data; charset=utf-8",
+            Accept: "application/json"
+          }
+        })
+        .then(({ data }) => {
+          alert("등록완료!");
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [uploadFile]);
+
+  const onProfileImageDeleteHandle = () => {
+    setUploadFile(undefined);
+    setImagePreview(require("../assets/icon/profile.png"));
+    http
+      .delete("/user/profile/" + user_id)
+      .then(({ data }) => {
+        alert("삭제완료!");
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const loadFile = (e: any) => {
+    const file = e.target.files;
+    setImagePreview(URL.createObjectURL(file[0]));
+    setUploadFile(file[0]);
+  };
+
+  const updateInfo = () => {
+    setSubmitFlag(1);
+  };
+  const deleteInfo = (e: any) => {
+    e.preventDefault();
+    setSubmitFlag(2);
+    let userSelection = window.confirm("정말 삭제하시겠습니까?");
+
+    if (userSelection) {
+      http
+        .delete("/user/" + user_id)
+        .then(({ data }) => {
+          dispatch(setToken(""));
+          dispatch(setAuth(false));
+          localStorage.removeItem("token");
+          history.push("/Signin");
+        })
+        .catch(e => {
+          console.log(e);
+          console.log(e.response.data);
+        });
+    }
   };
 
   return (
@@ -176,16 +240,36 @@ const Info = () => {
               <h2 className="user-title">회원 정보</h2>
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="user-input-area">
-                <label>이메일</label>
-                <input
-                  className="email"
-                  type="email"
-                  placeholder="user@unithis.com"
-                  value={email}
-                  onChange={handleChange}
-                  required
-                />
+              <div className="user-profile-area">
+                <div className="user-profile-image-area">
+                  <label>
+                    <img
+                      className="user-profile-image"
+                      src={imagePreview}
+                      alt="profile"
+                    />
+                    <img
+                      className="user-profile-camera"
+                      src={require("../assets/icon/profile_camera.png")}
+                      alt="profile"
+                    />
+
+                    <input
+                      type="file"
+                      onChange={loadFile}
+                      accept=".gif, .jpg, .png, .jpeg"
+                    />
+                  </label>
+                  {uploadFile && (
+                    <img
+                      className="user-profile-delete"
+                      src={require("../assets/icon/delete.png")}
+                      alt="profile"
+                      onClick={onProfileImageDeleteHandle}
+                    />
+                  )}
+                </div>
+                <p>{email}</p>
               </div>
               <div className="user-input-area">
                 <label>닉네임</label>
@@ -295,7 +379,18 @@ const Info = () => {
               </div>
 
               <div className="button-area">
-                <input type="submit" className="btn blue" value="수정하기" />
+                <input
+                  type="submit"
+                  className="btn blue"
+                  onClick={updateInfo}
+                  value="정보수정"
+                />
+                <input
+                  type="submit"
+                  className="btn red"
+                  onClick={deleteInfo}
+                  value="회원탈퇴"
+                />
               </div>
               <div className="user-link-area">
                 <span onClick={logout}>로그아웃</span>
