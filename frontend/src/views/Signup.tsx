@@ -1,11 +1,35 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { AuthState } from "../redux/reducer";
+import { useSelector } from "react-redux";
 
 import { address } from "../utils/address";
 import http from "../api/http-common";
 
 const Signup = () => {
   let history = useHistory();
+  const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
+
+  useEffect(() => {
+    if (auth) {
+      history.push("/Home");
+    }
+  }, []);
+
+  const emailCheck = async () => {
+    let status = 0;
+    try {
+      await http.get("/validation/email?email=" + email);
+      // console.log("이메일 체크 성공");
+      status = 1;
+      await http.get("/validation/nickname?nickname=" + nickname);
+      // console.log("닉네임 체크 성공");
+      status = 2;
+      return status;
+    } catch (error) {
+      return status;
+    }
+  };
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
@@ -15,36 +39,28 @@ const Signup = () => {
       return;
     }
 
-    console.log(
-      "email :",
-      email,
-      "\npassword :",
-      password,
-      "\nrepasseord :",
-      repassword,
-      "\nname :",
-      nickname,
-      "\naddress :",
-      address1 + " " + address2 + " " + address3,
-      "\nphone :",
-      phone
-    );
-
-    http
-      .post("/join", {
-        email: email,
-        password: password,
-        nickname: nickname,
-        address: address1 + " " + address2 + " " + address3,
-        phone: phone
-      })
-      .then(({ data }) => {
-        console.log(data);
-        history.push("/Signin");
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    emailCheck().then(v => {
+      if (v === 0) {
+        alert("이메일이 중복됩니다.");
+      } else if (v === 1) {
+        alert("닉네임이 중복됩니다.");
+      } else if (v === 2) {
+        http
+          .post("/join", {
+            email: email,
+            password: password,
+            nickname: nickname,
+            address: address1 + " " + address2 + " " + address3,
+            phone: phone
+          })
+          .then(({ data }) => {
+            history.push("/Signin");
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
+    });
   };
 
   const [email, setEmail] = useState("");

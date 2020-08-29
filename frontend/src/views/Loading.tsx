@@ -4,11 +4,11 @@ import { AuthState, getToken, PathState } from "../redux/reducer";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router";
 const Loading = () => {
+  let history = useHistory();
   const dispatch = useDispatch();
+
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
   const path = useSelector<PathState, PathState["path"]>(state => state.path);
-
-  let history = useHistory();
 
   useEffect(() => {
     dispatch(getToken());
