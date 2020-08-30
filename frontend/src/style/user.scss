@@ -96,6 +96,12 @@ $pink: #ff9697;
   .user-margin-bottem {
     margin-bottom: 9rem;
   }
+
+  @media all and (min-width: 350px) {
+    .user-margin-bottem {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .user-profile-area {
@@ -128,5 +134,14 @@ $pink: #ff9697;
       top: 0;
       left: 0.5rem;
     }
+  }
+}
+
+@media all and (min-width: 350px) {
+  .user-title-area {
+    display: none;
+  }
+  .user-margin-bottem {
+    margin-bottom: 1rem;
   }
 }

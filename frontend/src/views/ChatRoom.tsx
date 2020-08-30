@@ -60,10 +60,10 @@ export const ChatRoom = () => {
 
   return (
     <>
+      <div className="chat-header-wrapper">
+        <span>채 팅 목 록</span>
+      </div>
       <section className="router-container router-chat-header router-footer">
-        <div className="chat-header-wrapper">
-          <span>채 팅 목 록</span>
-        </div>
         <div className="chat-room-wrapper">
           {room &&
             room.map((r, i) => {
@@ -79,7 +79,17 @@ export const ChatRoom = () => {
                       )
                     }
                   >
-                    {r.entity.otherUserNickname}
+                    <div className="chat-room-content-profile">
+                      <div>{r.entity.otherUserNickname}</div>
+                      <div className="chat-room-content-profile-message">
+                        {r.entity.recentMessage}
+                      </div>
+                    </div>
+                    {r.entity.unreadMessage !== 0 && (
+                      <div className="chat-room-content-unreadMessage">
+                        {r.entity.unreadMessage}
+                      </div>
+                    )}
                   </div>
                 </div>
               );

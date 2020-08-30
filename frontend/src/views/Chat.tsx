@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Message } from "react-app-env";
 import { useSelector } from "react-redux";
 import { UserIDState, OtherUserState } from "../redux/reducer";
+import jwt_decode from "jwt-decode";
 
 import "../style/chat.scss";
 
@@ -22,6 +23,13 @@ let stompClient: any = null;
 
 const Chat = (props: any) => {
   let history = useHistory();
+
+  const token: any = localStorage.getItem("token");
+  let decodedToken: any;
+
+  if (token) {
+    decodedToken = jwt_decode(token);
+  }
 
   const other_user: any = useSelector<
     OtherUserState,
@@ -56,6 +64,18 @@ const Chat = (props: any) => {
         .catch(e => {
           console.log(e);
         });
+
+      http
+        .patch("/chat/message", {
+          id: roomId,
+          userId: decodedToken.id
+        })
+        .then(({ data }) => {
+          setMessage(data.reverse());
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }, [props]);
 
@@ -82,6 +102,17 @@ const Chat = (props: any) => {
 
   const onMessageReceived = (payload: any) => {
     setReciveMessage(JSON.parse(payload.body));
+    http
+      .patch("/chat/message", {
+        id: props.match.params.id,
+        userId: props.location.state.user1Id
+      })
+      .then(({ data }) => {
+        setMessage(data.reverse());
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   const onConnected = () => {
@@ -128,11 +159,11 @@ const Chat = (props: any) => {
             return (
               <span key={i}>
                 {m.senderId !== user_id ? (
-                  <div className="from-me">
+                  <div className="from-them">
                     <p>{m.content}</p>
                   </div>
                 ) : (
-                  <div className="from-them">
+                  <div className="from-me">
                     <p>{m.content}</p>
                   </div>
                 )}

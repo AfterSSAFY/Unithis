@@ -4,6 +4,7 @@
   width: 100%;
   padding: 1rem;
   top: 0;
+  left: 0;
   justify-content: center;
   font-family: "BMJUA";
   font-size: 1.2rem;
@@ -16,10 +17,23 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-
   .chat-room-content {
     display: flex;
+    justify-content: space-between;
     padding: 1rem;
     border: 1px solid black;
+    .chat-room-content-profile-message {
+      text-align: left;
+      color: #8b8b8b;
+    }
+    .chat-room-content-unreadMessage {
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #ff8a3d;
+      padding: 0.4rem;
+      border-radius: 50%;
+    }
   }
 }

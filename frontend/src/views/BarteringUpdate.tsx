@@ -1,15 +1,13 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import Nav from "../components/Nav";
-import http from "../api/http-common";
-import { UserIDState } from "../redux/reducer";
-import { useSelector } from "react-redux";
+import http, { imageURL } from "../api/http-common";
 import { useHistory } from "react-router-dom";
 
 import jwt_decode from "jwt-decode";
 
 import "../style/barteringwrite.scss";
 
-const BarteringWrite = () => {
+const BarteringUpdate = (props: any) => {
   const [imagePreviewList, setImagePreviewList] = useState<Array<string>>([]);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -18,10 +16,40 @@ const BarteringWrite = () => {
   const [need, setNeed] = useState("");
   const [uploadFileList, setUploadFileList] = useState<Array<File>>([]);
   let history = useHistory();
+  const token: any = localStorage.getItem("token");
+  let decodedToken: any;
 
-  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
-    state => state.userID
-  );
+  if (token) {
+    decodedToken = jwt_decode(token);
+  }
+
+  useEffect(() => {
+    if (props) {
+      http
+        .get("/category")
+        .then(({ data }) => {
+          setCategoryList(data);
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      if (props.location && props.location.state) {
+        console.log(props.location.state["item"]);
+        setTitle(props.location.state["item"]["title"]);
+        setCategory(props.location.state["item"]["category"]);
+        setNeed(props.location.state["item"]["need"]);
+        const images = props.location.state["item"]["images"].map((v: any) => {
+          return imageURL + v;
+        });
+        setImagePreviewList(images);
+        setContents(props.location.state["item"]["contents"]);
+      } else {
+        history.push("/Home");
+      }
+    }
+  }, [props, props.location]);
 
   const loadFile = (e: any) => {
     const files = e.target.files;
@@ -56,14 +84,16 @@ const BarteringWrite = () => {
     }
   };
 
+  const close = () => {
+    history.push("/Home");
+  };
+
   const onSubmitHandle = (e: any) => {
     e.preventDefault();
-    const token: any = localStorage.getItem("token");
-    const decodedToken: any = jwt_decode(token);
 
     let formData = new FormData();
-
-    formData.append("userId", user_id);
+    formData.append("id", props.location.state["item"]["id"]);
+    formData.append("userId", decodedToken.id);
     formData.append("title", title);
     formData.append("category", category);
     formData.append("contents", contents);
@@ -75,8 +105,10 @@ const BarteringWrite = () => {
     });
 
     console.log(
-      "userID : ",
-      String(user_id),
+      "id : ",
+      props.location.state["item"]["id"],
+      "\nuserID : ",
+      String(decodedToken.id),
       "\ntitle : ",
       title + "\ncatetory : ",
       category,
@@ -91,7 +123,7 @@ const BarteringWrite = () => {
     );
 
     http
-      .post("/item", formData, {
+      .patch("/item", formData, {
         headers: {
           "Content-Type": "multipart/form-data; charset=utf-8",
           Accept: "application/json"
@@ -104,22 +136,6 @@ const BarteringWrite = () => {
       .catch(error => {
         console.log(error);
       });
-  };
-
-  useEffect(() => {
-    http
-      .get("/category")
-      .then(({ data }) => {
-        setCategoryList(data);
-        console.log(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-
-  const close = () => {
-    history.push("/Home");
   };
 
   return (
@@ -229,4 +245,4 @@ const BarteringWrite = () => {
   );
 };
 
-export default BarteringWrite;
+export default BarteringUpdate;

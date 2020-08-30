@@ -28,8 +28,28 @@ nav {
         color: $pink;
       }
     }
+    .chat-area-absolute {
+      position: relative;
+      top: 0;
+      left: 0;
+    }
     .active {
       color: $pink;
     }
+  }
+}
+
+.chat-area {
+  position: relative;
+  top: 0;
+  left: 0;
+  div {
+    position: absolute;
+    top: -23px;
+    right: -10px;
+    color: white;
+    background-color: #ff8a3d;
+    padding: 0.4rem;
+    border-radius: 50%;
   }
 }

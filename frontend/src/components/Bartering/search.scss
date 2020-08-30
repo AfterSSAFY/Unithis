@@ -1,0 +1,25 @@
+.search-input {
+  text-indent: 0.7rem;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+}
+.recent-search-container {
+  padding: 1.2rem;
+  .recent-search-title {
+    color: #8b8b8b;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .recent-search-area {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    .recent-search-text {
+      color: darkgray;
+    }
+    .recent-search-delete-btn {
+      color: red;
+    }
+  }
+}

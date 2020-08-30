@@ -1,29 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import "../style/header.scss";
 
-const title: String = "Unithis";
-
 const Header = () => {
-  const keyHandler = (e: any) => {
-    console.log(e);
+  const [settingMenu, setSettingMenu] = useState<boolean>(false);
+  const [searchMenu, setSearchMenu] = useState<boolean>(false);
+  const onSearchHandle = () => {
+    console.log("search");
+    setSearchMenu(!searchMenu);
+    const el = document.querySelector(".search-container");
+    if (!searchMenu) {
+      if (el) {
+        el.classList.remove("none");
+        el.classList.add("inline");
+      }
+    } else {
+      if (el) {
+        el.classList.add("none");
+        el.classList.remove("inline");
+      }
+    }
   };
+
+  const onSettingHandle = () => {
+    console.log("setting");
+    setSettingMenu(!settingMenu);
+    const el = document.querySelector(".address-list-content");
+    if (!settingMenu) {
+      if (el) {
+        el.classList.remove("none");
+        el.classList.add("inline");
+      }
+    } else {
+      if (el) {
+        el.classList.add("none");
+        el.classList.remove("inline");
+      }
+    }
+  };
+
   return (
     <>
       <header>
         <div className="fixed-header-content">
           <div className="fixed-header-title">
-            <h1 className="fixed-header-title-text">{title}</h1>
+            <h1 className="fixed-header-title-text">Unithis</h1>
           </div>
           <div className="fixed-header-search-box">
-            <input
-              type="text"
-              placeholder="상품 / 지역을 검색해보세요."
-              onKeyPress={keyHandler}
-            />
             <img
               className="search-Icon"
               src={require("../assets/icon/search.svg")}
               alt="searchIcon"
+              onClick={onSearchHandle}
+            />
+            <img
+              className="category-setting-btn"
+              src={require("../assets/icon/setting.png")}
+              alt="settingIcon"
+              onClick={onSettingHandle}
             />
           </div>
         </div>

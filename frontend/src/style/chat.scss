@@ -1,7 +1,9 @@
 .chat-header {
   width: 100%;
-  z-index: 1001;
+  z-index: 1000;
   position: fixed;
+  left: 0;
+  top: 0;
   padding: 1rem;
   justify-content: center;
   text-align: center;
