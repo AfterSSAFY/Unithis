@@ -13,7 +13,8 @@ import {
   Signup,
   Info,
   Test,
-  Loading
+  Loading,
+  BarteringUpdate
 } from "../router";
 
 import "../style/routerview.scss";
@@ -34,6 +35,8 @@ const RouterView = () => {
         return <Route path={path} component={ChatRoom}></Route>;
       case "/Signin":
         return <Route path={path} component={Signin}></Route>;
+      case "/BarteringUpdate":
+        return <Route path={path} component={BarteringUpdate}></Route>;
       default:
         return <Route path={path} component={Chat}></Route>;
     }
@@ -56,6 +59,7 @@ const RouterView = () => {
 
         <PrivateRoute path="/Info" />
         <PrivateRoute path="/BarteringWrite" />
+        <PrivateRoute path="/BarteringUpdate" />
         <PrivateRoute path="/ChatRoom" />
         <PrivateRoute path="/Chat/:id" />
         {/* <Route path="/Chat/:id" component={Chat}></Route> */}

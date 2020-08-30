@@ -44,6 +44,31 @@ export const BarteringFooter = (props: any) => {
     }
   };
 
+  const onUpdateBartering = () => {
+    history.push({
+      pathname: "/BarteringUpdate",
+      state: {
+        item: props["item"]["item"]
+      }
+    });
+  };
+
+  const onDeleteBartering = () => {
+    const userSelection = window.confirm("정말 삭제하시겠습니끼?");
+    console.log(userSelection);
+    console.log(props["item"]["item"]["id"]);
+    if (userSelection) {
+      http
+        .delete("/item/" + props["item"]["item"]["id"])
+        .then(({ data }) => {
+          history.push("/Home");
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  };
+
   return (
     <div className="bartering-detail-footer">
       <div className="bartering-detail-footer-container">
@@ -58,9 +83,21 @@ export const BarteringFooter = (props: any) => {
             채팅으로 거래하기
           </button>
         ) : (
-          <button className="btn rounded blue transaction-button">
-            상품 정보 수정하기
-          </button>
+          <>
+            <button
+              className="btn rounded red transaction-button"
+              onClick={onDeleteBartering}
+            >
+              상품 삭제
+            </button>
+
+            <button
+              className="btn rounded blue transaction-button"
+              onClick={onUpdateBartering}
+            >
+              상품 정보 수정
+            </button>
+          </>
         )}
       </div>
     </div>

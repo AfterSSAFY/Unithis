@@ -8,7 +8,9 @@ header {
   background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0.5, 0.5, 0.5, 0.5);
   z-index: 1000;
+  top: 0;
   left: 0;
+
   .fixed-header-content {
     display: flex;
     width: 100%;
@@ -19,6 +21,8 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
     .fixed-header-title-text {
       font-size: 1.5rem;
       color: $pink;
@@ -30,22 +34,25 @@ header {
     padding: 1rem;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
-    input {
-      text-indent: 1em;
-      width: 100%;
-      height: 100%;
-      font-size: 1rem;
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .search-Icon {
+      margin-right: 1rem;
+    }
+
+    .category-setting-btn {
+      margin-left: 1rem;
     }
   }
 }
 
-.search-Icon {
-  position: absolute;
-  top: 32px;
-  right: 32px;
-  width: 20px;
-  height: 20px;
-  fill: #ff9697;
+.none {
+  display: none;
+}
+.inline {
+  display: inline;
 }

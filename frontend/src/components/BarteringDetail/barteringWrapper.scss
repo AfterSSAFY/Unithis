@@ -7,6 +7,8 @@
   bottom: 0;
   position: absolute;
   font-family: initial;
+  transition: all 0.7s;
+  opacity: 1;
 
   .bartering-detail-wrapper {
     width: 100%;
@@ -24,12 +26,53 @@
     overflow: hidden;
     padding-bottom: 90%;
     margin-bottom: 1rem;
+
     .iamge-prev-btn {
       position: absolute;
       color: #fff;
       font-size: 2rem;
       padding: 1rem;
+      z-index: 1001;
+    }
+
+    .iamge-setting-btn {
+      position: absolute;
+      color: #fff;
+      font-size: 2rem;
+      right: 0;
+      padding: 1rem;
+      z-index: 1001;
+    }
+
+    .prev-btn {
+      z-index: 1001;
+      font-size: 2rem;
+      position: absolute;
+      color: white;
+      left: 1rem;
+      top: 9rem;
+    }
+    .next-btn {
+      z-index: 1001;
+      font-size: 2rem;
+      position: absolute;
+      color: white;
+      right: 1rem;
+      top: 9rem;
+    }
+    .status-setting-list {
+      position: absolute;
+      top: 3.5rem;
+      right: 1rem;
+      color: white;
+      text-align: right;
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 2;
+      transition: all 0.7s;
+      ul {
+        display: flex;
+        flex-direction: column;
+      }
     }
     img {
       position: absolute;
@@ -87,4 +130,20 @@
       line-height: 2;
     }
   }
+}
+
+.opacity0 {
+  opacity: 0;
+}
+
+.opacity05 {
+  opacity: 0.5;
+}
+
+.opacity1 {
+  opacity: 1;
+}
+
+.active {
+  color: #ff8a3d;
 }

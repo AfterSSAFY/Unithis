@@ -39,7 +39,7 @@ export const AddressList = () => {
   };
 
   return (
-    <>
+    <div className="address-list-content none">
       {
         <ul className="address-list">
           {Object.keys(address).map((c, i) => {
@@ -56,48 +56,50 @@ export const AddressList = () => {
           })}
         </ul>
       }
-      {city.map(v => {
-        return (
-          <div key={v}>
-            <ul className="address-list">
-              {Object.keys(Object.values(address)[Number(v)]).map((c, i) => {
+      {city &&
+        city.map(v => {
+          return (
+            <div key={v}>
+              <ul className="address-list">
+                {Object.keys(Object.values(address)[Number(v)]).map((c, i) => {
+                  return (
+                    <li value={i} key={c} onClick={townClick}>
+                      {c}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      {town &&
+        town.map((v, i) => {
+          return (
+            <div key={i}>
+              {v.map(v2 => {
                 return (
-                  <li value={i} key={c} onClick={townClick}>
-                    {c}
-                  </li>
+                  <div key={v2}>
+                    <ul className="address-list">
+                      {String(
+                        Object.values(Object.values(address)[Number(city[i])])[
+                          Number(v2)
+                        ]
+                      )
+                        .split(",")
+                        .map(c => {
+                          return (
+                            <li key={c} onClick={villageClick}>
+                              {c}
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
                 );
               })}
-            </ul>
-          </div>
-        );
-      })}
-      {town.map((v, i) => {
-        return (
-          <div key={i}>
-            {v.map(v2 => {
-              return (
-                <div key={v2}>
-                  <ul className="address-list">
-                    {String(
-                      Object.values(Object.values(address)[Number(city[i])])[
-                        Number(v2)
-                      ]
-                    )
-                      .split(",")
-                      .map(c => {
-                        return (
-                          <li key={c} onClick={villageClick}>
-                            {c}
-                          </li>
-                        );
-                      })}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </>
+            </div>
+          );
+        })}
+    </div>
   );
 };

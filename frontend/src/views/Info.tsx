@@ -236,7 +236,7 @@ const Info = () => {
       <section className="user-container">
         <div className="user-wrapper">
           <div className="user-content">
-            <div>
+            <div className="user-title-area">
               <h2 className="user-title">회원 정보</h2>
             </div>
             <form onSubmit={handleSubmit}>

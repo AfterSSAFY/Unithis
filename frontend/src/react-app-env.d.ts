@@ -14,6 +14,7 @@ type Bartering_List = {
   title: string;
   userId: number;
 };
+
 type SigninInfo = {
   email: string;
   password: string;
@@ -63,6 +64,13 @@ type Message = {
   receiverId: number;
   sendTime: string;
   senderId: number;
+};
+
+type SearchList = {
+  date: string;
+  id: number;
+  keyword: string;
+  userId: numver;
 };
 
 type Action_Auth = { type: "SET_AUTH"; payload: boolean };

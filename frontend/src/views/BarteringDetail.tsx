@@ -19,6 +19,7 @@ const BarteringDetail = (props: any) => {
     http
       .get("/item/" + props.match.params.id)
       .then(({ data }) => {
+        console.log(data);
         setItem(data);
       })
       .catch(e => {

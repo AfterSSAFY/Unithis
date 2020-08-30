@@ -8,3 +8,4 @@ export { default as Info } from "../views/Info";
 export { default as ChatRoom } from "../views/ChatRoom";
 export { default as Chat } from "../views/Chat";
 export { default as Loading } from "../views/Loading";
+export { default as BarteringUpdate } from "../views/BarteringUpdate";
