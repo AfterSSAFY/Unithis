@@ -60,4 +60,9 @@ public class UserService implements IUserService {
 		return userMapper.deleteProfile(id);
 	}
 
+	@Override
+	public User findUserById(long id) {
+		return userMapper.findUserById(id);
+	}
+
 }

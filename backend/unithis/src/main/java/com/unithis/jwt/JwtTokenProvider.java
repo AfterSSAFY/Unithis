@@ -83,5 +83,13 @@ public class JwtTokenProvider {
 			return false;
 		}
 	}
+	
+	// 토큰에서 회원 정보 추출 및 조회
+	public void getTokenInformations(String token) {
+		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+		for(String k : claims.keySet()) {
+			System.out.println(k+" : "+claims.get(k));
+		}
+	}
 
 }
