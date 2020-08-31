@@ -88,16 +88,4 @@ class MapperTests {
 		}
 	}
 
-	@Test
-	public void testSelectList() {
-		List<User> userList = userMapper.getAllUsers();
-		if (CollectionUtils.isEmpty(userList) == false) {
-			for (User u : userList) {
-				System.out.println("=========================");
-				System.out.println(u.getEmail());
-				System.out.println(u.getNickname());
-				System.out.println("=========================");
-			}
-		}
-	}
 }

@@ -69,28 +69,26 @@ public class ItemController {
 												.contents(contents).category(category)
 												.need(need).address(address).build();
 		
-		System.out.println(item.toString());
-		
-		if(images.length > 0) {
-			for (int i = 0; i < images.length; i++) {
-				System.out.println(images[i].getOriginalFilename());
-			}
-		}
-		
 		return itemService.createItem(item, images);
 	}
 	
-	@PatchMapping("/item")
+	@PatchMapping("/item/{id}")
 	@ApiOperation("물건 정보 수정")
-	public int updateItem(@RequestBody ItemRequest item) {
+	public int updateItem(@PathVariable long id, @RequestParam long userId, @RequestParam String title, 
+			@RequestParam String contents, @RequestParam String category,
+			@RequestParam String need, @RequestParam String address, @RequestPart MultipartFile[] images) {
 		log.info("ItemController : updateItem");
 		
-		return itemService.updateItem(item);
+		ItemRequest item = ItemRequest.builder().id(id).userId(userId).title(title)
+				.contents(contents).category(category)
+				.need(need).address(address).build();
+		
+		return itemService.updateItem(item, images);
 	}
 	
-	@PatchMapping("/item/{id}")
+	@PatchMapping("/item/{status}/{id}")
 	@ApiOperation("물건 상태 변경")
-	public int updateItemStatus(@PathVariable long id, @RequestParam String status) {
+	public int updateItemStatus(@PathVariable long id, @PathVariable String status) {
 		log.info("ItemController : updateStatus");
 		
 		return itemService.updateItemStatus(id, status);
@@ -102,6 +100,14 @@ public class ItemController {
 		log.info("ItemController : deleteItem");
 		
 		return itemService.deleteItem(id);
+	}
+	
+	@DeleteMapping("/item/image/{filename}")
+	@ApiOperation("물건 이미지 삭제")
+	public int deleteItemImage(@PathVariable String filename) {
+		log.info("ItemController : deleteItemImage");
+		
+		return itemService.deleteItemImage(filename);
 	}
 	
 	@GetMapping("/category")

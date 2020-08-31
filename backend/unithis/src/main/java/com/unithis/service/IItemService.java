@@ -14,8 +14,9 @@ public interface IItemService {
 	public List<ItemResponse> getItemsByCategoryAndAddress(ItemSearchRequest item);
 	public List<ItemResponse> getAllItem();
 	public int createItem(ItemRequest item, MultipartFile[] images);
-	public int updateItem(ItemRequest item);
+	public int updateItem(ItemRequest item, MultipartFile[] images);
 	public int updateItemStatus(long id, String status);
 	public int deleteItem(long id);
+	public int deleteItemImage(String filename);
 	public String[] getCategory();
 }

@@ -24,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ImageService implements IImageService {
 
-//    public static final String SAVE_FOLDER = "/home/ubuntu/images/";
-//    public static final String IMAGE_URL = "http://ec2-3-35-10-230.ap-northeast-2.compute.amazonaws.com/images";
-	public static final String SAVE_FOLDER = "C:/github/Unithis/backend/unithis/src/main/resources/static/images/";
-	public static final String IMAGE_URL = "localhost:8080:/images";
+    public static final String SAVE_FOLDER = "/home/ubuntu/images/";
+    public static final String IMAGE_URL = "http://ec2-13-124-102-51.ap-northeast-2.compute.amazonaws.com:8080/images";
+//	public static final String SAVE_FOLDER = "C:/github/Unithis/backend/unithis/src/main/resources/static/images/";
+//	public static final String IMAGE_URL = "localhost:8080:/images";
 	
 	private final ImageDao imageDao;
 	private final UserMapper userMapper;

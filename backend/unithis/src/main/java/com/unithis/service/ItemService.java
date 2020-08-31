@@ -93,8 +93,21 @@ public class ItemService implements IItemService {
 	
 	@Transactional
 	@Override
-	public int updateItem(ItemRequest item) {
-		return itemDao.updateItem(item);
+	public int updateItem(ItemRequest item, MultipartFile[] images) {
+		int result = itemDao.updateItem(item);
+		
+		if(result == 0)
+			return 0;
+		
+		if(images.length != 0) {
+			try {
+				result += imageService.imageUpload(images, item.getId());
+			} catch (Exception e) {
+				log.error("파일 업로드에 실패했습니다.");
+			}
+		}
+		
+		return result;
 	}
 	
 	@Transactional
@@ -103,9 +116,9 @@ public class ItemService implements IItemService {
 		if(status.equals("대기중"))
 			return itemDao.updateItemStatusWaiting(id);
 		if(status.equals("거래중"))
-			return itemDao.updateItemStatusSoldOut(id);
+			return itemDao.updateItemStatusOnSales(id);
 		
-		return itemDao.updateItemStatusOnSales(id);
+		return itemDao.updateItemStatusSoldOut(id);
 	}
 
 	@Transactional
@@ -114,6 +127,12 @@ public class ItemService implements IItemService {
 		return itemDao.deleteItem(id);
 	}
 
+	@Transactional
+	@Override
+	public int deleteItemImage(String filename) {
+		return itemDao.deleteItemImage(filename);
+	}
+	
 	@Override
 	public String[] getCategory() {
 		String[] result = {"디지털/가전", "가구/인테리어", "유아동/유아도서", "생활/가공식품",	"스포츠/레저",	"여성잡화", "여성의류", "남성패션/잡화",
