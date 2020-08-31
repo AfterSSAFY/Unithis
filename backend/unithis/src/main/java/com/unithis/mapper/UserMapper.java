@@ -15,4 +15,5 @@ public interface UserMapper {
 	public int isValidNickname(String nickname);
 	public int updateProfile(User build);
 	public int deleteProfile(long id);	
+	public User findUserById(long id);	
 }

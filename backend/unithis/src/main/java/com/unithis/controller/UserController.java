@@ -44,6 +44,7 @@ public class UserController {
 		log.info("POST : /api/login");
 
 		User member = userService.findUserByEmail(user.get("email"));
+		System.out.println(member);
 		if (member == null) {
 			log.info("없는 이메일");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ERROR : 로그인 실패");
@@ -70,7 +71,7 @@ public class UserController {
 		try {
 			joinResult = userService.createUser(newUser);
 		} catch (DataIntegrityViolationException e) {
-			log.info("ERROR : "+e);
+			log.info("ERROR : " + e);
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 가입 실패(정보오류)");
 		}
 		if (joinResult) {
@@ -82,18 +83,32 @@ public class UserController {
 	@PostMapping("/token")
 	@ApiOperation("토큰 검증")
 	public Object token(@RequestBody String access_token) {
-		log.info("POST : /api/loginToken");
+		log.info("POST : /api/token");
 
 		String result = null;
-		
-		System.out.println("여기 : " + access_token);
+
+//		System.out.println("여기 : " + access_token);
 
 		if (jwtTokenProvider.validateToken(access_token)) {
 			result = jwtTokenProvider.getUserPk(access_token);
 			log.info(result.toString());
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
-//			return new ResponseEntity<>(result, HttpStatus.OK);
+			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
+		}
+	}
+
+	@PostMapping("/token/info")
+	@ApiOperation("개발용 : 토큰 검증 및 정보확인")
+	public Object tokenInfo(@RequestBody String access_token) {
+		log.info("POST : /api/token/info");
+
+		if (jwtTokenProvider.validateToken(access_token)) {
+			System.out.println("---------------------");
+			jwtTokenProvider.getTokenInformations(access_token);
+			System.out.println("---------------------");
+			return new ResponseEntity<>("SUCC : 토큰정보 확인", HttpStatus.OK);
+		} else {
 			return new ResponseEntity<>("ERROR : 유효하지 않은 토큰", HttpStatus.FORBIDDEN);
 		}
 	}
@@ -113,20 +128,18 @@ public class UserController {
 	@PatchMapping("/user/{id}")
 	@ApiOperation("유저 : 내 정보 수정")
 	public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody Map<String, String> userInfo) {
-		log.info("PATCH : /api/users/{num} = " + userInfo.get("id"));
+		log.info("PATCH : /api/user/{num} = " + id);
 		System.out.println(userInfo);
-		User reqUpdateUserInfo = User.builder().id(id)
-				.nickname(userInfo.get("nickname"))
-				.email(userInfo.get("email"))
-				.password(passwordEncoder.encode(userInfo.get("password")))
-				.phone(userInfo.get("phone")).address(userInfo.get("address")).build();
+		User reqUpdateUserInfo = User.builder().id(id).nickname(userInfo.get("nickname")).email(userInfo.get("email"))
+				.password(passwordEncoder.encode(userInfo.get("password"))).phone(userInfo.get("phone"))
+				.address(userInfo.get("address")).build();
 
 		if (!userService.updateUser(reqUpdateUserInfo)) {
 			log.error("update failed");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 정보수정 불가");
 		}
 
-		User user = userService.findUserByEmail(reqUpdateUserInfo.getEmail());
+		User user = userService.findUserById(id);
 		String tokenValue = jwtTokenProvider.createToken(user);
 		if (tokenValue != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(tokenValue);
@@ -137,7 +150,7 @@ public class UserController {
 	@DeleteMapping("/user/{id}")
 	@ApiOperation("유저 : 회원정보 삭제 및 탈퇴")
 	public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
-		log.info("DELETE : /api/user/{num} = " + id);
+		log.info("DELETE : /api/user/{id} = " + id);
 
 		if (!userService.deleteUser(id)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : 탈퇴 실패");
@@ -155,38 +168,48 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 이메일");
 	}
-	
+
 	@GetMapping("/validation/nickname")
 	@ApiOperation("중복 판단 : 닉네임 중복체크")
 	public ResponseEntity<String> duplicatedNickname(@RequestParam(required = true) String nickname) {
 		log.info("닉네임 중복 검사 : " + nickname);
-		
+
 		if (!userService.isValidNickname(nickname)) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 중복 닉네임");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 허용 닉네임");
 	}
-	
+
 	@PatchMapping("/user/profile/{id}")
 	@ApiOperation("유저 프로필 사진 변경")
 	public ResponseEntity<String> updateProfile(@PathVariable("id") long id, @RequestPart MultipartFile image) {
-		log.info("UserController : updateProfile");
-		
-		if(userService.updateProfile(image, id) == 0) {
+		log.info("유저 프로필 사진 변경 : /api/user/profile/{id} "+ id);
+
+		if (userService.updateProfile(image, id) == 0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 프로필 사진 변경 실패");
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 프로필 사진 변경 성공");
+		User user = userService.findUserById(id);
+		String tokenValue = jwtTokenProvider.createToken(user);
+		if (tokenValue != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(tokenValue);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERROR : 프로필사진 변경 성공 / 토큰발급 오류");
 	}
-	
+
 	@DeleteMapping("/user/profile/{id}")
 	@ApiOperation("유저 프로필 사진 삭제")
 	public ResponseEntity<String> deleteProfile(@PathVariable("id") long id) {
-		log.info("UserController : deleteProfile");
-		
-		if(userService.deleteProfile(id) == 0) {
+		log.info("유저 프로필 사진 삭제 : /api/user/profile/{id} "+ id);
+
+		if (userService.deleteProfile(id) == 0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ERROR : 프로필 사진 삭제 실패");
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("SUCC : 프로필 사진 삭제 성공");
+		User user = userService.findUserById(id);
+		String tokenValue = jwtTokenProvider.createToken(user);
+		if (tokenValue != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(tokenValue);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERROR : 프로필사진 삭제 성공 / 토큰발급 오류");
 	}
-	
+
 }

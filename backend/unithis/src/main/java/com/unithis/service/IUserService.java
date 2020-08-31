@@ -14,4 +14,5 @@ public interface IUserService {
 	public boolean isValidNickname(String nickname);
 	public int updateProfile(MultipartFile image, long id);
 	public int deleteProfile(long id);
+	public User findUserById(long id);	
 }

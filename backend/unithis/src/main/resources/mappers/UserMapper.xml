@@ -29,7 +29,13 @@
 		where
 		id=#{id}
 	</delete>
-
+	
+	<select id="findUserById" parameterType="long"
+		resultType="User">
+		select id, email, nickname, phone, address, password, profile from user where
+		id=#{id}
+	</select>
+	
 	<select id="findUserByEmail" parameterType="string"
 		resultType="User">
 		select id, email, nickname, phone, address, password, profile from user where
