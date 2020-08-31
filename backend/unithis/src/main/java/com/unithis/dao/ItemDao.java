@@ -55,4 +55,8 @@ public class ItemDao {
 		return sqlSession.delete(ns + "deleteItem", id);
 	}
 
+	public int deleteItemImage(String filename) {
+		return sqlSession.delete(ns + "deleteItemImage", filename);
+	}
+
 }
