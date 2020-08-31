@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
 
 import "./barteringWrapper.scss";
 import http, { imageURL } from "../../api/http-common";
@@ -13,6 +14,13 @@ export const BarteringWrapper = (props: any) => {
   const nextRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+
+  const token: any = localStorage.getItem("token");
+  let decodedToken: any;
+
+  if (token) {
+    decodedToken = jwt_decode(token);
+  }
 
   const dispatch = useDispatch();
   let history = useHistory();
@@ -36,8 +44,6 @@ export const BarteringWrapper = (props: any) => {
     }
 
     if (props["item"]) {
-      console.log(props["item"]["images"].length);
-
       http
         .get("/user/" + props["item"]["userId"])
         .then(({ data }) => {
@@ -48,7 +54,7 @@ export const BarteringWrapper = (props: any) => {
           console.log(e);
         });
     }
-  }, [props["item"]]);
+  }, [props, decodedToken]);
 
   const backwardMovement = () => {
     history.goBack();
@@ -86,7 +92,7 @@ export const BarteringWrapper = (props: any) => {
     }
 
     http
-      .patch("/item/" + props["item"]["id"] + "?status=" + e.target.innerText)
+      .patch("/item/" + e.target.innerText + "/" + props["item"]["id"])
       .then(({ data }) => {
         console.log(data);
       })
@@ -132,32 +138,39 @@ export const BarteringWrapper = (props: any) => {
           </div>
         )}
 
-        <div className="iamge-setting-btn opacity1" onClick={onSettingHandle}>
-          &#x22EE;
-        </div>
-        {
-          <div className="status-setting-list opacity0" ref={statusRef}>
-            <ul>
-              {props["item"] && props["item"]["status"] === "대기중" ? (
-                <li className="active">대기중</li>
-              ) : (
-                <li onClick={onStatusChange}>대기중</li>
-              )}
+        {props["item"] && props["item"]["userId"] === decodedToken.id && (
+          <>
+            <div
+              className="iamge-setting-btn opacity1"
+              onClick={onSettingHandle}
+            >
+              &#x22EE;
+            </div>
+            {
+              <div className="status-setting-list opacity0" ref={statusRef}>
+                <ul>
+                  {props["item"] && props["item"]["status"] === "대기중" ? (
+                    <li className="active">대기중</li>
+                  ) : (
+                    <li onClick={onStatusChange}>대기중</li>
+                  )}
 
-              {props["item"] && props["item"]["status"] === "거래중" ? (
-                <li className="active">거래중</li>
-              ) : (
-                <li onClick={onStatusChange}>거래중</li>
-              )}
+                  {props["item"] && props["item"]["status"] === "거래중" ? (
+                    <li className="active">거래중</li>
+                  ) : (
+                    <li onClick={onStatusChange}>거래중</li>
+                  )}
 
-              {props["item"] && props["item"]["status"] === "거래완료" ? (
-                <li className="active">거래완료</li>
-              ) : (
-                <li onClick={onStatusChange}>거래완료</li>
-              )}
-            </ul>
-          </div>
-        }
+                  {props["item"] && props["item"]["status"] === "거래완료" ? (
+                    <li className="active">거래완료</li>
+                  ) : (
+                    <li onClick={onStatusChange}>거래완료</li>
+                  )}
+                </ul>
+              </div>
+            }
+          </>
+        )}
       </div>
       <div className="bartering-detail-description-area">
         <div className="bartering-detail-profile">

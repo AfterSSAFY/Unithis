@@ -90,14 +90,14 @@ export const getToken = () => async (dispatch: any, getState: any) => {
     .catch(e => {
       dispatch(setToken(""));
       dispatch(setAuth(false));
-      dispatch(setUserID(-1));
       if (e.request.status === 403) {
         console.log("Token Error : 토큰시간이 만료");
       } else {
         console.log("Token Error : ", e.request.status, " 토큰 검증 에러");
       }
-      return e;
+      return -2;
     });
+
   dispatch(setUserID(userID));
 
   // console.log(JSON.stringify(userID));

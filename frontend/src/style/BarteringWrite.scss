@@ -40,12 +40,23 @@ figure {
 
 .write-body-wrap {
   display: flex;
+  .photo-area {
+    position: relative;
+  }
   .PhotoResult {
     height: 10rem;
     margin: 1rem;
     @media all and (max-width: 500px) {
       height: 5rem;
     }
+  }
+
+  .user-profile-delete {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0.5rem;
+    left: 0.5rem;
   }
 
   .photoImage {

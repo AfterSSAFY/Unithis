@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { Message } from "react-app-env";
 import { useSelector } from "react-redux";
-import { UserIDState, OtherUserState } from "../redux/reducer";
+import { OtherUserState } from "../redux/reducer";
 import jwt_decode from "jwt-decode";
 
 import "../style/chat.scss";
@@ -36,10 +36,6 @@ const Chat = (props: any) => {
     OtherUserState["otherUser"]
   >(state => state.otherUser);
 
-  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
-    state => state.userID
-  );
-
   const [message, setMessage] = useState<Array<Message>>([]);
   const [reciveMessage, setReciveMessage] = useState<Message>();
   const [messageInput, setMessageInput] = useState<string>("");
@@ -54,11 +50,12 @@ const Chat = (props: any) => {
   }, []);
 
   useEffect(() => {
-    const roomId = props.match.params.id;
+    const roomId = props.match.path.split("/")[2];
     if (roomId) {
       http
         .get("/chat/room/message/" + roomId)
         .then(({ data }) => {
+          console.log(data);
           setMessage(data.reverse());
         })
         .catch(e => {
@@ -104,7 +101,7 @@ const Chat = (props: any) => {
     setReciveMessage(JSON.parse(payload.body));
     http
       .patch("/chat/message", {
-        id: props.match.params.id,
+        id: props.match.path.split("/")[2],
         userId: props.location.state.user1Id
       })
       .then(({ data }) => {
@@ -134,7 +131,7 @@ const Chat = (props: any) => {
         content: messageInput,
         sendTime: new Date(),
         receiveTime: null,
-        chatroomId: Number(props.match.params.id)
+        chatroomId: Number(props.match.path.split("/")[2])
       };
 
       stompClient.send("/pub/message", {}, JSON.stringify(chatMessage));
@@ -158,7 +155,7 @@ const Chat = (props: any) => {
           {message.map((m, i) => {
             return (
               <span key={i}>
-                {m.senderId !== user_id ? (
+                {m.senderId !== decodedToken.id ? (
                   <div className="from-them">
                     <p>{m.content}</p>
                   </div>

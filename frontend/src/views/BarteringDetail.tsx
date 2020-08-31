@@ -16,15 +16,21 @@ const BarteringDetail = (props: any) => {
   }
 
   useEffect(() => {
-    http
-      .get("/item/" + props.match.params.id)
-      .then(({ data }) => {
-        console.log(data);
-        setItem(data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    if (props) {
+      localStorage.setItem(
+        "nowPath",
+        "/BarteringDetail/" + props.match.params.id
+      );
+
+      http
+        .get("/item/" + props.match.params.id)
+        .then(({ data }) => {
+          setItem(data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
   }, [props]);
 
   const barteringItem = token ? { item, decodedToken } : { item };

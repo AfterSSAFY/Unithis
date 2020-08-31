@@ -9,6 +9,7 @@ import "../style/barteringwrite.scss";
 
 const BarteringUpdate = (props: any) => {
   const [imagePreviewList, setImagePreviewList] = useState<Array<string>>([]);
+  const [itemId, setItemId] = useState(0);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [categoryList, setCategoryList] = useState<Array<string>>([]);
@@ -25,31 +26,39 @@ const BarteringUpdate = (props: any) => {
 
   useEffect(() => {
     if (props) {
+      localStorage.setItem(
+        "nowPath",
+        "/BarteringUpdate/" + props.match.path.split("/")[2]
+      );
+
+      // console.log(props.match.path.split("/")[2]);
       http
         .get("/category")
         .then(({ data }) => {
           setCategoryList(data);
-          console.log(data);
         })
         .catch(error => {
           console.log(error);
         });
 
-      if (props.location && props.location.state) {
-        console.log(props.location.state["item"]);
-        setTitle(props.location.state["item"]["title"]);
-        setCategory(props.location.state["item"]["category"]);
-        setNeed(props.location.state["item"]["need"]);
-        const images = props.location.state["item"]["images"].map((v: any) => {
-          return imageURL + v;
+      http
+        .get("/item/" + props.match.path.split("/")[2])
+        .then(({ data }) => {
+          setItemId(data.id);
+          setTitle(data.title);
+          setCategory(data.category);
+          setNeed(data.need);
+          const images = data.images.map((v: any) => {
+            return imageURL + v;
+          });
+          setImagePreviewList(images);
+          setContents(data.contents);
+        })
+        .catch(e => {
+          console.log(e);
         });
-        setImagePreviewList(images);
-        setContents(props.location.state["item"]["contents"]);
-      } else {
-        history.push("/Home");
-      }
     }
-  }, [props, props.location]);
+  }, [props]);
 
   const loadFile = (e: any) => {
     const files = e.target.files;
@@ -92,7 +101,7 @@ const BarteringUpdate = (props: any) => {
     e.preventDefault();
 
     let formData = new FormData();
-    formData.append("id", props.location.state["item"]["id"]);
+    formData.append("id", String(itemId));
     formData.append("userId", decodedToken.id);
     formData.append("title", title);
     formData.append("category", category);
@@ -105,8 +114,8 @@ const BarteringUpdate = (props: any) => {
     });
 
     console.log(
-      "id : ",
-      props.location.state["item"]["id"],
+      "id :",
+      itemId,
       "\nuserID : ",
       String(decodedToken.id),
       "\ntitle : ",
@@ -118,23 +127,35 @@ const BarteringUpdate = (props: any) => {
       need,
       "\ncontents : ",
       contents,
-      "\nfile : ",
+      "\nimages : ",
       uploadFileList
     );
 
     http
-      .patch("/item", formData, {
+      .patch("/item/" + itemId, formData, {
         headers: {
           "Content-Type": "multipart/form-data; charset=utf-8",
           Accept: "application/json"
         }
       })
       .then(({ data }) => {
-        alert("등록완료!");
+        alert("수정완료!");
         console.log(data);
       })
       .catch(error => {
         console.log(error);
+      });
+  };
+
+  const onDeleteImage = (name: string) => {
+    console.log(name);
+    http
+      .delete("/item/image/" + name)
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch(e => {
+        console.log(e);
       });
   };
 
@@ -146,7 +167,7 @@ const BarteringUpdate = (props: any) => {
             <span className="close" onClick={close}>
               X
             </span>
-            <span>상 품 등 록</span>
+            <span>상 품 수 정</span>
             <input type="submit" value="완료" />
           </div>
           <article className="article-area">
@@ -171,13 +192,21 @@ const BarteringUpdate = (props: any) => {
                 {imagePreviewList &&
                   imagePreviewList.map((v, i) => {
                     return (
-                      <img
-                        key={v}
-                        className="PhotoResult"
-                        src={v}
-                        alt="img"
-                        // ref={el => (el === null ? el : (imgRef.current[i] = el))}
-                      />
+                      <div className="photo-area" key={v}>
+                        <img
+                          key={v}
+                          className="PhotoResult"
+                          src={v}
+                          alt="img"
+                          // ref={el => (el === null ? el : (imgRef.current[i] = el))}
+                        />
+                        <img
+                          className="user-profile-delete"
+                          src={require("../assets/icon/delete.png")}
+                          alt="delete"
+                          onClick={() => onDeleteImage(v)}
+                        />
+                      </div>
                     );
                   })}
               </div>

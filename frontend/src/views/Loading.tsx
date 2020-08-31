@@ -1,37 +1,44 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { AuthState, getToken, PathState } from "../redux/reducer";
+import { AuthState, getToken, UserIDState } from "../redux/reducer";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router";
+
 const Loading = () => {
   let history = useHistory();
   const dispatch = useDispatch();
 
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
-  const path = useSelector<PathState, PathState["path"]>(state => state.path);
+  const user_id = useSelector<UserIDState, UserIDState["userID"]>(
+    state => state.userID
+  );
 
+  let timer: any;
   useEffect(() => {
     dispatch(getToken());
   });
 
   useEffect(() => {
-    const loarding = document.querySelector(".loarding");
-    setTimeout(() => {
-      if (loarding) {
+    if (user_id !== -1) {
+      if (user_id === -2) {
+        alert("토큰 유효기간 만료");
+        history.push("/Signin");
+      }
+
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
         if (auth) {
           RouterView();
         } else {
           history.push("/Signin");
         }
-      }
-    }, 1000);
+      }, 1000);
+    }
   });
 
   const RouterView = () => {
-    if (path === "/Home") {
-      return history.push("/Home");
-    }
-    return <Redirect to={path} />;
+    return history.push(String(localStorage.getItem("nowPath")));
   };
 
   return <h1 className="loarding">로딩중...</h1>;

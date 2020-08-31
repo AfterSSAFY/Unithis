@@ -17,10 +17,11 @@ const Bartering = () => {
   const decodedToken = token ? jwt_decode(token) : null;
 
   useEffect(() => {
+    localStorage.setItem("nowPath", "/BarteringWrite");
+
     http
       .get("/items")
       .then(({ data }) => {
-        console.log(data);
         setItemList(data);
       })
       .catch(e => {
