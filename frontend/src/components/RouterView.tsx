@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { AuthState } from "../redux/reducer";
 
 import {
@@ -18,35 +18,38 @@ import {
 } from "../router";
 
 import "../style/routerview.scss";
-import { setPath } from "redux/action";
 
 const RouterView = () => {
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
-  const dispatch = useDispatch();
 
-  const routerSwich = (path: string) => {
-    console.log(path);
+  const routerSwich = (path: string, pramPath: string) => {
     switch (path) {
       case "/Info":
-        return <Route path={path} component={Info} />;
+        return <Route path={pramPath} component={Info} />;
       case "/BarteringWrite":
-        return <Route path={path} component={BarteringWrite} />;
+        return <Route path={pramPath} component={BarteringWrite} />;
       case "/ChatRoom":
-        return <Route path={path} component={ChatRoom}></Route>;
+        return <Route path={pramPath} component={ChatRoom}></Route>;
       case "/Signin":
-        return <Route path={path} component={Signin}></Route>;
-      case "/BarteringUpdate":
-        return <Route path={path} component={BarteringUpdate}></Route>;
+        return <Route path={pramPath} component={Signin}></Route>;
+      case "/BarteringUpdate/:id":
+        return <Route path={pramPath} component={BarteringUpdate}></Route>;
+      case "/Chat/:id":
+        return <Route path={pramPath} component={Chat}></Route>;
       default:
-        return <Route path={path} component={Chat}></Route>;
+        return;
     }
   };
 
   const PrivateRoute = (children: any) => {
-    dispatch(setPath(children.location.pathname));
-
     return (
-      <>{auth ? routerSwich(children.path) : <Redirect to="/Loading" />}</>
+      <>
+        {auth ? (
+          routerSwich(children.path, children.location.pathname)
+        ) : (
+          <Redirect to="/Loading" />
+        )}
+      </>
     );
   };
 
@@ -59,7 +62,7 @@ const RouterView = () => {
 
         <PrivateRoute path="/Info" />
         <PrivateRoute path="/BarteringWrite" />
-        <PrivateRoute path="/BarteringUpdate" />
+        <PrivateRoute path="/BarteringUpdate/:id" />
         <PrivateRoute path="/ChatRoom" />
         <PrivateRoute path="/Chat/:id" />
         {/* <Route path="/Chat/:id" component={Chat}></Route> */}

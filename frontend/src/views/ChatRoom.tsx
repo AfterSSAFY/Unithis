@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import http from "../api/http-common";
-import { useDispatch, useSelector } from "react-redux";
-import { UserIDState } from "../redux/reducer";
+import { useDispatch } from "react-redux";
 import { setOtherUser } from "../redux/action";
+import jwt_decode from "jwt-decode";
 
 import Nav from "../components/Nav";
 import "../style/chatroom.scss";
@@ -13,25 +13,29 @@ export const ChatRoom = () => {
   let history = useHistory();
   const dispatch = useDispatch();
 
-  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
-    state => state.userID
-  );
-
   const [room, setRoom] = useState<Array<chatRoom>>([]);
 
+  const token: any = localStorage.getItem("token");
+  let decodedToken: any;
+
+  if (token) {
+    decodedToken = jwt_decode(token);
+  }
+
   useEffect(() => {
-    if (user_id !== -1) {
+    localStorage.setItem("nowPath", "/ChatRoom");
+
+    if (decodedToken && decodedToken.id) {
       http
-        .get("/chat/rooms/" + user_id)
+        .get("/chat/rooms/" + decodedToken.id)
         .then(({ data }) => {
-          console.log(data);
           setRoom(data);
         })
         .catch(e => {
           console.log(e);
         });
     }
-  }, [user_id]);
+  }, []);
 
   const onChatHandle = (
     user1Id: number,

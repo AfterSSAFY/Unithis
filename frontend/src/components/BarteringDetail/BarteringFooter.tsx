@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+
 import http from "../../api/http-common";
 
 import "./barteringFooter.scss";
@@ -11,10 +12,15 @@ export const BarteringFooter = (props: any) => {
 
   useEffect(() => {
     if (props["item"]["decodedToken"] && props["item"]["item"]) {
+      localStorage.setItem(
+        "nowPath",
+        "/BarteringDetail/" + props.match.path.split("/")[2]
+      );
+
       setUser1Id(props["item"]["item"]["userId"]);
       setUser2Id(props["item"]["decodedToken"]["id"]);
     }
-  }, [user1Id, user2Id, props]);
+  }, [props]);
 
   const onChatingHandle = () => {
     if (props["item"]["decodedToken"]) {
@@ -45,22 +51,21 @@ export const BarteringFooter = (props: any) => {
   };
 
   const onUpdateBartering = () => {
-    history.push({
-      pathname: "/BarteringUpdate",
-      state: {
-        item: props["item"]["item"]
-      }
-    });
+    // dispatch(setPath("/BarteringUpdate/" + props["item"]["item"]["id"]));
+    if (props["item"]) {
+      history.push("/BarteringUpdate/" + props["item"]["item"]["id"]);
+    } else {
+      history.push("/Loading");
+    }
   };
 
   const onDeleteBartering = () => {
     const userSelection = window.confirm("정말 삭제하시겠습니끼?");
-    console.log(userSelection);
-    console.log(props["item"]["item"]["id"]);
     if (userSelection) {
       http
         .delete("/item/" + props["item"]["item"]["id"])
         .then(({ data }) => {
+          alert("삭제완료");
           history.push("/Home");
         })
         .catch(e => {

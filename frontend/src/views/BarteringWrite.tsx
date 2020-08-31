@@ -1,10 +1,7 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import Nav from "../components/Nav";
 import http from "../api/http-common";
-import { UserIDState } from "../redux/reducer";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import jwt_decode from "jwt-decode";
 
 import "../style/barteringwrite.scss";
@@ -18,10 +15,6 @@ const BarteringWrite = () => {
   const [need, setNeed] = useState("");
   const [uploadFileList, setUploadFileList] = useState<Array<File>>([]);
   let history = useHistory();
-
-  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
-    state => state.userID
-  );
 
   const loadFile = (e: any) => {
     const files = e.target.files;
@@ -59,16 +52,22 @@ const BarteringWrite = () => {
   const onSubmitHandle = (e: any) => {
     e.preventDefault();
     const token: any = localStorage.getItem("token");
-    const decodedToken: any = jwt_decode(token);
+    let decodedToken: any;
+
+    if (token) {
+      decodedToken = jwt_decode(token);
+    }
 
     let formData = new FormData();
 
-    formData.append("userId", user_id);
+    formData.append("userId", decodedToken.id);
     formData.append("title", title);
     formData.append("category", category);
     formData.append("contents", contents);
     formData.append("address", decodedToken.address);
     formData.append("need", need);
+
+    // console.log(uploadFileList);
 
     uploadFileList.forEach(file => {
       formData.append("images", file);
@@ -76,7 +75,7 @@ const BarteringWrite = () => {
 
     console.log(
       "userID : ",
-      String(user_id),
+      String(decodedToken.id),
       "\ntitle : ",
       title + "\ncatetory : ",
       category,
@@ -107,11 +106,12 @@ const BarteringWrite = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem("nowPath", "/BarteringWrite");
+
     http
       .get("/category")
       .then(({ data }) => {
         setCategoryList(data);
-        console.log(data);
       })
       .catch(error => {
         console.log(error);
@@ -155,13 +155,15 @@ const BarteringWrite = () => {
                 {imagePreviewList &&
                   imagePreviewList.map((v, i) => {
                     return (
-                      <img
-                        key={v}
-                        className="PhotoResult"
-                        src={v}
-                        alt="img"
-                        // ref={el => (el === null ? el : (imgRef.current[i] = el))}
-                      />
+                      <>
+                        <img
+                          key={v}
+                          className="PhotoResult"
+                          src={v}
+                          alt="img"
+                          // ref={el => (el === null ? el : (imgRef.current[i] = el))}
+                        />
+                      </>
                     );
                   })}
               </div>

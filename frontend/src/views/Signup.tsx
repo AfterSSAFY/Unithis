@@ -14,7 +14,7 @@ const Signup = () => {
     if (auth) {
       history.push("/Home");
     }
-  }, []);
+  });
 
   const emailCheck = async () => {
     let status = 0;

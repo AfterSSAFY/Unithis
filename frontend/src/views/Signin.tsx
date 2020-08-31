@@ -9,6 +9,9 @@ import http from "../api/http-common";
 import "../style/user.scss";
 
 const Signin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   let history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
@@ -25,7 +28,7 @@ const Signin = () => {
       setEmail(String(localStorage.getItem("email")));
       storageRef.current.checked = true;
     }
-  }, []);
+  }, [auth, history, path]);
 
   const handleSubmit = (e: any): void => {
     e.preventDefault();
@@ -49,9 +52,6 @@ const Signin = () => {
         console.log(e.response.data);
       });
   };
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "email") {

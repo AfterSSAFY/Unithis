@@ -3,20 +3,25 @@ import jwt_decode from "jwt-decode";
 
 import { useHistory } from "react-router-dom";
 import { address } from "../utils/address";
-import { useSelector, useDispatch } from "react-redux";
-import { setToken, setAuth, setUserID } from "../redux/action";
-import { UserIDState } from "../redux/reducer";
+import { useDispatch } from "react-redux";
+import { setToken, setAuth } from "../redux/action";
 
 import Nav from "../components/Nav";
-import http from "../api/http-common";
+import http, { imageURL } from "../api/http-common";
 
 const Info = () => {
   const dispatch = useDispatch();
   let history = useHistory();
 
+  const token: any = localStorage.getItem("token");
+  let decodedToken: any;
+
+  if (token) {
+    decodedToken = jwt_decode(token);
+  }
+
   useEffect(() => {
-    const token: any = localStorage.getItem("token");
-    const decodedToken: any = jwt_decode(token);
+    localStorage.setItem("nowPath", "/Info");
 
     setEmail(String(Object.values(decodedToken)[0]));
     setNickname(String(Object.values(decodedToken)[2]));
@@ -52,11 +57,11 @@ const Info = () => {
         읍면동
       ]
     );
-  }, []);
 
-  const user_id: any = useSelector<UserIDState, UserIDState["userID"]>(
-    state => state.userID
-  );
+    if (decodedToken.profile) {
+      setImagePreview(imageURL + decodedToken.profile);
+    }
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,7 +102,7 @@ const Info = () => {
     console.log(e.target);
     console.log(
       "id :",
-      user_id,
+      decodedToken.id,
       "\npassword :",
       password,
       "\nnickname :",
@@ -110,7 +115,7 @@ const Info = () => {
 
     if (submitFlag === 1) {
       http
-        .patch("/user/" + user_id, {
+        .patch("/user/" + decodedToken.id, {
           email: email,
           password: password,
           nickname: nickname,
@@ -159,7 +164,6 @@ const Info = () => {
   const logout = () => {
     dispatch(setToken(""));
     dispatch(setAuth(false));
-    dispatch(setUserID(-1));
 
     localStorage.removeItem("token");
     history.push("/Signin");
@@ -168,10 +172,10 @@ const Info = () => {
   useEffect(() => {
     if (uploadFile) {
       let formData = new FormData();
-      formData.append("userId", user_id);
+      formData.append("userId", decodedToken.id);
       formData.append("image", uploadFile);
       http
-        .patch("/user/profile/" + user_id, formData, {
+        .patch("/user/profile/" + decodedToken.id, formData, {
           headers: {
             "Content-Type": "multipart/form-data; charset=utf-8",
             Accept: "application/json"
@@ -191,7 +195,7 @@ const Info = () => {
     setUploadFile(undefined);
     setImagePreview(require("../assets/icon/profile.png"));
     http
-      .delete("/user/profile/" + user_id)
+      .delete("/user/profile/" + decodedToken.id)
       .then(({ data }) => {
         alert("삭제완료!");
         console.log(data);
@@ -217,7 +221,7 @@ const Info = () => {
 
     if (userSelection) {
       http
-        .delete("/user/" + user_id)
+        .delete("/user/" + decodedToken.id)
         .then(({ data }) => {
           dispatch(setToken(""));
           dispatch(setAuth(false));
@@ -260,11 +264,12 @@ const Info = () => {
                       accept=".gif, .jpg, .png, .jpeg"
                     />
                   </label>
-                  {uploadFile && (
+                  {(uploadFile ||
+                    imagePreview !== "/static/media/profile.782adc2b.png") && (
                     <img
                       className="user-profile-delete"
                       src={require("../assets/icon/delete.png")}
-                      alt="profile"
+                      alt="delete"
                       onClick={onProfileImageDeleteHandle}
                     />
                   )}

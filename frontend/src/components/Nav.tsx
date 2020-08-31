@@ -7,7 +7,7 @@ import http from "../api/http-common";
 import "../style/nav.scss";
 
 const Nav = () => {
-  const [unreadMessage, setUnreadMessage] = useState<number>();
+  const [unreadMessage, setUnreadMessage] = useState<number>(0);
   const token: any = localStorage.getItem("token");
   let decodedToken: any;
 
@@ -16,7 +16,7 @@ const Nav = () => {
   }
 
   useEffect(() => {
-    if (decodedToken.id !== -1) {
+    if (decodedToken) {
       http
         .get("/chat/rooms/" + decodedToken.id)
         .then(({ data }) => {
@@ -30,7 +30,8 @@ const Nav = () => {
           console.log(e);
         });
     }
-  }, []);
+  }, [decodedToken]);
+
   return (
     <>
       <nav className="sign">
@@ -63,7 +64,7 @@ const Nav = () => {
             >
               채팅하기
             </NavLink>
-            <div>{unreadMessage}</div>
+            {unreadMessage !== 0 && <div>{unreadMessage}</div>}
           </li>
           <li>
             <NavLink

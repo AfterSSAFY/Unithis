@@ -5,7 +5,6 @@ const Header = () => {
   const [settingMenu, setSettingMenu] = useState<boolean>(false);
   const [searchMenu, setSearchMenu] = useState<boolean>(false);
   const onSearchHandle = () => {
-    console.log("search");
     setSearchMenu(!searchMenu);
     const el = document.querySelector(".search-container");
     if (!searchMenu) {
@@ -22,7 +21,6 @@ const Header = () => {
   };
 
   const onSettingHandle = () => {
-    console.log("setting");
     setSettingMenu(!settingMenu);
     const el = document.querySelector(".address-list-content");
     if (!settingMenu) {

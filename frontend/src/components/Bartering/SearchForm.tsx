@@ -20,17 +20,19 @@ export const SearchForm = () => {
   const [reRender, setReRender] = useState<boolean>(false);
 
   useEffect(() => {
-    if (decodedToken.id) {
+    if (decodedToken && decodedToken.id) {
       http
         .get("/search/" + decodedToken.id)
         .then(({ data }) => {
-          console.log(data);
           setResentSearchList(data);
         })
         .catch(e => {
           console.log(e);
         });
     }
+    return () => {
+      setReRender(false);
+    };
   }, [reRender]);
 
   let timer: any;
@@ -51,9 +53,8 @@ export const SearchForm = () => {
             userId: decodedToken.id
           })
           .then(({ data }) => {
-            // setResentSearchList(data);
+            setResentSearchList(data);
             setReRender(!reRender);
-            console.log(data);
           })
           .catch(e => {
             console.log(e);
@@ -64,13 +65,11 @@ export const SearchForm = () => {
 
   const deleteRecentSeach = (id: number) => {
     const userSelection = window.confirm("정말 삭제하시겠습니까?");
-    console.log(userSelection);
     if (userSelection) {
       http
         .delete("/search/" + id)
         .then(({ data }) => {
           setReRender(!reRender);
-          console.log(data);
         })
         .catch(e => {
           console.log(e);
