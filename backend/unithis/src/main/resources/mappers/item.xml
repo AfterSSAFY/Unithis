@@ -11,10 +11,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getItemsByCategoryAndAddress" parameterType="itemSearchRequest" resultType="itemResponse">
 		select *
 		from item
-		where category=#{category} and address like 
+		where category=#{category} and (address like 
 		<foreach collection="address" item="add" separator=" or address like ">
 		 	concat('%', #{add}, '%')
-		</foreach>
+		</foreach>)
 		order by date desc limit #{idx}, 10
 	</select>
 	
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateItem" parameterType="itemRequest">
 		update item
-		set title = #{title}, content = #{contents}, category = #{category}, need = #{need}, address = #{address}, date = now()
+		set title = #{title}, contents = #{contents}, category = #{category}, need = #{need}, address = #{address}, date = now()
 		where id = #{id}
 	</update>
 	
