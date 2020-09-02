@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import http from "../../api/http-common";
+import http from "api/http-common";
 import jwt_decode from "jwt-decode";
 
 import "./search.scss";
 import { SearchList } from "react-app-env";
 
-export const SearchForm = () => {
-  const token: any = localStorage.getItem("token");
+export const SearchForm = (props: any) => {
+  const token: string | null = localStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {
@@ -53,6 +53,7 @@ export const SearchForm = () => {
             userId: decodedToken.id
           })
           .then(({ data }) => {
+            props.onItem(data);
             setResentSearchList(data);
             setReRender(!reRender);
           })
@@ -68,13 +69,28 @@ export const SearchForm = () => {
     if (userSelection) {
       http
         .delete("/search/" + id)
-        .then(({ data }) => {
+        .then(() => {
           setReRender(!reRender);
         })
         .catch(e => {
           console.log(e);
         });
     }
+  };
+
+  const onSearchTextClick = (keyword: string) => {
+    http
+      .post("/search", {
+        keyword: keyword,
+        userId: decodedToken.id
+      })
+      .then(({ data }) => {
+        props.onItem(data);
+        setReRender(!reRender);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   return (
@@ -93,7 +109,12 @@ export const SearchForm = () => {
               resentSearchList.map(v => {
                 return (
                   <div key={v.id} className="recent-search-area">
-                    <div className="recent-search-text">{v.keyword}</div>
+                    <div
+                      className="recent-search-text"
+                      onClick={() => onSearchTextClick(v.keyword)}
+                    >
+                      {v.keyword}
+                    </div>
                     <div
                       className="recent-search-delete-btn"
                       onClick={() => deleteRecentSeach(v.id)}

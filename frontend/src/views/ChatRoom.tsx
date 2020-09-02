@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import http from "../api/http-common";
-import { useDispatch } from "react-redux";
-import { setOtherUser } from "../redux/action";
+import http from "api/http-common";
 import jwt_decode from "jwt-decode";
 
-import Nav from "../components/Nav";
-import "../style/chatroom.scss";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setOtherUser } from "redux/action";
 import { chatRoom } from "react-app-env";
+import { Nav } from "components/Nav";
+
+import "components/Chat/chatroom.scss";
 
 export const ChatRoom = () => {
   let history = useHistory();
@@ -67,12 +68,13 @@ export const ChatRoom = () => {
       <div className="chat-header-wrapper">
         <span>채 팅 목 록</span>
       </div>
+
       <section className="router-container router-chat-header router-footer">
         <div className="chat-room-wrapper">
           {room &&
             room.map((r, i) => {
               return (
-                <div key={"room" + i}>
+                <div key={r.id}>
                   <div
                     className="chat-room-content"
                     onClick={() =>

@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import http from "../../api/http-common";
+import http from "api/http-common";
 
-import "./barteringFooter.scss";
+import "./footer.scss";
 
-export const BarteringFooter = (props: any) => {
+export const Footer = (props: any) => {
   let history = useHistory();
   const [user1Id, setUser1Id] = useState<string>();
   const [user2Id, setUser2Id] = useState<string>();
 
   useEffect(() => {
+    console.log(props);
+    const id =
+      props.match.path.split("/")[2] === ":id"
+        ? props.location.pathname.split("/")[2]
+        : props.match.path.split("/")[2];
     if (props["item"]["decodedToken"] && props["item"]["item"]) {
-      localStorage.setItem(
-        "nowPath",
-        "/BarteringDetail/" + props.match.path.split("/")[2]
-      );
+      localStorage.setItem("nowPath", "/BarteringDetail/" + id);
 
       setUser1Id(props["item"]["item"]["userId"]);
       setUser2Id(props["item"]["decodedToken"]["id"]);
@@ -51,7 +53,6 @@ export const BarteringFooter = (props: any) => {
   };
 
   const onUpdateBartering = () => {
-    // dispatch(setPath("/BarteringUpdate/" + props["item"]["item"]["id"]));
     if (props["item"]) {
       history.push("/BarteringUpdate/" + props["item"]["item"]["id"]);
     } else {
@@ -74,6 +75,10 @@ export const BarteringFooter = (props: any) => {
     }
   };
 
+  const onLoginHandle = () => {
+    history.push("/Signin");
+  };
+
   return (
     <div className="bartering-detail-footer">
       <div className="bartering-detail-footer-container">
@@ -89,19 +94,32 @@ export const BarteringFooter = (props: any) => {
           </button>
         ) : (
           <>
-            <button
-              className="btn rounded red transaction-button"
-              onClick={onDeleteBartering}
-            >
-              상품 삭제
-            </button>
+            {user1Id && user2Id ? (
+              <>
+                <button
+                  className="btn rounded red transaction-button"
+                  onClick={onDeleteBartering}
+                >
+                  상품 삭제
+                </button>
 
-            <button
-              className="btn rounded blue transaction-button"
-              onClick={onUpdateBartering}
-            >
-              상품 정보 수정
-            </button>
+                <button
+                  className="btn rounded blue transaction-button"
+                  onClick={onUpdateBartering}
+                >
+                  상품 정보 수정
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="btn rounded yellow transaction-button"
+                  onClick={onLoginHandle}
+                >
+                  로그인하기
+                </button>
+              </>
+            )}
           </>
         )}
       </div>

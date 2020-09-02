@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
-import http from "../api/http-common";
+import http from "api/http-common";
 
-import "../style/nav.scss";
+import "style/nav.scss";
 
-const Nav = () => {
+export const Nav = () => {
   const [unreadMessage, setUnreadMessage] = useState<number>(0);
   const token: any = localStorage.getItem("token");
   let decodedToken: any;
@@ -81,5 +81,3 @@ const Nav = () => {
     </>
   );
 };
-
-export default Nav;
