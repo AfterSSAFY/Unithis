@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { address } from "../../utils/address";
+import { address } from "utils/address";
 import "./addressList.scss";
 
-export const AddressList = () => {
+export const AddressList = (props: any) => {
   const [city, setCity] = useState<Array<string>>([]);
   const [town, setTown] = useState<Array<Array<string>>>([[]]);
   const [village, setvillage] = useState([]);
@@ -32,11 +32,19 @@ export const AddressList = () => {
 
   const villageClick = (e: any) => {
     e.target.classList.toggle("address-village-active");
-    let arr: any = [...village];
-    arr.push(String(e.target.innerText));
+    const dom = document.querySelectorAll(".address-village-active");
+    let arr: any = [];
+    Array.from(dom).forEach(v => {
+      arr.push(v.innerHTML);
+    });
     setvillage(arr);
-    console.log(village);
   };
+
+  useEffect(() => {
+    if (village.length !== 0) {
+      props.onAddress(village);
+    }
+  }, [village]);
 
   return (
     <div className="address-list-content none">

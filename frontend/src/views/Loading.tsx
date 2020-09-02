@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { AuthState, getToken, UserIDState } from "../redux/reducer";
+import { AuthState, getToken, UserIDState } from "redux/reducer";
 import { useSelector, useDispatch } from "react-redux";
 
 const Loading = () => {
@@ -20,13 +20,13 @@ const Loading = () => {
   useEffect(() => {
     if (user_id !== -1) {
       if (user_id === -2) {
-        alert("토큰 유효기간 만료");
         history.push("/Signin");
       }
 
       if (timer) {
         clearTimeout(timer);
       }
+
       timer = setTimeout(() => {
         if (auth) {
           RouterView();

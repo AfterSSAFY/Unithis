@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { imageURL } from "../../api/http-common";
+import { imageURL } from "api/http-common";
 import "./barteringList.scss";
 
 export const BarteringList = (props: any) => {
   const itemList = props["props"]["itemList"];
-  // const decodedToken = props["props"]["decodedToken"];
 
   return (
     <>
       {itemList &&
-        itemList.map((item: any, i: any) => {
+        itemList.map((item: any) => {
           return (
             <article className="bartering-wrapper" key={item.title + item.id}>
               <Link to={"/BarteringDetail/" + item.id}>
@@ -32,11 +31,19 @@ export const BarteringList = (props: any) => {
                       </div>
                     )}
 
-                    <img
-                      className="bartering-photo"
-                      src={imageURL + item.images[0]}
-                      alt={item.title}
-                    />
+                    {item.images[0] === undefined ? (
+                      <img
+                        className="bartering-photo"
+                        src={require("assets/unnamed.jpg")}
+                        alt={item.title}
+                      />
+                    ) : (
+                      <img
+                        className="bartering-photo"
+                        src={imageURL + item.images[0]}
+                        alt={item.title}
+                      />
+                    )}
                   </div>
                   <div className="bartering-description-content">
                     <div>{item.title}</div>
@@ -50,6 +57,13 @@ export const BarteringList = (props: any) => {
             </article>
           );
         })}
+      {itemList && itemList.length === 0 && (
+        <img
+          className="no_item"
+          src={require("assets/no_item.gif")}
+          alt="no_item"
+        />
+      )}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { AuthState } from "../redux/reducer";
+import { AuthState } from "redux/reducer";
 
 import {
   Bartering,
@@ -12,12 +12,11 @@ import {
   Signin,
   Signup,
   Info,
-  Test,
   Loading,
   BarteringUpdate
-} from "../router";
+} from "router";
 
-import "../style/routerview.scss";
+import "style/routerview.scss";
 
 const RouterView = () => {
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
@@ -69,7 +68,6 @@ const RouterView = () => {
 
         <Route path="/BarteringDetail/:id" component={BarteringDetail}></Route>
         <Route path="/Loading" component={Loading}></Route>
-        <Route path="/Test" component={Test}></Route>
         <Redirect path="*" to="/Home" />
       </Switch>
     </>

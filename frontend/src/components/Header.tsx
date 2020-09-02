@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../style/header.scss";
+import "style/header.scss";
 
-const Header = () => {
+export const Header = () => {
   const [settingMenu, setSettingMenu] = useState<boolean>(false);
   const [searchMenu, setSearchMenu] = useState<boolean>(false);
   const onSearchHandle = () => {
@@ -23,15 +23,24 @@ const Header = () => {
   const onSettingHandle = () => {
     setSettingMenu(!settingMenu);
     const el = document.querySelector(".address-list-content");
+    const el2 = document.querySelector(".category-content");
     if (!settingMenu) {
       if (el) {
         el.classList.remove("none");
         el.classList.add("inline");
       }
+      if (el2) {
+        el2.classList.remove("none");
+        el2.classList.add("inline");
+      }
     } else {
       if (el) {
         el.classList.add("none");
         el.classList.remove("inline");
+      }
+      if (el2) {
+        el2.classList.remove("inline");
+        el2.classList.add("none");
       }
     }
   };
@@ -46,13 +55,13 @@ const Header = () => {
           <div className="fixed-header-search-box">
             <img
               className="search-Icon"
-              src={require("../assets/icon/search.svg")}
+              src={require("assets/icon/search.svg")}
               alt="searchIcon"
               onClick={onSearchHandle}
             />
             <img
               className="category-setting-btn"
-              src={require("../assets/icon/setting.png")}
+              src={require("assets/icon/setting.png")}
               alt="settingIcon"
               onClick={onSettingHandle}
             />
@@ -62,5 +71,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;

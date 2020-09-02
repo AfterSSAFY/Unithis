@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
-import http from "../api/http-common";
-import { useHistory } from "react-router-dom";
-
-import { Message } from "react-app-env";
-import { useSelector } from "react-redux";
-import { OtherUserState } from "../redux/reducer";
+import React, { useEffect, useState } from "react";
+import http from "api/http-common";
 import jwt_decode from "jwt-decode";
 
-import "../style/chat.scss";
+import { Header } from "components/Chat/Header";
+import { useHistory } from "react-router-dom";
+import { Message } from "react-app-env";
+import { MessageContent } from "components/Chat/MessageContent";
+import { MessageInput } from "components/Chat/MessageInput";
+
+import "components/Chat/chat.scss";
 
 declare global {
   interface Window {
@@ -31,15 +32,8 @@ const Chat = (props: any) => {
     decodedToken = jwt_decode(token);
   }
 
-  const other_user: any = useSelector<
-    OtherUserState,
-    OtherUserState["otherUser"]
-  >(state => state.otherUser);
-
   const [message, setMessage] = useState<Array<Message>>([]);
   const [reciveMessage, setReciveMessage] = useState<Message>();
-  const [messageInput, setMessageInput] = useState<string>("");
-  const messageRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (props.location.state === undefined) {
@@ -55,7 +49,6 @@ const Chat = (props: any) => {
       http
         .get("/chat/room/message/" + roomId)
         .then(({ data }) => {
-          console.log(data);
           setMessage(data.reverse());
         })
         .catch(e => {
@@ -104,9 +97,6 @@ const Chat = (props: any) => {
         id: props.match.path.split("/")[2],
         userId: props.location.state.user1Id
       })
-      .then(({ data }) => {
-        setMessage(data.reverse());
-      })
       .catch(e => {
         console.log(e);
       });
@@ -119,68 +109,18 @@ const Chat = (props: any) => {
     );
   };
 
-  const onError = (error: any) => {
-    console.log(error);
-  };
-
-  const sendMessage = (e: any) => {
-    if (stompClient && messageInput !== "") {
-      const chatMessage = {
-        senderId: Number(props.location.state.user1Id),
-        receiverId: Number(props.location.state.user2Id),
-        content: messageInput,
-        sendTime: new Date(),
-        receiveTime: null,
-        chatroomId: Number(props.match.path.split("/")[2])
-      };
-
-      stompClient.send("/pub/message", {}, JSON.stringify(chatMessage));
-    }
-    setMessageInput("");
-    if (messageRef.current) {
-      messageRef.current.focus();
-    }
-    e.preventDefault();
-  };
-
-  const onChangeMessageHandler = (e: any) => {
-    setMessageInput(e.target.value);
+  const onError = (e: any) => {
+    console.log(e);
   };
 
   return (
     <>
       <section className="router-container router-top router-chat-footer">
-        <article className="chat-header">{other_user}</article>
-        <article className="chat-section">
-          {message.map((m, i) => {
-            return (
-              <span key={i}>
-                {m.senderId !== decodedToken.id ? (
-                  <div className="from-them">
-                    <p>{m.content}</p>
-                  </div>
-                ) : (
-                  <div className="from-me">
-                    <p>{m.content}</p>
-                  </div>
-                )}
-                <div className="clear"></div>
-              </span>
-            );
-          })}
-        </article>
+        <Header />
+        <MessageContent token={decodedToken} message={message} />
       </section>
       <section className="message-send-container">
-        <form onSubmit={sendMessage}>
-          <input
-            type="text"
-            placeholder="메세지를 입력해주세요."
-            value={messageInput}
-            ref={messageRef}
-            onChange={onChangeMessageHandler}
-          />
-          <button className="btn blue rounded">전송</button>
-        </form>
+        <MessageInput stompClient={stompClient} {...props} />
       </section>
     </>
   );
