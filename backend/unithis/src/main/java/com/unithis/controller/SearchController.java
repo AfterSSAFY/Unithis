@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unithis.model.ItemResponse;
 import com.unithis.model.Search;
 import com.unithis.service.ISearchService;
 
@@ -29,7 +30,7 @@ public class SearchController {
 	
 	@PostMapping("/search")
 	@ApiOperation(value = "키워드 검색")
-	public int search(@RequestBody Search search) {
+	public List<ItemResponse> search(@RequestBody Search search) {
 		log.info("SearchController : search");
 		
 		return searchService.search(search);

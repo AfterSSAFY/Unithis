@@ -1,5 +1,6 @@
 package com.unithis.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -42,6 +43,15 @@ public class ItemService implements IItemService {
 		List<ItemResponse> result = itemDao.getItemsByCategoryAndAddress(item);
 		
 		if(result != null) {
+			List<Image>[] image = new ArrayList[result.size()];
+			for (int i = 0; i < result.size(); i++) {
+				image[i] = imageDao.getImage(result.get(i).getId());
+			}
+			for (int i = 0; i < result.size(); i++) {
+				for (int j = 0; j < image[i].size(); j++) {
+					result.get(i).getImages().add(image[i].get(j).getFileName());
+				}
+			}
 			List<ItemResponse> next = itemDao.getItemsByCategoryAndAddress(
 					ItemSearchRequest.builder()
 					.category(item.getCategory())

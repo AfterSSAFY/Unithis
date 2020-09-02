@@ -12,6 +12,6 @@ public class Search {
 	long id;
 	long userId;
 	String keyword;
+	String address;
 	LocalDateTime date;
-	
 }
