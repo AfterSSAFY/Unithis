@@ -28,8 +28,8 @@ public class ItemDao {
 		return sqlSession.selectList(ns + "getItemsByCategoryAndAddress", item);
 	}
 	
-	public List<ItemResponse> getAllItem() {
-		return sqlSession.selectList(ns + "getAllItem");
+	public List<ItemResponse> getAllItem(long idx) {
+		return sqlSession.selectList(ns + "getAllItem", idx);
 	}
 	
 	public int createItem(ItemRequest item) {

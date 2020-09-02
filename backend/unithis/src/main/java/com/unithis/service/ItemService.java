@@ -52,12 +52,9 @@ public class ItemService implements IItemService {
 					result.get(i).getImages().add(image[i].get(j).getFileName());
 				}
 			}
-			List<ItemResponse> next = itemDao.getItemsByCategoryAndAddress(
-					ItemSearchRequest.builder()
-					.category(item.getCategory())
-					.address(item.getAddress())
-					.idx(item.getIdx()+10).build()
-					);
+			
+			item.setIdx(item.getIdx()+10);
+			List<ItemResponse> next = itemDao.getItemsByCategoryAndAddress(item);
 			if(!next.isEmpty()) {
 				for (int i = 0; i < result.size(); i++) {
 					result.get(i).setHasNext(true);
@@ -69,13 +66,22 @@ public class ItemService implements IItemService {
 	}
 
 	@Override
-	public List<ItemResponse> getAllItem() {
-		List<ItemResponse> result = itemDao.getAllItem();
+	public List<ItemResponse> getAllItem(long idx) {
+		List<ItemResponse> result = itemDao.getAllItem(idx);
 		
-		for (int i = 0; i < result.size(); i++) {
-			List<Image> image = imageDao.getImage(result.get(i).getId());
-			for (int j = 0; j < image.size(); j++) {
-				result.get(i).getImages().add(image.get(j).getFileName());
+		if(result != null) {
+			for (int i = 0; i < result.size(); i++) {
+				List<Image> image = imageDao.getImage(result.get(i).getId());
+				for (int j = 0; j < image.size(); j++) {
+					result.get(i).getImages().add(image.get(j).getFileName());
+				}
+			}
+			
+			List<ItemResponse> next = itemDao.getAllItem(idx+10);
+			if(!next.isEmpty()) {
+				for (int i = 0; i < result.size(); i++) {
+					result.get(i).setHasNext(true);
+				}
 			}
 		}
 		
