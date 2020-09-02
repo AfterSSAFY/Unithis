@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.unithis.model.ItemRequest;
 import com.unithis.model.ItemResponse;
 import com.unithis.model.ItemSearchRequest;
+import com.unithis.model.Search;
 
 import lombok.RequiredArgsConstructor;
 
@@ -57,6 +58,10 @@ public class ItemDao {
 
 	public int deleteItemImage(String filename) {
 		return sqlSession.delete(ns + "deleteItemImage", filename);
+	}
+	
+	public List<ItemResponse> getItemsByKeyword(Search search) {
+		return sqlSession.selectList(ns + "getItemsByKeyword", search);
 	}
 
 }

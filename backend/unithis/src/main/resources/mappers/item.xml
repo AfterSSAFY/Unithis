@@ -60,5 +60,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from image
 		where filename=#{filename}
 	</delete>
+	
+	<select id="getItemsByKeyword" parameterType="search" resultType="itemResponse">
+		select *
+		from item
+		where address like concat('%', #{address}, '%') and
+		(title like concat('%', #{keyword}, '%') or contents like concat('%', #{keyword}, '%'))
+	</select>
 
 </mapper>
