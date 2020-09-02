@@ -25,7 +25,6 @@ public class SearchService implements ISearchService {
 	private final SearchDao searchDao;
 	private final ItemDao itemDao;
 	private final ImageDao imageDao;
-	private final UserMapper userMapper;
 
 	@Override
 	public List<Search> getAllSearch(long userId) {
@@ -58,6 +57,14 @@ public class SearchService implements ISearchService {
 			for (int i = 0; i < result.size(); i++) {
 				for (int j = 0; j < image[i].size(); j++) {
 					result.get(i).getImages().add(image[i].get(j).getFileName());
+				}
+			}
+			
+			search.setIdx(search.getIdx()+10);
+			List<ItemResponse> next = itemDao.getItemsByKeyword(search);
+			if(!next.isEmpty()) {
+				for (int i = 0; i < result.size(); i++) {
+					result.get(i).setHasNext(true);
 				}
 			}
 		}

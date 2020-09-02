@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.unithis.model.ItemRequest;
 import com.unithis.model.ItemResponse;
 import com.unithis.model.ItemSearchRequest;
-import com.unithis.service.ItemService;
+import com.unithis.service.IItemService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class ItemController {
 
-	private final ItemService itemService;
+	private final IItemService itemService;
 	
 	@GetMapping("/item/{id}")
 	@ApiOperation("물건 상세정보 조회")
@@ -52,10 +52,10 @@ public class ItemController {
 	
 	@GetMapping("/items")
 	@ApiOperation("모든 물건 가져오기")
-	public List<ItemResponse> getAllItem() {
+	public List<ItemResponse> getAllItem(@RequestParam(required = true) long idx) {
 		log.info("ItemController : getAllItem");
 
-		return itemService.getAllItem();
+		return itemService.getAllItem(idx);
 	}
 	
 	@PostMapping(path = "/item", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

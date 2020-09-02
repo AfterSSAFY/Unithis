@@ -12,7 +12,7 @@ public interface IItemService {
 
 	public ItemResponse getItemInfo(long id);
 	public List<ItemResponse> getItemsByCategoryAndAddress(ItemSearchRequest item);
-	public List<ItemResponse> getAllItem();
+	public List<ItemResponse> getAllItem(long idx);
 	public int createItem(ItemRequest item, MultipartFile[] images);
 	public int updateItem(ItemRequest item, MultipartFile[] images);
 	public int updateItemStatus(long id, String status);

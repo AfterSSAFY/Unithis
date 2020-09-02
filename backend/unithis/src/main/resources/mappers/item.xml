@@ -18,8 +18,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by date desc limit #{idx}, 10
 	</select>
 	
-	<select id="getAllItem" resultType="itemResponse">
-		select * from item 
+	<select id="getAllItem" parameterType="long" resultType="itemResponse">
+		select * from item
+		order by date desc limit #{idx}, 10
 	</select>
 	
 	<insert id="createItem" parameterType="itemRequest" useGeneratedKeys="true" keyProperty="id" keyColumn="item.id">
@@ -64,8 +65,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getItemsByKeyword" parameterType="search" resultType="itemResponse">
 		select *
 		from item
-		where address like concat('%', #{address}, '%') and
-		(title like concat('%', #{keyword}, '%') or contents like concat('%', #{keyword}, '%'))
+		where (title like concat('%', #{keyword}, '%') or contents like concat('%', #{keyword}, '%'))
+		order by date desc limit #{idx}, 10
 	</select>
 
 </mapper>
