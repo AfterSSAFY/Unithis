@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 export const MessageInput = (props: any) => {
   const [messageInput, setMessageInput] = useState<string>("");
@@ -31,6 +31,7 @@ export const MessageInput = (props: any) => {
   const onChangeMessageHandler = (e: any) => {
     setMessageInput(e.target.value);
   };
+
   return (
     <>
       <form onSubmit={sendMessage}>

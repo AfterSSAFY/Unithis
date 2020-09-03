@@ -5,30 +5,30 @@ export const SigninContent = (props: any) => {
   const storageRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (localStorage.getItem("email") && storageRef.current) {
-      props.setState(String(localStorage.getItem("email")), "email");
+    if (sessionStorage.getItem("email") && storageRef.current) {
+      props.setState(String(sessionStorage.getItem("email")), "email");
       storageRef.current.checked = true;
     }
   }, []);
 
   const onStayLoginHandle = () => {
     if (stayRef.current && stayRef.current.checked) {
-      localStorage.setItem("stayLogin", "true");
+      sessionStorage.setItem("stayLogin", "true");
     } else {
-      localStorage.removeItem("stayLogin");
+      sessionStorage.removeItem("stayLogin");
     }
   };
 
   const onStorageIDHandle = () => {
     if (storageRef.current && !storageRef.current.checked) {
-      localStorage.removeItem("email");
+      sessionStorage.removeItem("email");
     }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "email") {
       if (storageRef.current && storageRef.current.checked) {
-        localStorage.setItem("email", e.target.value);
+        sessionStorage.setItem("email", e.target.value);
       }
       props.setState(e.target.value, "email");
     } else {

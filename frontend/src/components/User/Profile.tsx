@@ -72,7 +72,7 @@ export const Profile = (props: any) => {
               accept=".gif, .jpg, .png, .jpeg"
             />
           </label>
-          {imagePreview !== "/static/media/profile.782adc2b.png" && (
+          {imagePreview !== "/Unithis/static/media/profile.782adc2b.png" && (
             <img
               className="user-profile-delete"
               src={require("assets/icon/delete.png")}

@@ -6,9 +6,22 @@ import http from "api/http-common";
 
 import "style/nav.scss";
 
+declare global {
+  interface Window {
+    SockJS: any;
+    Stomp: any;
+  }
+}
+
+const SockJS = window.SockJS;
+const Stomp = window.Stomp;
+let socket: any = null;
+let stompClient: any = null;
+socket = new SockJS("http://13.124.102.51:8080/ws");
+
 export const Nav = () => {
   const [unreadMessage, setUnreadMessage] = useState<number>(0);
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {
@@ -17,6 +30,7 @@ export const Nav = () => {
 
   useEffect(() => {
     if (decodedToken) {
+      connect();
       http
         .get("/chat/rooms/" + decodedToken.id)
         .then(({ data }) => {
@@ -31,6 +45,36 @@ export const Nav = () => {
         });
     }
   }, [decodedToken]);
+
+  const connect = () => {
+    socket = new SockJS("http://13.124.102.51:8080/ws");
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+    stompClient.debug = null;
+  };
+
+  const onMessageReceived = (payload: any) => {
+    http
+      .get("/chat/rooms/" + decodedToken.id)
+      .then(({ data }) => {
+        const message = data.reduce((message: number, acc: any) => {
+          message += acc.entity.unreadMessage;
+          return message;
+        }, 0);
+        setUnreadMessage(message);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const onConnected = () => {
+    stompClient.subscribe("/sub/" + decodedToken.id, onMessageReceived);
+  };
+
+  const onError = (e: any) => {
+    console.log(e);
+  };
 
   return (
     <>

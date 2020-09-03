@@ -12,7 +12,7 @@ export const ImageContent = (props: any) => {
   const statusRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {

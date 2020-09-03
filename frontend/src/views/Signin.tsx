@@ -18,8 +18,8 @@ const Signin = () => {
   const auth = useSelector<AuthState, AuthState["auth"]>(state => state.auth);
 
   useEffect(() => {
-    if (auth && localStorage.getItem("stayLogin")) {
-      history.push(String(localStorage.getItem("nowPath")));
+    if (auth && sessionStorage.getItem("stayLogin")) {
+      history.push(String(sessionStorage.getItem("nowPath")));
     }
   }, [auth]);
 
@@ -33,7 +33,7 @@ const Signin = () => {
       .then(({ data }) => {
         dispatch(setToken(data));
         dispatch(setAuth(true));
-        localStorage.setItem("token", data);
+        sessionStorage.setItem("token", data);
 
         history.push("/Loading");
       })

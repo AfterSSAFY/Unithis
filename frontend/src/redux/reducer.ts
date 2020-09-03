@@ -4,7 +4,7 @@ import {
   Action_UserID,
   Action_OtherUser
 } from "react-app-env";
-import { setAuth, setUserID, setToken } from "./action";
+import { setAuth, setUserID, setToken, setOtherUser } from "./action";
 
 import http from "api/http-common";
 
@@ -51,7 +51,7 @@ export const authReducer = (
 };
 
 export const getToken = () => async (dispatch: any) => {
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   const userID = await http
     .post("/token", token)
     .then(({ data }) => {
@@ -61,6 +61,12 @@ export const getToken = () => async (dispatch: any) => {
     .catch(e => {
       dispatch(setToken(""));
       dispatch(setAuth(false));
+      dispatch(setUserID(-1));
+      dispatch(setOtherUser(""));
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("stayLogin");
+      sessionStorage.removeItem("nowPath");
+
       if (e.request.status === 403) {
         alert("Token Error : 토큰시간이 만료");
       } else {
