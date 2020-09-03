@@ -35,6 +35,14 @@ git clone https://github.com/AfterSSAFY/Unithis.git
 ```
 
 - ##### Front-End  
+  - 주소목록 파일 다운로드
+
+    ```
+    [주소목록](https://raw.githubusercontent.com/AfterSSAFY/Unithis/051e0c1841d60facb7d1ed0cf3ece5aa6fdda179/frontend/src/utils/address.ts)
+
+    위의 파일을 다운로드 받은뒤 frontend/src/utils/ 폴더안에 address.tx이름으로 넣어주세요.
+    ```
+
   - React 16.9.46 
 
     ```
