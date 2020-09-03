@@ -18,7 +18,7 @@ const Bartering = () => {
   const [idx, setIdx] = useState<number>(0);
 
   useEffect(() => {
-    localStorage.setItem("nowPath", "/Bartering");
+    sessionStorage.setItem("nowPath", "/Bartering");
 
     http
       .get("/items?idx=" + idx)
@@ -140,7 +140,7 @@ const Bartering = () => {
     setItemList(item);
   };
 
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   const decodedToken = token ? jwt_decode(token) : null;
   const BarteringItem = token ? { itemList, decodedToken } : { itemList };
 

@@ -15,7 +15,7 @@ const BarteringDetail = (props: any) => {
 
   useEffect(() => {
     if (props) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "nowPath",
         "/BarteringDetail/" + props.location.pathname.split("/")[2]
       );
@@ -32,7 +32,7 @@ const BarteringDetail = (props: any) => {
   }, [props]);
 
   let decodedToken;
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   if (token) {
     decodedToken = jwt_decode(token);
   }

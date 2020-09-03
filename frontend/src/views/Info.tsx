@@ -15,7 +15,7 @@ const Info = () => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {
@@ -23,7 +23,7 @@ const Info = () => {
   }
 
   useEffect(() => {
-    localStorage.setItem("nowPath", "/Info");
+    sessionStorage.setItem("nowPath", "/Info");
     setEmail(String(Object.values(decodedToken)[0]));
     setNickname(String(Object.values(decodedToken)[2]));
     setPhone(String(Object.values(decodedToken)[3]));
@@ -61,7 +61,7 @@ const Info = () => {
       .then(({ data }) => {
         dispatch(setToken(data));
         dispatch(setAuth(true));
-        localStorage.setItem("token", data);
+        sessionStorage.setItem("token", data);
         history.push("/Home");
       })
       .catch(e => {
@@ -75,7 +75,7 @@ const Info = () => {
       .then(({ data }) => {
         dispatch(setToken(""));
         dispatch(setAuth(false));
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         history.push("/Signin");
       })
       .catch(e => {
@@ -84,7 +84,6 @@ const Info = () => {
   };
 
   const setState = (data: any, category: string) => {
-    console.log(data);
     switch (category) {
       case "Address1":
         setAddress1(data);

@@ -10,13 +10,26 @@ import { Nav } from "components/Nav";
 
 import "components/Chat/chatroom.scss";
 
+declare global {
+  interface Window {
+    SockJS: any;
+    Stomp: any;
+  }
+}
+
+const SockJS = window.SockJS;
+const Stomp = window.Stomp;
+let socket: any = null;
+let stompClient: any = null;
+socket = new SockJS("http://13.124.102.51:8080/ws");
+
 export const ChatRoom = () => {
   let history = useHistory();
   const dispatch = useDispatch();
 
   const [room, setRoom] = useState<Array<chatRoom>>([]);
 
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {
@@ -24,9 +37,10 @@ export const ChatRoom = () => {
   }
 
   useEffect(() => {
-    localStorage.setItem("nowPath", "/ChatRoom");
+    sessionStorage.setItem("nowPath", "/ChatRoom");
 
     if (decodedToken && decodedToken.id) {
+      connect();
       http
         .get("/chat/rooms/" + decodedToken.id)
         .then(({ data }) => {
@@ -38,10 +52,37 @@ export const ChatRoom = () => {
     }
   }, []);
 
+  const connect = () => {
+    socket = new SockJS("http://13.124.102.51:8080/ws");
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+    stompClient.debug = null;
+  };
+
+  const onMessageReceived = (payload: any) => {
+    http
+      .get("/chat/rooms/" + decodedToken.id)
+      .then(({ data }) => {
+        setRoom(data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const onConnected = () => {
+    stompClient.subscribe("/sub/" + decodedToken.id, onMessageReceived);
+  };
+
+  const onError = (e: any) => {
+    console.log(e);
+  };
+
   const onChatHandle = (
     user1Id: number,
     user2Id: number,
-    otherUserNickname: string
+    otherUserNickname: string,
+    otherUserProfile: string
   ) => {
     dispatch(setOtherUser(otherUserNickname));
     http
@@ -54,7 +95,9 @@ export const ChatRoom = () => {
           pathname: "/Chat/" + data,
           state: {
             user1Id: user1Id,
-            user2Id: user2Id
+            user2Id: user2Id,
+            userNickname: otherUserNickname,
+            userProfile: otherUserProfile
           }
         });
       })
@@ -72,7 +115,7 @@ export const ChatRoom = () => {
       <section className="router-container router-chat-header router-footer">
         <div className="chat-room-wrapper">
           {room &&
-            room.map((r, i) => {
+            room.map(r => {
               return (
                 <div key={r.id}>
                   <div
@@ -81,7 +124,8 @@ export const ChatRoom = () => {
                       onChatHandle(
                         r.currUserId,
                         r.otherUserId,
-                        r.entity.otherUserNickname
+                        r.entity.otherUserNickname,
+                        r.entity.otherUserProfile
                       )
                     }
                   >

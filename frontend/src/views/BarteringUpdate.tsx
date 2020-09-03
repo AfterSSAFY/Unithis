@@ -24,7 +24,7 @@ const BarteringUpdate = (props: any) => {
 
   useEffect(() => {
     if (props) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "nowPath",
         "/BarteringUpdate/" + props.location.pathname.split("/")[2]
       );
@@ -52,7 +52,7 @@ const BarteringUpdate = (props: any) => {
   const onSubmitHandle = (e: any) => {
     e.preventDefault();
     let decodedToken: any;
-    const token: any = localStorage.getItem("token");
+    const token: any = sessionStorage.getItem("token");
 
     if (token) {
       decodedToken = jwt_decode(token);

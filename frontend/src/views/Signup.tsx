@@ -13,8 +13,8 @@ const Signup = () => {
 
   useEffect(() => {
     if (auth) {
-      if (localStorage.getItem("nowPath")) {
-        history.push(String(localStorage.getItem("nowPath")));
+      if (sessionStorage.getItem("nowPath")) {
+        history.push(String(sessionStorage.getItem("nowPath")));
       } else {
         history.push("/Home");
       }
@@ -80,7 +80,6 @@ const Signup = () => {
   };
 
   const setState = (data: any, category: string) => {
-    console.log(data);
     switch (category) {
       case "Address1":
         setAddress1(data);

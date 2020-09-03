@@ -21,12 +21,12 @@ const BarteringWrite = () => {
   const [uploadFileList, setUploadFileList] = useState<Array<File>>([]);
 
   useEffect(() => {
-    localStorage.setItem("nowPath", "/BarteringWrite");
+    sessionStorage.setItem("nowPath", "/BarteringWrite");
   }, []);
 
   const onSubmitHandle = (e: any) => {
     e.preventDefault();
-    const token: any = localStorage.getItem("token");
+    const token: any = sessionStorage.getItem("token");
     let decodedToken: any;
 
     if (token) {

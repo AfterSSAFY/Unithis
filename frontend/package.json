@@ -11,6 +11,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/redux": "^3.6.0",
     "axios": "^0.19.2",
+    "gh-pages": "^3.1.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -28,7 +29,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
+    "gh-deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://afterssafy.github.io/Unithis"
 }

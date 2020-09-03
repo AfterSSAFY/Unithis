@@ -11,7 +11,7 @@ export const Footer = (props: any) => {
     dispatch(setToken(""));
     dispatch(setAuth(false));
 
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     history.push("/Signin");
   };
 

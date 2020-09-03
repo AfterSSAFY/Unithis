@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 import { Message } from "react-app-env";
 import { MessageContent } from "components/Chat/MessageContent";
 import { MessageInput } from "components/Chat/MessageInput";
-
 import "components/Chat/chat.scss";
 
 declare global {
@@ -21,11 +20,12 @@ const SockJS = window.SockJS;
 const Stomp = window.Stomp;
 let socket: any = null;
 let stompClient: any = null;
+socket = new SockJS("http://13.124.102.51:8080/ws");
 
 const Chat = (props: any) => {
   let history = useHistory();
 
-  const token: any = localStorage.getItem("token");
+  const token: any = sessionStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {
@@ -44,16 +44,16 @@ const Chat = (props: any) => {
   }, []);
 
   useEffect(() => {
-    const roomId = props.match.path.split("/")[2];
+    const roomId =
+      props.match.path.split("/")[2] === ":id"
+        ? props.location.pathname.split("/")[2]
+        : props.match.path.split("/")[2];
+
     if (roomId) {
-      http
-        .get("/chat/room/message/" + roomId)
-        .then(({ data }) => {
-          setMessage(data.reverse());
-        })
-        .catch(e => {
-          console.log(e);
-        });
+      // 그동안 메세지 출력
+      http.get("/chat/room/message/" + roomId).then(({ data }) => {
+        setMessage(data.reverse());
+      });
 
       http
         .patch("/chat/message", {
@@ -88,6 +88,7 @@ const Chat = (props: any) => {
     socket = new SockJS("http://13.124.102.51:8080/ws");
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
+    stompClient.debug = null;
   };
 
   const onMessageReceived = (payload: any) => {
@@ -116,7 +117,7 @@ const Chat = (props: any) => {
   return (
     <>
       <section className="router-container router-top router-chat-footer">
-        <Header />
+        <Header {...props} />
         <MessageContent token={decodedToken} message={message} />
       </section>
       <section className="message-send-container">

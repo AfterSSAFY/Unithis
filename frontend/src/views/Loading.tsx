@@ -12,11 +12,6 @@ const Loading = () => {
     state => state.userID
   );
 
-  let timer: any;
-  useEffect(() => {
-    dispatch(getToken());
-  });
-
   useEffect(() => {
     if (user_id !== -1) {
       if (user_id === -2) {
@@ -37,8 +32,13 @@ const Loading = () => {
     }
   });
 
+  let timer: any;
+  useEffect(() => {
+    dispatch(getToken());
+  });
+
   const RouterView = () => {
-    return history.push(String(localStorage.getItem("nowPath")));
+    return history.push(String(sessionStorage.getItem("nowPath")));
   };
 
   return <h1 className="loarding">로딩중...</h1>;

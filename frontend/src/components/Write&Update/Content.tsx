@@ -14,8 +14,8 @@ export const UpdateContent = (props: any) => {
       .then(({ data }) => {
         setCategoryList(data);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(e => {
+        console.log(e);
       });
   }, []);
 

@@ -6,7 +6,7 @@ import "./search.scss";
 import { SearchList } from "react-app-env";
 
 export const SearchForm = (props: any) => {
-  const token: string | null = localStorage.getItem("token");
+  const token: string | null = sessionStorage.getItem("token");
   let decodedToken: any;
 
   if (token) {

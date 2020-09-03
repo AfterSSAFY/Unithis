@@ -11,16 +11,17 @@ export const Footer = (props: any) => {
   const [user2Id, setUser2Id] = useState<string>();
 
   useEffect(() => {
-    console.log(props);
-    const id =
-      props.match.path.split("/")[2] === ":id"
-        ? props.location.pathname.split("/")[2]
-        : props.match.path.split("/")[2];
-    if (props["item"]["decodedToken"] && props["item"]["item"]) {
-      localStorage.setItem("nowPath", "/BarteringDetail/" + id);
+    if (props) {
+      const id =
+        props.match.path.split("/")[2] === ":id"
+          ? props.location.pathname.split("/")[2]
+          : props.match.path.split("/")[2];
+      if (props["item"]["decodedToken"] && props["item"]["item"]) {
+        sessionStorage.setItem("nowPath", "/BarteringDetail/" + id);
 
-      setUser1Id(props["item"]["item"]["userId"]);
-      setUser2Id(props["item"]["decodedToken"]["id"]);
+        setUser1Id(props["item"]["item"]["userId"]);
+        setUser2Id(props["item"]["decodedToken"]["id"]);
+      }
     }
   }, [props]);
 
@@ -32,15 +33,17 @@ export const Footer = (props: any) => {
 
       http
         .post("/chat/room", {
-          user1Id: props["item"]["item"]["userId"],
-          user2Id: props["item"]["decodedToken"]["id"]
+          user1Id: props["item"]["decodedToken"]["id"],
+          user2Id: props["item"]["item"]["userId"]
         })
         .then(({ data }) => {
           history.push({
             pathname: "/Chat/" + data,
             state: {
-              user1Id: props["item"]["item"]["userId"],
-              user2Id: props["item"]["decodedToken"]["id"]
+              user1Id: props["item"]["decodedToken"]["id"],
+              user2Id: props["item"]["item"]["userId"],
+              userNickname: props["item"]["item"]["user"]["nickname"],
+              userProfile: props["item"]["item"]["user"]["profile"]
             }
           });
         })
