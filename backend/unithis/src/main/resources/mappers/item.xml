@@ -4,22 +4,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="item">
 
-	<select id="getItemInfo" parameterType="long" resultType="itemResponse">
-		select * from item where id = #{id}
+	<resultMap type="user" id="user">
+		<result column="nickname" property="nickname"/>
+		<result column="profile" property="profile"/>
+	</resultMap>
+
+	<resultMap type="itemResponse" id="itemResponse">
+		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="contents" property="contents"/>
+		<result column="category" property="category"/>
+		<result column="need" property="need"/>
+		<result column="status" property="status"/>
+		<result column="address" property="address"/>
+		<collection property="user" resultMap="user"/>
+	</resultMap>
+	
+	<select id="getItemInfo" parameterType="long" resultMap="itemResponse">
+		select i.id, i.user_id, i.title, i.contents, i.category, i.need, i.status, i.address, u.nickname, u.profile
+		from item i, user u
+		where i.user_id = u.id and i.id = #{id}
 	</select>
 
-	<select id="getItemsByCategoryAndAddress" parameterType="itemSearchRequest" resultType="itemResponse">
-		select *
-		from item
-		where category=#{category} and (address like 
-		<foreach collection="address" item="add" separator=" or address like ">
+	<select id="getItemsByCategoryAndAddress" parameterType="itemSearchRequest" resultMap="itemResponse">
+		select i.id, i.user_id, i.title, i.contents, i.category, i.need, i.status, i.address, u.nickname, u.profile
+		from item i, user u
+		where i.user_id = u.id and category=#{category} and (i.address like 
+		<foreach collection="address" item="add" separator=" or i.address like ">
 		 	concat('%', #{add}, '%')
 		</foreach>)
 		order by date desc limit #{idx}, 10
 	</select>
 	
-	<select id="getAllItem" parameterType="long" resultType="itemResponse">
-		select * from item
+	<select id="getAllItem" parameterType="long" resultMap="itemResponse">
+		select i.id, i.user_id, i.title, i.contents, i.category, i.need, i.status, i.address, u.nickname, u.profile
+		from item i, user u
+		where i.user_id = u.id
 		order by date desc limit #{idx}, 10
 	</select>
 	
@@ -62,10 +83,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where filename=#{filename}
 	</delete>
 	
-	<select id="getItemsByKeyword" parameterType="search" resultType="itemResponse">
-		select *
-		from item
-		where (title like concat('%', #{keyword}, '%') or contents like concat('%', #{keyword}, '%'))
+	<select id="getItemsByKeyword" parameterType="search" resultMap="itemResponse">
+		select i.id, i.user_id, i.title, i.contents, i.category, i.need, i.status, i.address, u.nickname, u.profile
+		from item i, user u
+		where (i.user_id = u.id) and (title like concat('%', #{keyword}, '%') or contents like concat('%', #{keyword}, '%'))
 		order by date desc limit #{idx}, 10
 	</select>
 
