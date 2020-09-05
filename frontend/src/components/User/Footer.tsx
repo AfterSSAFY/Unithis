@@ -8,6 +8,7 @@ export const Footer = (props: any) => {
   let history = useHistory();
 
   const logout = () => {
+    alert("로그아웃");
     dispatch(setToken(""));
     dispatch(setAuth(false));
 

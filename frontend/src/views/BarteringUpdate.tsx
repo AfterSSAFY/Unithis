@@ -6,7 +6,7 @@ import { Header } from "components/Write&Update/Header";
 import { useHistory } from "react-router-dom";
 import { PhotoSelecter } from "components/Write&Update/PhotoSelecter";
 import { ImagePreview } from "components/Write&Update/IamgePreview";
-import { UpdateContent } from "components/Write&Update/Content";
+import { Content } from "components/Write&Update/Content";
 import { Nav } from "components/Nav";
 
 import "components/Write&Update/body.scss";
@@ -132,7 +132,7 @@ const BarteringUpdate = (props: any) => {
               />
               <ImagePreview previewList={imagePreviewList} />
             </div>
-            <UpdateContent state={state} item={item} />
+            <Content state={state} item={item} />
           </article>
         </form>
       </section>

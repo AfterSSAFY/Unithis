@@ -57,13 +57,6 @@ export const BarteringList = (props: any) => {
             </article>
           );
         })}
-      {itemList && itemList.length === 0 && (
-        <img
-          className="no_item"
-          src={require("assets/no_item.gif")}
-          alt="no_item"
-        />
-      )}
     </>
   );
 };
