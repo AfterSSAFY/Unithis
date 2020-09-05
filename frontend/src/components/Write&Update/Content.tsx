@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import http from "api/http-common";
 
-export const UpdateContent = (props: any) => {
+export const Content = (props: any) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [contents, setContents] = useState("");
@@ -53,7 +53,7 @@ export const UpdateContent = (props: any) => {
             className="title"
             type="text"
             placeholder="상품 이름"
-            value={title}
+            value={props["item"]["title"]}
             onChange={onChangeHandle}
             required
           />
@@ -63,7 +63,7 @@ export const UpdateContent = (props: any) => {
           <label className="category">카테고리</label>
           <select
             className="categorySelect"
-            value={category}
+            value={props["item"]["category"]}
             onChange={onChangeHandle}
           >
             <option value="">카테고리 선택</option>
@@ -84,7 +84,7 @@ export const UpdateContent = (props: any) => {
             className="need"
             type="text"
             placeholder="교환 받을 물건 / 필요한 물건"
-            value={need}
+            value={props["item"]["need"]}
             required
             onChange={onChangeHandle}
           />
@@ -95,7 +95,7 @@ export const UpdateContent = (props: any) => {
           <textarea
             placeholder="상품에 대한 설명을 작성해주세요."
             className="contents"
-            value={contents}
+            value={props["item"]["contents"]}
             required
             onChange={onChangeHandle}
           ></textarea>

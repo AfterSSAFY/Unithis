@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { NavLink } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
@@ -19,7 +19,7 @@ let socket: any = null;
 let stompClient: any = null;
 socket = new SockJS("http://13.124.102.51:8080/ws");
 
-export const Nav = () => {
+export const Nav = memo(() => {
   const [unreadMessage, setUnreadMessage] = useState<number>(0);
   const token: any = sessionStorage.getItem("token");
   let decodedToken: any;
@@ -124,4 +124,4 @@ export const Nav = () => {
       </nav>
     </>
   );
-};
+});
