@@ -10,7 +10,7 @@
 
 API docs : [Notion link](https://www.notion.so/856bccf7fcbf45739e95351a2a7f1b4d?v=ab8f79010cb84070bdec92bb6dc7b808) 
 
-[UNITHIS Web site link](http://13.124.102.51) (모바일 최적화)
+[![youtube unithis](https://img.youtube.com/vi/J-IQdZuJM-U/0.jpg)](https://www.youtube.com/watch?v=J-IQdZuJM-U&feature=youtu.be)
 
 ## Team
 
