@@ -35,10 +35,8 @@ const Signup = () => {
     let status = 0;
     try {
       await http.get("/validation/email?email=" + email);
-      // console.log("이메일 체크 성공");
       status = 1;
       await http.get("/validation/nickname?nickname=" + nickname);
-      // console.log("닉네임 체크 성공");
       status = 2;
       return status;
     } catch (error) {
