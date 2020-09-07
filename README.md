@@ -144,7 +144,7 @@ git clone https://github.com/AfterSSAFY/Unithis.git
 
 ## Project Schedule
 
-  20.08.03 ~ 
+  20.08.03 ~ 20.09.05  
 
 ## License
 
