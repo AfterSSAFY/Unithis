@@ -21,11 +21,10 @@ export const Footer = (props: any) => {
   };
 
   const deleteInfo = (e: any) => {
-    props.setState(2, "submitFlag");
-
     let userSelection = window.confirm("정말 삭제하시겠습니까?");
 
     if (userSelection) {
+      props.setState(2, "submitFlag");
     }
   };
 

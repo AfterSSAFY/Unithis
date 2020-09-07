@@ -59,6 +59,7 @@ const Info = () => {
         phone: phone
       })
       .then(({ data }) => {
+        alert("수정 완료!");
         dispatch(setToken(data));
         dispatch(setAuth(true));
         sessionStorage.setItem("token", data);
@@ -73,6 +74,7 @@ const Info = () => {
     http
       .delete("/user/" + decodedToken.id)
       .then(({ data }) => {
+        alert("삭제 완료!");
         dispatch(setToken(""));
         dispatch(setAuth(false));
         sessionStorage.removeItem("token");

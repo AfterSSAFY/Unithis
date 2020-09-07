@@ -52,7 +52,12 @@ const Chat = (props: any) => {
     if (roomId) {
       // 그동안 메세지 출력
       http.get("/chat/room/message/" + roomId).then(({ data }) => {
-        setMessage(data.reverse());
+        console.log(data);
+        if (data.length !== 10) {
+          setMessage(data);
+        } else {
+          setMessage(data.reverse());
+        }
       });
 
       http
@@ -61,7 +66,7 @@ const Chat = (props: any) => {
           userId: decodedToken.id
         })
         .then(({ data }) => {
-          setMessage(data.reverse());
+          console.log(data);
         })
         .catch(e => {
           console.log(e);
